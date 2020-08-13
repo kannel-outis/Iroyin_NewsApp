@@ -3,14 +3,19 @@ class Article {
   final String articleDescription;
   final String articleUrl;
   final String articleUrlToImage;
+  final String articleAuthor;
   final String articlePublishedAT;
+  final String articleContent;
 
-  Article(
-      {this.articleTitle,
-      this.articleDescription,
-      this.articleUrl,
-      this.articleUrlToImage,
-      this.articlePublishedAT});
+  Article({
+    this.articleTitle,
+    this.articleAuthor,
+    this.articleDescription,
+    this.articleUrl,
+    this.articleUrlToImage,
+    this.articleContent,
+    this.articlePublishedAT,
+  });
 
   // Article.fromjson(Map<String, dynamic> fromJson)
   //     : articleTitle = fromJson['articles'][0]['title'],

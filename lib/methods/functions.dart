@@ -16,11 +16,14 @@ class Functions {
 
         list = responseDecode['articles'].forEach((element) {
           Article article = Article(
-              articleTitle: element['title'],
-              articleDescription: element['description'],
-              articleUrl: element['url'],
-              articleUrlToImage: element['urlToImage'],
-              articlePublishedAT: element['publishedAt']);
+            articleTitle: element['title'],
+            articleDescription: element['description'],
+            articleUrl: element['url'],
+            articleUrlToImage: element['urlToImage'],
+            articlePublishedAT: element['publishedAt'],
+            articleAuthor: element['author'],
+            articleContent: element['content'],
+          );
           articles.add(article);
         });
       } else {

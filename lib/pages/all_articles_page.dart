@@ -31,7 +31,6 @@ class _AllArticlesPageState extends State<AllArticlesPage> {
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () {
-                    print("pressed");
                     Navigator.of(context).push(
                       platformSpecificNavigation(
                         context,
@@ -84,7 +83,7 @@ class ListViewTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 110,
+      height: MediaQuery.of(context).size.height * .137,
       child: Card(
         elevation: 5,
         child: Row(

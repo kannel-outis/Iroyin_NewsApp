@@ -21,6 +21,66 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
   }
 
+  Widget customListItems(List<Article> articles, int index) {
+    return Container(
+      margin: EdgeInsets.only(right: 20),
+      width: 200,
+      child: Card(
+        child: Column(
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height * .19,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(10),
+                    topLeft: Radius.circular(10)),
+              ),
+              child: Hero(
+                tag: index.toString(),
+                transitionOnUserGestures: true,
+                child: FadeInImage(
+                  alignment: Alignment.topCenter,
+                  fit: BoxFit.fill,
+                  placeholder: AssetImage("assets/placeHolderImage.png"),
+                  image: CachedNetworkImageProvider(
+                      "${articles[index].articleUrlToImage}"),
+                ),
+              ),
+            ),
+            Expanded(
+              child: Container(
+                color: constColor2,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text("${articles[index].articleTitle}",
+                          style: TextStyle(fontSize: 13, color: Colors.white)),
+                    ),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: Padding(
+                        padding: const EdgeInsets.only(right: 8.0),
+                        child: Text(
+                          "${articles[index].articleAuthor}",
+                          style: TextStyle(
+                              color: Colors.white, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final articles = Provider.of<List<Article>>(context);
@@ -105,11 +165,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 height: 25,
               ),
               Container(
-                  height: 258,
+                  height: MediaQuery.of(context).size.height * .321,
                   child: articles != null
                       ? ListView.builder(
                           scrollDirection: Axis.horizontal,
-                          // itemCount: articles.length,
                           itemCount: 10,
                           shrinkWrap: true,
                           itemBuilder: (context, index) {
@@ -135,74 +194,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                               articles[index].articleUrlToImage,
                                         )));
                               },
-                              child: Container(
-                                margin: EdgeInsets.only(right: 20),
-                                width: 200,
-                                child: Card(
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        height: 150,
-                                        width: double.infinity,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: BorderRadius.only(
-                                              topRight: Radius.circular(10),
-                                              topLeft: Radius.circular(10)),
-                                        ),
-                                        child: Hero(
-                                          tag: index.toString(),
-                                          transitionOnUserGestures: true,
-                                          child: FadeInImage(
-                                            alignment: Alignment.topCenter,
-                                            fit: BoxFit.fill,
-                                            placeholder: AssetImage(
-                                                "assets/placeHolderImage.png"),
-                                            image: CachedNetworkImageProvider(
-                                                "${articles[index].articleUrlToImage}"),
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          color: constColor2,
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceAround,
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(10.0),
-                                                child: Text(
-                                                    "${articles[index].articleTitle}",
-                                                    style: TextStyle(
-                                                        fontSize: 13,
-                                                        color: Colors.white)),
-                                              ),
-                                              Align(
-                                                alignment:
-                                                    Alignment.bottomRight,
-                                                child: Padding(
-                                                  padding:
-                                                      const EdgeInsets.only(
-                                                          right: 8.0),
-                                                  child: Text(
-                                                    "${articles[index].articleAuthor}",
-                                                    style: TextStyle(
-                                                        color: Colors.white,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
+                              child: customListItems(articles, index),
                             );
                           },
                         )

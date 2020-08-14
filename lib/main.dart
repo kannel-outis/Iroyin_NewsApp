@@ -16,7 +16,8 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         FutureProvider<List<Article>>(
-            create: (_) => _functions.getNewsFromApi())
+            create: (_) => _functions.getNewsFromApi()),
+        FutureProvider(create: (_) => _functions.allArticles()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

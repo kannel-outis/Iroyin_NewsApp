@@ -10,7 +10,36 @@ class Functions {
   Future<List<Article>> getNewsFromApi() async {
     try {
       http.Response response = await http.get(
-          "https://newsapi.org/v2/top-headlines?sources=bbc-news&apiKey=$apiKey");
+          "https://newsapi.org/v2/top-headlines?country=us&apiKey=$apiKey");
+      if (response.statusCode == 200) {
+        Map<String, dynamic> responseDecode = json.decode(response.body);
+
+        list = responseDecode['articles'].forEach((element) {
+          Article article = Article(
+            articleTitle: element['title'],
+            articleDescription: element['description'],
+            articleUrl: element['url'],
+            articleUrlToImage: element['urlToImage'],
+            articlePublishedAT: element['publishedAt'],
+            articleAuthor: element['author'],
+            articleContent: element['content'],
+          );
+          articles.add(article);
+        });
+      } else {
+        print(response.body);
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+
+    return articles;
+  }
+
+  Future<List<Article>> allArticles() async {
+    try {
+      http.Response response = await http.get(
+          "https://newsapi.org/v2/everything?q=apple&from=2020-08-13&to=2020-08-13&sortBy=popularity&pageSize=100&apiKey=$apiKey");
       if (response.statusCode == 200) {
         Map<String, dynamic> responseDecode = json.decode(response.body);
 

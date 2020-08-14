@@ -1,6 +1,8 @@
+import 'package:NewsApp_Chingu/const/color.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_web_browser/flutter_web_browser.dart';
+import 'package:share/share.dart';
 
 class DetailsPage extends StatefulWidget {
   final String articleContent;
@@ -29,7 +31,8 @@ class _DetailsPageState extends State<DetailsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.articleAuthor),
+        title: Text("${widget.articleAuthor}"),
+        backgroundColor: constColor1,
       ),
       body: Container(
         child: Column(
@@ -50,7 +53,7 @@ class _DetailsPageState extends State<DetailsPage> {
                               placeholder:
                                   AssetImage("assets/placeHolderImage.png"),
                               image: CachedNetworkImageProvider(
-                                  widget.articleUrlToImage),
+                                  "${widget.articleUrlToImage}"),
                             ),
                           ),
                           Positioned(
@@ -79,7 +82,7 @@ class _DetailsPageState extends State<DetailsPage> {
                     children: [
                       Expanded(
                         child: Text(
-                          widget.articleTitle.toUpperCase(),
+                          "${widget.articleTitle.toUpperCase()}",
                           style: TextStyle(
                               fontWeight: FontWeight.w500, fontSize: 30),
                         ),
@@ -99,7 +102,14 @@ class _DetailsPageState extends State<DetailsPage> {
                   SizedBox(height: 20),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(widget.articleContent),
+                    child: Text(
+                      widget.articleContent ??
+                          "A content Could not be recieved at the Moment. please click on the Open browser button to view the content.",
+                      style: TextStyle(
+                          color: widget.articleContent == null
+                              ? Colors.red
+                              : Colors.black),
+                    ),
                   ),
                 ],
               ),
@@ -113,11 +123,33 @@ class _DetailsPageState extends State<DetailsPage> {
                       androidToolbarColor: Colors.indigo);
                 },
                 child: Center(
-                  child: Text("Open page"),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Open page"),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Icon(
+                        Icons.launch,
+                        color: Colors.grey,
+                        size: 20,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             )
           ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Share.share("${widget.articleUrl}");
+        },
+        child: Icon(
+          Icons.share,
+          size: 15,
         ),
       ),
     );

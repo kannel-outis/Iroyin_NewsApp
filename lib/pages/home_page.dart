@@ -1,12 +1,13 @@
 import 'package:NewsApp_Chingu/const/color.dart';
 import 'package:NewsApp_Chingu/methods/functions.dart';
 import 'package:NewsApp_Chingu/models/news_model_structure.dart';
+import 'package:NewsApp_Chingu/pages/all_articles_page.dart';
 import 'package:NewsApp_Chingu/pages/details_news_page.dart';
+import 'package:NewsApp_Chingu/widgets/platform_specific.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'dart:io' show Platform;
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -18,15 +19,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-  }
-
-  PageRoute platformSpecificNavigation({Widget page}) {
-    if (Platform.isAndroid) {
-      return MaterialPageRoute(builder: (context) => page);
-    } else if (Platform.isIOS) {
-      return CupertinoPageRoute(builder: (context) => page);
-    }
-    return CupertinoPageRoute(builder: (context) => page);
   }
 
   @override
@@ -94,9 +86,17 @@ class _MyHomePageState extends State<MyHomePage> {
                       "Articles",
                       style: TextStyle(fontSize: 17),
                     ),
-                    Text(
-                      "All Articles",
-                      style: TextStyle(color: Color(0xFF3e9feb), fontSize: 17),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(platformSpecificNavigation(
+                            context,
+                            page: AllArticlesPage()));
+                      },
+                      child: Text(
+                        "All Articles",
+                        style:
+                            TextStyle(color: Color(0xFF3e9feb), fontSize: 17),
+                      ),
                     )
                   ],
                 ),
@@ -109,27 +109,31 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: articles != null
                       ? ListView.builder(
                           scrollDirection: Axis.horizontal,
-                          itemCount: articles.length,
+                          // itemCount: articles.length,
+                          itemCount: 10,
                           shrinkWrap: true,
                           itemBuilder: (context, index) {
                             return GestureDetector(
                               onTap: () {
                                 Navigator.of(context)
-                                    .push(platformSpecificNavigation(
+                                    .push(platformSpecificNavigation(context,
                                         page: DetailsPage(
-                                  index: index,
-                                  articleAuthor: articles[index].articleAuthor,
-                                  articleContent:
-                                      articles[index].articleContent,
-                                  articleDescription:
-                                      articles[index].articleDescription,
-                                  articlePublishedAT:
-                                      articles[index].articlePublishedAT,
-                                  articleTitle: articles[index].articleTitle,
-                                  articleUrl: articles[index].articleUrl,
-                                  articleUrlToImage:
-                                      articles[index].articleUrlToImage,
-                                )));
+                                          index: index,
+                                          articleAuthor:
+                                              articles[index].articleAuthor,
+                                          articleContent:
+                                              articles[index].articleContent,
+                                          articleDescription: articles[index]
+                                              .articleDescription,
+                                          articlePublishedAT: articles[index]
+                                              .articlePublishedAT,
+                                          articleTitle:
+                                              articles[index].articleTitle,
+                                          articleUrl:
+                                              articles[index].articleUrl,
+                                          articleUrlToImage:
+                                              articles[index].articleUrlToImage,
+                                        )));
                               },
                               child: Container(
                                 margin: EdgeInsets.only(right: 20),

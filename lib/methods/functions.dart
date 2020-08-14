@@ -7,6 +7,7 @@ class Functions {
   static const String apiKey = "a8afde170c67487fb748e3409714cf36";
   List<Article> articles = [];
   List list;
+  final DateTime dateTime = DateTime.now();
   Future<List<Article>> getNewsFromApi() async {
     try {
       http.Response response = await http.get(
@@ -37,9 +38,10 @@ class Functions {
   }
 
   Future<List<Article>> allArticles() async {
+    String dateTimeAsString = dateTime.toString().substring(0, 10);
     try {
       http.Response response = await http.get(
-          "https://newsapi.org/v2/everything?q=apple&from=2020-08-13&to=2020-08-13&sortBy=popularity&pageSize=100&apiKey=$apiKey");
+          "https://newsapi.org/v2/everything?q=politics&from=$dateTimeAsString&to=$dateTimeAsString&sortBy=popularity&pageSize=100&apiKey=$apiKey");
       if (response.statusCode == 200) {
         Map<String, dynamic> responseDecode = json.decode(response.body);
 
@@ -63,6 +65,10 @@ class Functions {
     }
 
     return articles;
+  }
+
+  articleOfTheDay() {
+    articles;
   }
 }
 

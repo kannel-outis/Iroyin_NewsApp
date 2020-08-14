@@ -33,7 +33,6 @@ class _AllArticlesPageState extends State<AllArticlesPage> {
                   onTap: () {
                     Navigator.of(context).push(
                       platformSpecificNavigation(
-                        context,
                         page: DetailsPage(
                           articleAuthor: articles[index].articleAuthor,
                           articleContent: articles[index].articleContent,
@@ -80,6 +79,21 @@ class ListViewTile extends StatelessWidget {
     @required this.timePublished,
     @required this.source,
   }) : super(key: key);
+
+  String get titleTitle {
+    if (title == null) {
+      return "no title";
+    }
+    return title;
+  }
+
+  String get sourceSource {
+    if (source == null) {
+      return "No Source";
+    }
+    return source;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -114,7 +128,7 @@ class ListViewTile extends StatelessWidget {
               child: Container(
                 width: 180,
                 child: Text(
-                  "${title.length > 65 ? title.replaceRange(66, title.length, "...") : title}",
+                  "${titleTitle.length > 65 ? titleTitle.replaceRange(66, titleTitle.length, "...") : titleTitle}",
                   style: TextStyle(),
                 ),
               ),
@@ -140,7 +154,7 @@ class ListViewTile extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           Text(
-                            "${source.length > 15 ? source.replaceRange(16, source.length, "...") : source}",
+                            "${sourceSource.length > 15 ? sourceSource.replaceRange(16, sourceSource.length, "...") : sourceSource}",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ],

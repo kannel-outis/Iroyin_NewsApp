@@ -15,6 +15,12 @@ class AllArticlesPage extends StatefulWidget {
 
 class _AllArticlesPageState extends State<AllArticlesPage> {
   final Functions functions = Functions();
+  Future<Null> refreshIndi() async {
+    await functions.getNewsFromApi();
+
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     final articles = Provider.of<List<Article>>(context);
@@ -26,38 +32,42 @@ class _AllArticlesPageState extends State<AllArticlesPage> {
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 8),
         child: Container(
-          child: ListView.builder(
-              itemCount: articles.length,
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.of(context).push(
-                      platformSpecificNavigation(
-                        page: DetailsPage(
-                          articleAuthor: articles[index].articleAuthor,
-                          articleContent: articles[index].articleContent,
-                          articleDescription:
-                              articles[index].articleDescription,
-                          articlePublishedAT:
-                              articles[index].articlePublishedAT,
-                          articleTitle: articles[index].articleTitle,
-                          articleUrl: articles[index].articleUrl,
-                          articleUrlToImage: articles[index].articleUrlToImage,
-                          index: index,
+          child: RefreshIndicator(
+            onRefresh: refreshIndi,
+            child: ListView.builder(
+                itemCount: articles.length,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => DetailsPage(
+                            articleAuthor: articles[index].articleAuthor,
+                            articleContent: articles[index].articleContent,
+                            articleDescription:
+                                articles[index].articleDescription,
+                            articlePublishedAT:
+                                articles[index].articlePublishedAT,
+                            articleTitle: articles[index].articleTitle,
+                            articleUrl: articles[index].articleUrl,
+                            articleUrlToImage:
+                                articles[index].articleUrlToImage,
+                            index: index,
+                          ),
                         ),
-                      ),
-                    );
-                  },
-                  child: ListViewTile(
-                    tag: index,
-                    title: articles[index].articleTitle,
-                    timePublished:
-                        articles[index].articlePublishedAT.substring(0, 10),
-                    source: articles[index].articleAuthor,
-                    imageUrl: articles[index].articleUrlToImage,
-                  ),
-                );
-              }),
+                      );
+                    },
+                    child: ListViewTile(
+                      tag: index,
+                      title: articles[index].articleTitle,
+                      timePublished:
+                          articles[index].articlePublishedAT.substring(0, 10),
+                      source: articles[index].articleAuthor,
+                      imageUrl: articles[index].articleUrlToImage,
+                    ),
+                  );
+                }),
+          ),
         ),
       ),
     );

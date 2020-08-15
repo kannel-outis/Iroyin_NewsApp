@@ -8,8 +8,9 @@ void main() {
   runApp(MyApp());
 }
 
+final Functions _functions = Functions();
+
 class MyApp extends StatelessWidget {
-  final Functions _functions = Functions();
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -25,8 +26,20 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.indigo,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: MyHomePage(),
+        home: FirstPageRoute(),
       ),
     );
+  }
+}
+
+class FirstPageRoute extends StatefulWidget {
+  @override
+  _FirstPageRouteState createState() => _FirstPageRouteState();
+}
+
+class _FirstPageRouteState extends State<FirstPageRoute> {
+  @override
+  Widget build(BuildContext context) {
+    return MyHomePage();
   }
 }

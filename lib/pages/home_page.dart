@@ -7,6 +7,7 @@ import 'package:NewsApp_Chingu/widgets/platform_specific.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:provider/provider.dart';
 import 'dart:math' as math;
 
@@ -16,11 +17,19 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final Functions functions = Functions();
+  double mediaHeight;
+  double mediaWidth;
+  getMediaQueries() {}
   @override
   void initState() {
     super.initState();
   }
+
+  // Future<Null> refreshIndi() async {
+  //   await functions.getNewsFromApi();
+
+  //   setState(() {});
+  // }
 
   String articleAuthor(int index, List<Article> articles) {
     if (articles[index].articleAuthor == null) {
@@ -52,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           children: [
             Container(
-              height: MediaQuery.of(context).size.height * .149,
+              height: 802 * .149,
               width: double.infinity,
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -106,9 +115,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final articles = Provider.of<List<Article>>(context);
-    print(articles[4].articleTitle.length);
+    final List<Article> articles = Provider.of<List<Article>>(context);
+    print("rebuilding....");
+    // print(802);
+    // print(401);
 
+    return buildScaffold(context, articles);
+  }
+
+  Scaffold buildScaffold(BuildContext context, List<Article> articles) {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -116,125 +131,136 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(
           "Dashboard",
         ),
+        actions: [
+          // IconButton(icon: Icon(Icons.refresh), onPressed: refreshIndi)
+        ],
       ),
       drawer: Drawer(),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 25),
-        child: Container(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 15,
-              ),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Icon(
-                      Icons.search,
-                      size: 30,
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width - 130,
-                      child: TextFormField(
-                        cursorColor: fieldcolor,
-                        style: TextStyle(fontSize: 23),
-                        decoration: InputDecoration(
-                          hintText: "Search",
-                          hintStyle: TextStyle(
-                            color: Color(0xFFbababa),
-                          ),
-                          contentPadding: EdgeInsets.only(bottom: -15, left: 5),
-                          focusColor: fieldcolor,
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                                color: fieldcolor, style: BorderStyle.solid),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 25),
+          child: Container(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 15,
+                ),
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Icon(
+                        Icons.search,
+                        size: 30,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Container(
+                        width: 401.0 - 130,
+                        child: TextFormField(
+                          cursorColor: fieldcolor,
+                          style: TextStyle(fontSize: 23),
+                          decoration: InputDecoration(
+                            hintText: "Search",
+                            hintStyle: TextStyle(
+                              color: Color(0xFFbababa),
+                            ),
+                            contentPadding:
+                                EdgeInsets.only(bottom: -15, left: 5),
+                            focusColor: fieldcolor,
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: fieldcolor, style: BorderStyle.solid),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Articles",
-                      style: TextStyle(fontSize: 17),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(platformSpecificNavigation(
-                            page: AllArticlesPage()));
-                      },
-                      child: Text(
-                        "All Articles",
-                        style:
-                            TextStyle(color: Color(0xFF3e9feb), fontSize: 17),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Container(
-                height: MediaQuery.of(context).size.height * .25,
-                child: articles != null
-                    ? ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: 10,
-                        shrinkWrap: true,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.of(context)
-                                  .push(platformSpecificNavigation(
-                                      page: DetailsPage(
-                                index: index,
-                                articleAuthor: articles[index].articleAuthor,
-                                articleContent: articles[index].articleContent,
-                                articleDescription:
-                                    articles[index].articleDescription,
-                                articlePublishedAT:
-                                    articles[index].articlePublishedAT,
-                                articleTitle: articles[index].articleTitle,
-                                articleUrl: articles[index].articleUrl,
-                                articleUrlToImage:
-                                    articles[index].articleUrlToImage,
-                              )));
-                            },
-                            child: customListItems(articles, index),
-                          );
-                        },
-                      )
-                    : Center(
-                        child: CircularProgressIndicator(),
-                      ),
-              ),
-              SizedBox(height: 40),
-              Row(
-                children: <Widget>[
-                  Text(
-                    "Article of the day",
-                    style: TextStyle(
-                      fontSize: 23,
-                    ),
+                    ],
                   ),
-                ],
-              ),
-              ArticleOfTheDay(),
-            ],
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Container(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "Articles",
+                        style: TextStyle(fontSize: 17),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (contex) => AllArticlesPage()));
+                        },
+                        child: Text(
+                          "All Articles",
+                          style:
+                              TextStyle(color: Color(0xFF3e9feb), fontSize: 17),
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Container(
+                  height: 802 * .25,
+                  child: articles != null
+                      ? ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: 10,
+                          shrinkWrap: true,
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => DetailsPage(
+                                      index: index,
+                                      articleAuthor:
+                                          articles[index].articleAuthor,
+                                      articleContent:
+                                          articles[index].articleContent,
+                                      articleDescription:
+                                          articles[index].articleDescription,
+                                      articlePublishedAT:
+                                          articles[index].articlePublishedAT,
+                                      articleTitle:
+                                          articles[index].articleTitle,
+                                      articleUrl: articles[index].articleUrl,
+                                      articleUrlToImage:
+                                          articles[index].articleUrlToImage,
+                                    ),
+                                  ),
+                                );
+                              },
+                              child: customListItems(articles, index),
+                            );
+                          },
+                        )
+                      : Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                ),
+                SizedBox(height: 40),
+                Row(
+                  children: <Widget>[
+                    Text(
+                      "Article of the day",
+                      style: TextStyle(
+                        fontSize: 23,
+                      ),
+                    ),
+                  ],
+                ),
+                ArticleOfTheDay(),
+              ],
+            ),
           ),
         ),
       ),
@@ -255,15 +281,120 @@ class ArticleOfTheDay extends StatelessWidget {
         : articles[index].articleAuthor;
   }
 
+  Widget checkIfNull(List<Article> articles, BuildContext context) {
+    if (articles != null) {
+      final int index = random.nextInt(articles.length);
+      return Column(
+        children: [
+          Expanded(
+            child: GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (_) => DetailsPage(
+                          articleAuthor: articles[index].articleAuthor,
+                          articleContent: articles[index].articleContent,
+                          articleDescription:
+                              articles[index].articleDescription,
+                          articlePublishedAT:
+                              articles[index].articlePublishedAT,
+                          articleTitle: articles[index].articleTitle,
+                          articleUrl: articles[index].articleUrl,
+                          articleUrlToImage: articles[index].articleUrlToImage,
+                          index: index,
+                        )));
+              },
+              child: Stack(
+                children: [
+                  Container(
+                    width: 401,
+                    child: Hero(
+                      tag: index.toString(),
+                      child: FadeInImage(
+                        fit: BoxFit.cover,
+                        placeholder: AssetImage("assets/placeHolderImage.png"),
+                        image: CachedNetworkImageProvider(
+                            "${articles[index].articleUrlToImage}"),
+                      ),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      height: 50,
+                      width: double.infinity,
+                      color: Colors.black.withOpacity(0.5),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          "${articles[index].articleTitle}",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+          Container(
+            height: 70,
+            color: constColor2,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Text(
+                  "${articleAuthor(index, articles)}",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Row(
+                  children: <Widget>[
+                    IconButton(
+                      icon: Icon(
+                        Icons.favorite,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                      onPressed: () {},
+                    ),
+                    IconButton(
+                      icon: Icon(
+                        Icons.bookmark,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                      onPressed: () {},
+                    ),
+                    IconButton(
+                      icon: Icon(
+                        FontAwesome5.share,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                      onPressed: () {},
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+    }
+    return Center(
+      child: Text("loading..."),
+    );
+  }
+
   math.Random random = math.Random();
   @override
   Widget build(BuildContext context) {
-    final articles = Provider.of<List<Article>>(context);
-    int index = random.nextInt(articles.length);
-    print(index);
+    final List<Article> articles = Provider.of<List<Article>>(context);
     return Container(
-      height: MediaQuery.of(context).size.height - 520,
-      // color: Colors.green,
+      height: 802.0 - 520,
       child: Container(
         child: Stack(
           alignment: Alignment.center,
@@ -271,8 +402,8 @@ class ArticleOfTheDay extends StatelessWidget {
             Positioned(
               top: 10,
               child: Container(
-                height: MediaQuery.of(context).size.height - 600,
-                width: MediaQuery.of(context).size.width - 70,
+                height: 802.0 - 600,
+                width: 401.0 - 70,
                 decoration: BoxDecoration(
                   color: constColor4,
                   borderRadius: BorderRadius.circular(5),
@@ -282,8 +413,8 @@ class ArticleOfTheDay extends StatelessWidget {
             Positioned(
               top: 20,
               child: Container(
-                height: MediaQuery.of(context).size.height - 600,
-                width: MediaQuery.of(context).size.width - 60,
+                height: 802.0 - 600,
+                width: 401.0 - 60,
                 decoration: BoxDecoration(
                   color: constColor3,
                   borderRadius: BorderRadius.circular(5),
@@ -295,113 +426,12 @@ class ArticleOfTheDay extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5),
                 child: Container(
-                  height: MediaQuery.of(context).size.height - 550,
-                  width: MediaQuery.of(context).size.width - 50,
+                  height: 802.0 - 550,
+                  width: 401.0 - 50,
                   decoration: BoxDecoration(
                     color: constColor2,
                   ),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.of(context)
-                                .push(platformSpecificNavigation(
-                                    page: DetailsPage(
-                              articleAuthor: articles[index].articleAuthor,
-                              articleContent: articles[index].articleContent,
-                              articleDescription:
-                                  articles[index].articleDescription,
-                              articlePublishedAT:
-                                  articles[index].articlePublishedAT,
-                              articleTitle: articles[index].articleTitle,
-                              articleUrl: articles[index].articleUrl,
-                              articleUrlToImage:
-                                  articles[index].articleUrlToImage,
-                              index: index,
-                            )));
-                          },
-                          child: Stack(
-                            children: [
-                              Container(
-                                width: MediaQuery.of(context).size.width,
-                                child: Hero(
-                                  tag: index.toString(),
-                                  child: FadeInImage(
-                                    fit: BoxFit.cover,
-                                    placeholder: AssetImage(
-                                        "assets/placeHolderImage.png"),
-                                    image: CachedNetworkImageProvider(
-                                        "${articles[index].articleUrlToImage}"),
-                                  ),
-                                ),
-                              ),
-                              Align(
-                                alignment: Alignment.bottomCenter,
-                                child: Container(
-                                  height: 50,
-                                  width: double.infinity,
-                                  color: Colors.black.withOpacity(0.5),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(
-                                      "${articles[index].articleTitle}",
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        height: 70,
-                        color: constColor2,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: <Widget>[
-                            Text(
-                              "${articleAuthor(index, articles)}",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Row(
-                              children: <Widget>[
-                                IconButton(
-                                  icon: Icon(
-                                    Icons.favorite,
-                                    color: Colors.white,
-                                    size: 20,
-                                  ),
-                                  onPressed: () {},
-                                ),
-                                IconButton(
-                                  icon: Icon(
-                                    Icons.bookmark,
-                                    color: Colors.white,
-                                    size: 20,
-                                  ),
-                                  onPressed: () {},
-                                ),
-                                IconButton(
-                                  icon: Icon(
-                                    Icons.reply,
-                                    color: Colors.white,
-                                    size: 20,
-                                  ),
-                                  onPressed: () {},
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                  child: checkIfNull(articles, context),
                 ),
               ),
             ),

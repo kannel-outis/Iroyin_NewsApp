@@ -66,10 +66,6 @@ class Functions {
 
     return articles;
   }
-
-  articleOfTheDay() {
-    articles;
-  }
 }
 
 // for (var l in list) {

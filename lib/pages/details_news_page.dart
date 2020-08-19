@@ -1,7 +1,10 @@
 import 'package:NewsApp_Chingu/const/color.dart';
+import 'package:NewsApp_Chingu/main.dart';
+import 'package:NewsApp_Chingu/models/favorite_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_web_browser/flutter_web_browser.dart';
+import 'package:hive/hive.dart';
 import 'package:share/share.dart';
 
 class DetailsPage extends StatefulWidget {
@@ -27,12 +30,42 @@ class DetailsPage extends StatefulWidget {
 }
 
 class _DetailsPageState extends State<DetailsPage> {
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  Box<Favorite> favoriteBox;
+  @override
+  void initState() {
+    super.initState();
+    favoriteBox = Hive.box<Favorite>(favoriteBoxName);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text("${widget.articleAuthor}"),
         backgroundColor: constColor1,
+        actions: [
+          IconButton(
+              icon: Icon(
+                Icons.favorite,
+                size: 20,
+              ),
+              onPressed: () {
+                Favorite favorite = Favorite(
+                    favoriteAuthor: widget.articleAuthor,
+                    favoriteContent: widget.articleContent,
+                    favoriteDescription: widget.articleDescription,
+                    favoriteTitle: widget.articleTitle,
+                    favoritePublishedAT: widget.articlePublishedAT,
+                    favoriteUrl: widget.articleUrl,
+                    favoriteUrlToImage: widget.articleUrlToImage);
+                favoriteBox.add(favorite).then((value) {
+                  _scaffoldKey.currentState.showSnackBar(
+                      SnackBar(content: Text("added to favorites")));
+                });
+              })
+        ],
       ),
       body: Container(
         child: Column(
@@ -47,7 +80,7 @@ class _DetailsPageState extends State<DetailsPage> {
                       child: Stack(
                         children: <Widget>[
                           Hero(
-                            tag: widget.index.toString(),
+                            tag: widget.index,
                             transitionOnUserGestures: true,
                             child: FadeInImage(
                               placeholder:

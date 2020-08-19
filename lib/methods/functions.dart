@@ -1,86 +1,79 @@
 import 'dart:convert';
 
 import 'package:NewsApp_Chingu/models/news_model_structure.dart';
-import 'package:http/http.dart' as http;
+import 'package:NewsApp_Chingu/models/search.dart';
+import 'package:dio/dio.dart';
 
-class Functions {
-  static const String apiKey = "a8afde170c67487fb748e3409714cf36";
-  List<Article> articles = [];
-  List list;
-  final DateTime dateTime = DateTime.now();
-  Future<List<Article>> getNewsFromApi() async {
-    try {
-      http.Response response = await http.get(
-          "https://newsapi.org/v2/top-headlines?country=us&apiKey=$apiKey");
-      if (response.statusCode == 200) {
-        Map<String, dynamic> responseDecode = json.decode(response.body);
-
-        list = responseDecode['articles'].forEach((element) {
-          Article article = Article(
-            articleTitle: element['title'],
-            articleDescription: element['description'],
-            articleUrl: element['url'],
-            articleUrlToImage: element['urlToImage'],
-            articlePublishedAT: element['publishedAt'],
-            articleAuthor: element['author'],
-            articleContent: element['content'],
-          );
-          articles.add(article);
-        });
-      } else {
-        print(response.body);
-      }
-    } catch (e) {
-      print(e.toString());
-    }
-
-    return articles;
-  }
-
-  Future<List<Article>> allArticles() async {
-    String dateTimeAsString = dateTime.toString().substring(0, 10);
-    try {
-      http.Response response = await http.get(
-          "https://newsapi.org/v2/everything?q=politics&from=$dateTimeAsString&to=$dateTimeAsString&sortBy=popularity&pageSize=100&apiKey=$apiKey");
-      if (response.statusCode == 200) {
-        Map<String, dynamic> responseDecode = json.decode(response.body);
-
-        list = responseDecode['articles'].forEach((element) {
-          Article article = Article(
-            articleTitle: element['title'],
-            articleDescription: element['description'],
-            articleUrl: element['url'],
-            articleUrlToImage: element['urlToImage'],
-            articlePublishedAT: element['publishedAt'],
-            articleAuthor: element['author'],
-            articleContent: element['content'],
-          );
-          articles.add(article);
-        });
-      } else {
-        print(response.body);
-      }
-    } catch (e) {
-      print(e.toString());
-    }
-
-    return articles;
-  }
+abstract class WebServiceApi {
+  Future<List<Article>> getNewsFromApi();
+  Future<List<Search>> getSearchedList();
 }
 
-// for (var l in list) {
-//   // print(l['title']);
-//   Article article = Article(
-//       articleTitle: l['title'],
-//       articleDescription: l['description'],
-//       articleUrl: l['url'],
-//       articleUrlToImage: l['urlToImage'],
-//       articlePublishedAT: l['publishedAt']);
-//   // print(article.articleUrl);
-//   articles.add(article);
-// }
+class Functions extends WebServiceApi {
+  static const String apiKey = "a8afde170c67487fb748e3409714cf36";
 
-// final Article article =
-//     Article(articleTitle: responseDecode[' articles'][3]['title']);
-// print(article.articleTitle);
-// print(articles[0].articleTitle);
+  String dateTimeAsString = DateTime.now().toString().substring(0, 10);
+
+  @override
+  Future<List<Article>> getNewsFromApi() async {
+    List<Article> articles = [];
+
+    try {
+      Response<String> response = await Dio().get(
+          "https://newsapi.org/v2/everything?q=politics&from=$dateTimeAsString&to=2020-08-19&sortBy=popularity&pageSize=100&apiKey=$apiKey");
+      if (response.statusCode == 200) {
+        Map<String, dynamic> responseDecode = json.decode(response.data);
+        responseDecode['articles'].forEach((element) {
+          Article article = Article(
+            articleTitle: element['title'],
+            articleDescription: element['description'],
+            articleUrl: element['url'],
+            articleUrlToImage: element['urlToImage'],
+            articlePublishedAT: element['publishedAt'],
+            articleAuthor: element['author'],
+            articleContent: element['content'],
+          );
+          articles.add(article);
+        });
+      } else {
+        print(response.data);
+      }
+    } catch (e) {
+      print(e.toString());
+    }
+
+    return articles;
+  }
+
+  @override
+  Future<List<Search>> getSearchedList({String query}) async {
+    List<Search> searchedList = [];
+    try {
+      await Dio()
+          .get<String>(
+              "https://newsapi.org/v2/everything?qInTitle=$query&from=$dateTimeAsString&to=2020-08-19&sortBy=popularity&pageSize=100&apiKey=$apiKey")
+          .then((response) {
+        if (response.statusCode == 200) {
+          var jsonDecode = json.decode(response.data);
+          List jsonList = jsonDecode['articles'];
+          for (var article in jsonList) {
+            final Search articleReceived = Search(
+                resultAuthor: article['author'],
+                resultTitle: article['title'],
+                resultDescription: article['description'],
+                resultContent: article['content'],
+                resultUrl: article['url'],
+                resultPublishedAT: article['publishedAt'],
+                resultUrlToImage: article['urlToImage']);
+            searchedList.add(articleReceived);
+          }
+        } else {
+          print(response.data);
+        }
+      });
+    } catch (e) {
+      print(e.toString);
+    }
+    return searchedList;
+  }
+}

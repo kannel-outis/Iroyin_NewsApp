@@ -1,3 +1,4 @@
+import 'package:NewsApp_Chingu/dummyPages/dummypage.dart';
 import 'package:NewsApp_Chingu/methods/functions.dart';
 import 'package:NewsApp_Chingu/models/favorite_model.dart';
 import 'package:NewsApp_Chingu/models/model_repo.dart';
@@ -41,17 +42,5 @@ class MyApp extends StatelessWidget {
         home: MyHomePage(),
       ),
     );
-  }
-}
-
-class FirstPageRoute extends StatefulWidget {
-  @override
-  _FirstPageRouteState createState() => _FirstPageRouteState();
-}
-
-class _FirstPageRouteState extends State<FirstPageRoute> {
-  @override
-  Widget build(BuildContext context) {
-    return MyHomePage();
   }
 }

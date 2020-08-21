@@ -16,7 +16,6 @@ class _AllArticlesPageState extends State<AllArticlesPage> {
   final Functions functions = Functions();
   Future<Null> refreshIndi() async {
     await functions.getNewsFromApi();
-    // print("getting run");
 
     setState(() {});
   }

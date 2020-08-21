@@ -1,4 +1,3 @@
-import 'package:NewsApp_Chingu/const/color.dart';
 import 'package:NewsApp_Chingu/main.dart';
 import 'package:NewsApp_Chingu/models/favorite_model.dart';
 import 'package:NewsApp_Chingu/pages/details_news_page.dart';

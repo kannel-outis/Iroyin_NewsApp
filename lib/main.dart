@@ -22,7 +22,7 @@ void main() async {
 final Functions _functions = Functions();
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+  
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -31,7 +31,6 @@ class MyApp extends StatelessWidget {
             create: (_) => _functions.getNewsFromApi()),
         ChangeNotifierProvider<ModelRepository>(
             create: (_) => ModelRepository())
-        // FutureProvider(create: (context) => ModelRepository().getsearchedList())
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

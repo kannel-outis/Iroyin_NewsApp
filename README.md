@@ -1,4 +1,4 @@
-# NewsApp_Chingu
+# Iroyin_NewsApp
 
 A new Flutter project.
 

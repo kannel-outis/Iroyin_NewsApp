@@ -1,4 +1,3 @@
-import 'package:NewsApp_Chingu/dummyPages/dummypage.dart';
 import 'package:NewsApp_Chingu/methods/functions.dart';
 import 'package:NewsApp_Chingu/models/favorite_model.dart';
 import 'package:NewsApp_Chingu/models/model_repo.dart';
@@ -22,7 +21,6 @@ void main() async {
 final Functions _functions = Functions();
 
 class MyApp extends StatelessWidget {
-  
   @override
   Widget build(BuildContext context) {
     return MultiProvider(

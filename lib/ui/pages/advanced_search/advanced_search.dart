@@ -1,6 +1,7 @@
 import 'package:NewsApp_Chingu/app/routes/route_generator.gr.dart';
 import 'package:NewsApp_Chingu/services/utils/languages_and_sortBy.dart';
 import 'package:NewsApp_Chingu/ui/pages/advanced_search/advanced_search_viewModel.dart';
+import 'package:NewsApp_Chingu/ui/widgets/platform_specific.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
@@ -27,10 +28,10 @@ class _AdvancedSearchPageState extends State<AdvancedSearchPage> {
                   child: Column(
                 children: [
                   Container(
-                    padding: EdgeInsets.all(12.0),
-                    child: TextField(
-                      controller: controller,
-                    ),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 12.0, vertical: 20.0),
+                    child:
+                        PlatformSpec.platFormTextfield(controller: controller),
                   ),
                   SizedBox(
                     height: 20,
@@ -39,73 +40,48 @@ class _AdvancedSearchPageState extends State<AdvancedSearchPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
                       Container(
-                        child: FlatButton(
-                          textColor: Colors.white,
-                          color: Colors.indigo,
+                        child: PlatformSpec.platFormButton(
+                          text: "From",
                           onPressed: () async {
-                            DateTime dateTime = await showDatePicker(
-                                context: context,
-                                initialDate: DateTime.now(),
-                                firstDate: DateTime(2017),
-                                lastDate: DateTime.now());
-                            model.setPicker(dateTime);
+                            await PlatformSpec.dateTime(
+                                context, model.setPicker);
                             print(model.range);
                           },
-                          child: Text("from"),
                         ),
                       ),
                       Container(
-                          child: FlatButton(
-                              textColor: Colors.white,
-                              color: Colors.indigo,
-                              onPressed: () async {
-                                DateTime dateTime = await showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime(2017),
-                                    lastDate: DateTime.now());
-                                model.setPicker2(dateTime);
-                              },
-                              child: Text("to"))),
+                        child: PlatformSpec.platFormButton(
+                          text: "To",
+                          onPressed: () async {
+                            await PlatformSpec.dateTime(
+                                context, model.setPicker2);
+                          },
+                        ),
+                      ),
                     ],
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
-                      DropdownButton<String>(
-                          icon: Icon(Icons.category),
-                          hint: Text(model.sortBy ?? "Select SortBy"),
-                          items: Data.dropItemsPop.map((value) {
-                            return DropdownMenuItem<String>(
-                              child: Text(value),
-                              value: value,
-                            );
-                          }).toList(),
-                          onChanged: (String value) {
-                            model.selectSortBy(value);
-                          }),
+                      PlatformSpec.optionDropOrPick(Icons.category,
+                          context: context,
+                          modelString: model.sortBy,
+                          options: Data.dropItemsPop,
+                          selectSide: model.selectSortBy),
                       SizedBox(
                         width: 30,
                       ),
-                      DropdownButton<String>(
-                          icon: Icon(Icons.language),
-                          hint:
-                              Text(model.selectedLanguage ?? "Select Language"),
-                          items: Data.dropItemsLang.map((value) {
-                            return DropdownMenuItem<String>(
-                              child: Text(value),
-                              value: value,
-                            );
-                          }).toList(),
-                          onChanged: (String value) {
-                            model.selectLanguage(value);
-                          }),
+                      PlatformSpec.optionDropOrPick(Icons.language,
+                          context: context,
+                          modelString: model.selectedLanguage,
+                          options: Data.dropItemsLang,
+                          selectSide: model.selectLanguage)
                     ],
                   ),
-                  FlatButton(
-                    textColor: Colors.white,
-                    color: Colors.indigo,
+                  PlatformSpec.platFormButton(
+                    text: "Search",
                     onPressed: () {
+                      model.setIsSearching = true;
                       model
                           .getAdvancedSearchedList(
                         from: model.range,
@@ -124,23 +100,22 @@ class _AdvancedSearchPageState extends State<AdvancedSearchPage> {
                                 searchedlist: value,
                               ),
                             );
-                            model.isSearching = false;
+                            model.setIsSearching = false;
                           } else {
                             _scaffoldKey.currentState.showSnackBar(
                                 SnackBar(content: Text("No Results")));
-                            model.isSearching = false;
+                            model.setIsSearching = false;
                           }
                         },
                       );
                     },
-                    child: Text(
-                      "Search",
-                    ),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 10),
                   Center(
                     child: model.isSearching == true
-                        ? CircularProgressIndicator()
+                        ? CircularProgressIndicator(
+                            strokeWidth: 2.0,
+                          )
                         : Container(),
                   )
                 ],

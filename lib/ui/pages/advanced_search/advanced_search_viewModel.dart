@@ -8,7 +8,6 @@ class AdvancedSearchViewModel extends FutureViewModel<List<Search>> {
   String _selectedLanguage;
   String _range;
   String _range2;
-  bool get isSearching => _isSearching;
 
   Future<List<Search>> getAdvancedSearchedList(
       {String query,
@@ -16,8 +15,6 @@ class AdvancedSearchViewModel extends FutureViewModel<List<Search>> {
       String to,
       String sortBy,
       String lang}) async {
-    _isSearching = true;
-    notifyListeners();
     var list = await Functions().getAdvanceSearchedList(
       query: query,
       from: from,
@@ -29,14 +26,15 @@ class AdvancedSearchViewModel extends FutureViewModel<List<Search>> {
     return list;
   }
 
-  set isSearching(bool progress) {
-    _isSearching = false;
+  set setIsSearching(bool progress) {
+    _isSearching = progress;
     notifyListeners();
   }
 
   void setPicker(DateTime dateTime) {
     if (dateTime != null) {
       _range = dateTime.toString().substring(0, 10);
+      print(_range);
       notifyListeners();
     }
   }
@@ -44,13 +42,13 @@ class AdvancedSearchViewModel extends FutureViewModel<List<Search>> {
   void setPicker2(DateTime dateTime) {
     if (dateTime != null) {
       _range2 = dateTime.toString().substring(0, 10);
+      print(_range2);
       notifyListeners();
     }
   }
 
   void selectLanguage(String option) {
     _selectedLanguage = option;
-
     notifyListeners();
   }
 
@@ -61,6 +59,7 @@ class AdvancedSearchViewModel extends FutureViewModel<List<Search>> {
 
   String get sortBy => _sortBy;
   String get selectedLanguage => _selectedLanguage;
+  bool get isSearching => _isSearching;
   String get range => _range;
   String get range2 => _range2;
 

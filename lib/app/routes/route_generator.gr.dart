@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import '../../ui/pages/advanced_search/advanced_search.dart';
 import '../../ui/pages/all_articles/all_articles_page.dart';
 import '../../ui/pages/details/details_news_page.dart';
+import '../../ui/pages/error/error_page.dart';
 import '../../ui/pages/favorites/favorites.dart';
 import '../../ui/pages/home/home_page.dart';
 import '../../ui/pages/search/search.dart';
@@ -25,6 +26,7 @@ class Routes {
   static const String detailsPage = '/Details_Page';
   static const String favoritesPage = '/Favorite_Page';
   static const String searchResultPage = '/Search_Result_Page';
+  static const String errorPage = '/error_page';
   static const all = <String>{
     myHomePage,
     advancedSearchPage,
@@ -32,6 +34,7 @@ class Routes {
     detailsPage,
     favoritesPage,
     searchResultPage,
+    errorPage,
   };
 }
 
@@ -45,6 +48,7 @@ class Router extends RouterBase {
     RouteDef(Routes.detailsPage, page: DetailsPage),
     RouteDef(Routes.favoritesPage, page: FavoritesPage),
     RouteDef(Routes.searchResultPage, page: SearchResultPage),
+    RouteDef(Routes.errorPage, page: ErrorPage),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -101,6 +105,12 @@ class Router extends RouterBase {
           searchedlist: args.searchedlist,
           searchedquery: args.searchedquery,
         ),
+        settings: data,
+      );
+    },
+    ErrorPage: (data) {
+      return MaterialPageRoute<dynamic>(
+        builder: (context) => ErrorPage(),
         settings: data,
       );
     },

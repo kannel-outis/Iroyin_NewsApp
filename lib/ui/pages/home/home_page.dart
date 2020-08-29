@@ -6,6 +6,7 @@ import 'package:NewsApp_Chingu/ui/pages/home/Home_viewModel.dart';
 import 'package:NewsApp_Chingu/ui/pages/home/news_model_structure.dart';
 import 'package:NewsApp_Chingu/ui/widgets/article_of_the_day.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:connectivity_wrapper/connectivity_wrapper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -103,12 +104,14 @@ class _MyHomePageState extends State<MyHomePage> {
     return ViewModelBuilder<HomeViewModel>.reactive(
         viewModelBuilder: () => HomeViewModel(),
         builder: (context, model, child) {
-          return buildScaffold(
-            context,
-            model.articles,
-            model,
-            _formKey,
-            _scaffoldKey,
+          return ConnectivityWidgetWrapper(
+            child: buildScaffold(
+              context,
+              model.articles,
+              model,
+              _formKey,
+              _scaffoldKey,
+            ),
           );
         });
   }
@@ -183,6 +186,7 @@ class _MyHomePageState extends State<MyHomePage> {
         opacity: 0.6,
         color: constColor3,
         child: RefreshIndicator(
+          displacement: 5.0,
           onRefresh: model.articleList,
           child: ListView(
             shrinkWrap: true,

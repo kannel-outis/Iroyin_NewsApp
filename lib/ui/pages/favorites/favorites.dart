@@ -1,7 +1,7 @@
-import 'package:NewsApp_Chingu/main.dart';
-import 'package:NewsApp_Chingu/models/favorite_model.dart';
-import 'package:NewsApp_Chingu/pages/details_news_page.dart';
-import 'package:NewsApp_Chingu/widgets/list_view_tile.dart';
+import 'package:NewsApp_Chingu/app/routes/route_generator.gr.dart';
+import 'package:NewsApp_Chingu/ui/pages/favorites/favorite_model.dart';
+import 'package:NewsApp_Chingu/ui/pages/home/Home_viewModel.dart';
+import 'package:NewsApp_Chingu/ui/widgets/list_view_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -18,7 +18,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
   @override
   void initState() {
     super.initState();
-    favoriteBox = Hive.box(favoriteBoxName);
+    favoriteBox = HomeViewModel().favOp();
   }
 
   @override
@@ -64,14 +64,14 @@ class _FavoritesPageState extends State<FavoritesPage> {
                         if (dismissDirection == DismissDirection.startToEnd) {
                           keys.removeAt(index);
                           box.deleteAt(index).then((value) {
-                            Scaffold.of(context).showSnackBar(SnackBar(
+                            _scaffoldKey.currentState.showSnackBar(SnackBar(
                                 content: Text(
                                     "${fav.favoriteTitle} removed from favorites")));
                           });
                         }
                       },
                       child: ListViewTile(
-                        route: DetailsPage(
+                        arguments: DetailsPageArguments(
                           articleAuthor: fav.favoriteAuthor,
                           articleContent: fav.favoriteContent,
                           articleDescription: fav.favoriteDescription,

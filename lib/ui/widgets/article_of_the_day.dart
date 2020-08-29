@@ -1,15 +1,15 @@
-import 'package:NewsApp_Chingu/const/color.dart';
-import 'package:NewsApp_Chingu/const/cutter.dart';
-import 'package:NewsApp_Chingu/models/favorite_model.dart';
-import 'package:NewsApp_Chingu/models/news_model_structure.dart';
-import 'package:NewsApp_Chingu/pages/details_news_page.dart';
-import 'package:NewsApp_Chingu/widgets/platform_specific.dart';
+import 'package:NewsApp_Chingu/app/routes/route_generator.gr.dart';
+import 'package:NewsApp_Chingu/ui/const/color.dart';
+import 'package:NewsApp_Chingu/ui/const/cutter.dart';
+import 'package:NewsApp_Chingu/ui/pages/favorites/favorite_model.dart';
+import 'package:NewsApp_Chingu/ui/pages/home/Home_viewModel.dart';
+import 'package:NewsApp_Chingu/ui/pages/home/news_model_structure.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:hive/hive.dart';
-import 'package:provider/provider.dart';
 import 'package:share/share.dart';
+import 'package:stacked/stacked.dart';
 
 class ArticleOfTheDay extends StatelessWidget {
   final Box<Favorite> favoriteBox;
@@ -25,17 +25,17 @@ class ArticleOfTheDay extends StatelessWidget {
           Expanded(
             child: GestureDetector(
               onTap: () {
-                Navigator.of(context).push(platformSpecificNavigation(
-                    page: DetailsPage(
-                  articleAuthor: articles[index].articleAuthor,
-                  articleContent: articles[index].articleContent,
-                  articleDescription: articles[index].articleDescription,
-                  articlePublishedAT: articles[index].articlePublishedAT,
-                  articleTitle: articles[index].articleTitle,
-                  articleUrl: articles[index].articleUrl,
-                  articleUrlToImage: articles[index].articleUrlToImage,
-                  index: index,
-                )));
+                Navigator.of(context).pushNamed(Routes.detailsPage,
+                    arguments: DetailsPageArguments(
+                      articleAuthor: articles[index].articleAuthor,
+                      articleContent: articles[index].articleContent,
+                      articleDescription: articles[index].articleDescription,
+                      articlePublishedAT: articles[index].articlePublishedAT,
+                      articleTitle: articles[index].articleTitle,
+                      articleUrl: articles[index].articleUrl,
+                      articleUrlToImage: articles[index].articleUrlToImage,
+                      index: index,
+                    ));
               },
               child: Stack(
                 children: [
@@ -146,51 +146,56 @@ class ArticleOfTheDay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Article> articles = Provider.of<List<Article>>(context);
-    return Container(
-      height: 802.0 - 520,
-      child: Container(
-        child: Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            Positioned(
-              top: 10,
-              child: Container(
-                height: 802.0 - 600,
-                width: 401.0 - 70,
-                decoration: BoxDecoration(
-                  color: constColor4,
-                  borderRadius: BorderRadius.circular(5),
-                ),
-              ),
-            ),
-            Positioned(
-              top: 20,
-              child: Container(
-                height: 802.0 - 600,
-                width: 401.0 - 60,
-                decoration: BoxDecoration(
-                  color: constColor3,
-                  borderRadius: BorderRadius.circular(5),
-                ),
-              ),
-            ),
-            Positioned(
-              top: 30,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(5),
-                child: Container(
-                    height: 802.0 - 550,
-                    width: 401.0 - 50,
+    return ViewModelBuilder<HomeViewModel>.reactive(
+      viewModelBuilder: () => HomeViewModel(),
+      builder: (context, model, child) {
+        return Container(
+          height: 802.0 - 520,
+          child: Container(
+            child: Stack(
+              alignment: Alignment.center,
+              children: <Widget>[
+                Positioned(
+                  top: 10,
+                  child: Container(
+                    height: 802.0 - 600,
+                    width: 401.0 - 70,
                     decoration: BoxDecoration(
-                      color: constColor2,
+                      color: constColor4,
+                      borderRadius: BorderRadius.circular(5),
                     ),
-                    child: checkIfNull(articles, context, favoriteBox)),
-              ),
+                  ),
+                ),
+                Positioned(
+                  top: 20,
+                  child: Container(
+                    height: 802.0 - 600,
+                    width: 401.0 - 60,
+                    decoration: BoxDecoration(
+                      color: constColor3,
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 30,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(5),
+                    child: Container(
+                        height: 802.0 - 550,
+                        width: 401.0 - 50,
+                        decoration: BoxDecoration(
+                          color: constColor2,
+                        ),
+                        child:
+                            checkIfNull(model.articles, context, favoriteBox)),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

@@ -1,4 +1,4 @@
-import 'package:NewsApp_Chingu/widgets/platform_specific.dart';
+import 'package:NewsApp_Chingu/app/routes/route_generator.gr.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -9,12 +9,12 @@ class ListViewTile extends StatelessWidget {
   final String source;
   final int tag;
   final List articles;
-  final Widget route;
+  final Object arguments;
 
   const ListViewTile(
       {this.tag,
       Key key,
-      @required this.route,
+      @required this.arguments,
       @required this.title,
       @required this.imageUrl,
       @required this.timePublished,
@@ -24,14 +24,14 @@ class ListViewTile extends StatelessWidget {
 
   String get titleTitle {
     if (title == null) {
-      return "no title";
+      return "Unknown";
     }
     return title;
   }
 
   String get sourceSource {
     if (source == null) {
-      return "No Source";
+      return "Unknown";
     }
     return source;
   }
@@ -42,7 +42,8 @@ class ListViewTile extends StatelessWidget {
         height: MediaQuery.of(context).size.height * .137,
         child: GestureDetector(
           onTap: () {
-            Navigator.of(context).push(platformSpecificNavigation(page: route));
+            Navigator.of(context)
+                .pushNamed(Routes.detailsPage, arguments: arguments);
           },
           child: Card(
             elevation: 5,

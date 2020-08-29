@@ -1,6 +1,6 @@
-import 'package:NewsApp_Chingu/models/search.dart';
-import 'package:NewsApp_Chingu/pages/details_news_page.dart';
-import 'package:NewsApp_Chingu/widgets/list_view_tile.dart';
+import 'package:NewsApp_Chingu/app/routes/route_generator.gr.dart';
+import 'package:NewsApp_Chingu/ui/pages/search/search.dart';
+import 'package:NewsApp_Chingu/ui/widgets/list_view_tile.dart';
 import 'package:flutter/material.dart';
 
 class SearchResultPage extends StatefulWidget {
@@ -48,7 +48,7 @@ class _SearchResultPageState extends State<SearchResultPage> {
                         source: widget.searchedlist[index].resultAuthor,
                         articles: widget.searchedlist,
                         tag: index,
-                        route: DetailsPage(
+                        arguments: DetailsPageArguments(
                           articleAuthor:
                               widget.searchedlist[index].resultAuthor,
                           articleContent:

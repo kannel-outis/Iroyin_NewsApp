@@ -1,9 +1,8 @@
-import 'package:NewsApp_Chingu/models/news_model_structure.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:NewsApp_Chingu/ui/pages/home/news_model_structure.dart';
 
 String articleAuthor(int index, List<Article> articles) {
   if (articles[index].articleAuthor == null) {
-    return "No Source";
+    return "Unknown Source";
   }
   return articles[index].articleAuthor.length > 18
       ? articles[index]
@@ -14,7 +13,7 @@ String articleAuthor(int index, List<Article> articles) {
 
 String articleTitle(int index, List<Article> articles) {
   if (articles[index].articleTitle == null) {
-    return "No Source";
+    return "Unknown Source";
   }
   return articles[index].articleTitle.length > 50
       ? articles[index]

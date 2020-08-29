@@ -1,28 +1,14 @@
-import 'package:NewsApp_Chingu/methods/functions.dart';
-import 'package:NewsApp_Chingu/models/news_model_structure.dart';
-import 'package:NewsApp_Chingu/models/search.dart';
-import 'package:flutter/foundation.dart';
+import 'package:NewsApp_Chingu/services/functions.dart';
+import 'package:NewsApp_Chingu/ui/pages/search/search.dart';
+import 'package:stacked/stacked.dart';
 
-class ModelRepository with ChangeNotifier {
+class AdvancedSearchViewModel extends FutureViewModel<List<Search>> {
   bool _isSearching = false;
-
   String _sortBy;
   String _selectedLanguage;
   String _range;
   String _range2;
-  Future<List<Article>> articleList() async {
-    var list = await Functions().getNewsFromApi();
-    notifyListeners();
-    return list;
-  }
-
-  Future<List<Search>> getsearchedList(String query) async {
-    _isSearching = true;
-    notifyListeners();
-    var list = await Functions().getSearchedList(query: query);
-    notifyListeners();
-    return list;
-  }
+  bool get isSearching => _isSearching;
 
   Future<List<Search>> getAdvancedSearchedList(
       {String query,
@@ -43,8 +29,9 @@ class ModelRepository with ChangeNotifier {
     return list;
   }
 
-  set isSearchingToFalse(bool isSearchingTofalse) {
-    _isSearching = isSearchingTofalse;
+  set isSearching(bool progress) {
+    _isSearching = false;
+    notifyListeners();
   }
 
   void setPicker(DateTime dateTime) {
@@ -72,9 +59,11 @@ class ModelRepository with ChangeNotifier {
     notifyListeners();
   }
 
-  bool get isSearching => _isSearching;
   String get sortBy => _sortBy;
   String get selectedLanguage => _selectedLanguage;
   String get range => _range;
   String get range2 => _range2;
+
+  @override
+  Future<List<Search>> futureToRun() => getAdvancedSearchedList();
 }

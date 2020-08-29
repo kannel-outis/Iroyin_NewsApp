@@ -1,6 +1,6 @@
-import 'package:NewsApp_Chingu/const/color.dart';
-import 'package:NewsApp_Chingu/main.dart';
-import 'package:NewsApp_Chingu/models/favorite_model.dart';
+import 'package:NewsApp_Chingu/ui/const/color.dart';
+import 'package:NewsApp_Chingu/ui/pages/favorites/favorite_model.dart';
+import 'package:NewsApp_Chingu/ui/pages/home/Home_viewModel.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_web_browser/flutter_web_browser.dart';
@@ -35,7 +35,7 @@ class _DetailsPageState extends State<DetailsPage> {
   @override
   void initState() {
     super.initState();
-    favoriteBox = Hive.box<Favorite>(favoriteBoxName);
+    favoriteBox = HomeViewModel().favOp();
   }
 
   @override
@@ -43,7 +43,7 @@ class _DetailsPageState extends State<DetailsPage> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text("${widget.articleAuthor}"),
+        title: Text("${widget.articleAuthor ?? "Unknown"}"),
         backgroundColor: constColor1,
         actions: [
           IconButton(
@@ -98,7 +98,8 @@ class _DetailsPageState extends State<DetailsPage> {
                                 decoration: BoxDecoration(
                                     color: Colors.white.withOpacity(0.8)),
                                 child: Center(
-                                  child: Text("by ${widget.articleAuthor}",
+                                  child: Text(
+                                      "by ${widget.articleAuthor ?? "Unknown"}",
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                       )),
@@ -140,7 +141,7 @@ class _DetailsPageState extends State<DetailsPage> {
                         widget.articleContent ??
                             "A content Could not be recieved at the Moment. please click on the Open browser button to view the content.",
                         style: TextStyle(
-                            color: widget.articleContent == null
+                            color: (widget.articleContent == null)
                                 ? Colors.red
                                 : Colors.black),
                       ),

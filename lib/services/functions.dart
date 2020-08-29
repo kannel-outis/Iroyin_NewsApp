@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:NewsApp_Chingu/models/news_model_structure.dart';
-import 'package:NewsApp_Chingu/models/search.dart';
+import 'package:NewsApp_Chingu/ui/pages/home/news_model_structure.dart';
+import 'package:NewsApp_Chingu/ui/pages/search/search.dart';
 import 'package:dio/dio.dart';
 
 abstract class WebServiceApi {
@@ -25,15 +25,7 @@ class Functions extends WebServiceApi {
       if (response.statusCode == 200) {
         Map<String, dynamic> responseDecode = json.decode(response.data);
         responseDecode['articles'].forEach((element) {
-          Article article = Article(
-            articleTitle: element['title'],
-            articleDescription: element['description'],
-            articleUrl: element['url'],
-            articleUrlToImage: element['urlToImage'],
-            articlePublishedAT: element['publishedAt'],
-            articleAuthor: element['author'],
-            articleContent: element['content'],
-          );
+          Article article = Article.fromJson(element);
           articles.add(article);
         });
       } else {
@@ -58,14 +50,7 @@ class Functions extends WebServiceApi {
           var jsonDecode = json.decode(response.data);
           List jsonList = jsonDecode['articles'];
           for (var article in jsonList) {
-            final Search articleReceived = Search(
-                resultAuthor: article['author'],
-                resultTitle: article['title'],
-                resultDescription: article['description'],
-                resultContent: article['content'],
-                resultUrl: article['url'],
-                resultPublishedAT: article['publishedAt'],
-                resultUrlToImage: article['urlToImage']);
+            final Search articleReceived = Search.fromJson(article);
             searchedList.add(articleReceived);
           }
         } else {
@@ -95,14 +80,7 @@ class Functions extends WebServiceApi {
           var jsonDecode = json.decode(response.data);
           List jsonList = jsonDecode['articles'];
           for (var article in jsonList) {
-            final Search articleReceived = Search(
-                resultAuthor: article['author'],
-                resultTitle: article['title'],
-                resultDescription: article['description'],
-                resultContent: article['content'],
-                resultUrl: article['url'],
-                resultPublishedAT: article['publishedAt'],
-                resultUrlToImage: article['urlToImage']);
+            final Search articleReceived = Search.fromJson(article);
             searchedList.add(articleReceived);
           }
         } else {

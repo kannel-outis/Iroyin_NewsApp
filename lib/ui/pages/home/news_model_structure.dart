@@ -17,10 +17,12 @@ class Article {
     this.articlePublishedAT,
   });
 
-  // Article.fromjson(Map<String, dynamic> fromJson)
-  //     : articleTitle = fromJson['articles'][0]['title'],
-  //       articleDescription = fromJson['articles'][0]['description'],
-  //       articleUrl = fromJson['articles'][0]['url'],
-  //       articleUrlToImage = fromJson['articles'][0]['urlToImage'],
-  //       articlePublishedAT = fromJson['articles'][0]['publishedAt'];
+  Article.fromJson(Map<String, dynamic> element)
+      : articleTitle = element['title'],
+        articleDescription = element['description'],
+        articleUrl = element['url'],
+        articleUrlToImage = element['urlToImage'],
+        articlePublishedAT = element['publishedAt'],
+        articleAuthor = element['author'],
+        articleContent = element['content'];
 }

@@ -15,4 +15,13 @@ class Search {
       this.resultAuthor,
       this.resultPublishedAT,
       this.resultContent});
+
+  Search.fromJson(Map<String, dynamic> article)
+      : resultAuthor = article['author'],
+        resultTitle = article['title'],
+        resultDescription = article['description'],
+        resultContent = article['content'],
+        resultUrl = article['url'],
+        resultPublishedAT = article['publishedAt'],
+        resultUrlToImage = article['urlToImage'];
 }

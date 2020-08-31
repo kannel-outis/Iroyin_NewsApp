@@ -32,7 +32,7 @@ Then:
 ```bash
     flutter pub get
 ```
-5. When done, Run The command Line Below To install and Launch App on your Connected/Emulator
+5. When done, Run The command Line Below To install and Launch App on your Connected Device
 ```bash
     Flutter run
 ```
@@ -58,6 +58,6 @@ Then:
 
 
 
-For help getting started with Flutter, view our
+For help getting started with Flutter, view
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.

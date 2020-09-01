@@ -16,6 +16,7 @@ import '../../ui/pages/details/details_news_page.dart';
 import '../../ui/pages/error/error_page.dart';
 import '../../ui/pages/favorites/favorites.dart';
 import '../../ui/pages/home/home_page.dart';
+import '../../ui/pages/home/news_model_structure.dart';
 import '../../ui/pages/search/search.dart';
 import '../../ui/pages/search/search_result_page.dart';
 
@@ -66,8 +67,14 @@ class Router extends RouterBase {
       );
     },
     AllArticlesPage: (data) {
+      final args = data.getArgs<AllArticlesPageArguments>(
+        orElse: () => AllArticlesPageArguments(),
+      );
       return MaterialPageRoute<dynamic>(
-        builder: (context) => AllArticlesPage(),
+        builder: (context) => AllArticlesPage(
+          key: args.key,
+          articles: args.articles,
+        ),
         settings: data,
       );
     },
@@ -120,6 +127,13 @@ class Router extends RouterBase {
 /// ************************************************************************
 /// Arguments holder classes
 /// *************************************************************************
+
+/// AllArticlesPage arguments holder class
+class AllArticlesPageArguments {
+  final Key key;
+  final List<Article> articles;
+  AllArticlesPageArguments({this.key, this.articles});
+}
 
 /// DetailsPage arguments holder class
 class DetailsPageArguments {

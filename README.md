@@ -7,7 +7,6 @@ A mobile news Aplication.
 This app was created for the chingu Solo Challenge. It's a News app the gets news data from the [NewsApi](https://newsapi.org/).
 And was created with [Flutter](https://flutter.dev/)
 
-A few resources to get you started if this is your first Flutter project:
 ## Features
 This App has the following Features
 
@@ -16,6 +15,7 @@ This App has the following Features
 - Advanced Search Functionality (specific words, time range, language, SortBy)
 - Share Article
 - Webview to view article in InApp Browser
+- reFresh to Load the most recent Articles
 - Save a Specific Article To favorites
 
 
@@ -33,7 +33,7 @@ Then:
 ```bash
     flutter pub get
 ```
-5. When done, Run The command Line Below To install and Launch App on your Connected/Emulator
+5. When done, Run The command Line Below To install and Launch App on your Connected Device
 ```bash
     Flutter run
 ```
@@ -59,6 +59,6 @@ Then:
 
 
 
-For help getting started with Flutter, view our
+For help getting started with Flutter, view
 [online documentation](https://flutter.dev/docs), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.

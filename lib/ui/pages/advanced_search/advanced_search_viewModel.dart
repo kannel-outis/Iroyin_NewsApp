@@ -2,7 +2,7 @@ import 'package:NewsApp_Chingu/services/functions.dart';
 import 'package:NewsApp_Chingu/ui/pages/search/search.dart';
 import 'package:stacked/stacked.dart';
 
-class AdvancedSearchViewModel extends FutureViewModel<List<Search>> {
+class AdvancedSearchViewModel extends BaseViewModel {
   bool _isSearching = false;
   String _sortBy;
   String _selectedLanguage;
@@ -62,7 +62,4 @@ class AdvancedSearchViewModel extends FutureViewModel<List<Search>> {
   bool get isSearching => _isSearching;
   String get range => _range;
   String get range2 => _range2;
-
-  @override
-  Future<List<Search>> futureToRun() => getAdvancedSearchedList();
 }

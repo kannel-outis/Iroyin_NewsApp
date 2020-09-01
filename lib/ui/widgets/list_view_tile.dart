@@ -55,16 +55,13 @@ class ListViewTile extends StatelessWidget {
                 ),
                 Hero(
                   tag: tag,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(50),
-                    child: Container(
-                      height: 60,
-                      width: 60,
-                      child: FadeInImage(
-                        fit: BoxFit.fill,
-                        placeholder: AssetImage("assets/placeHolderImage.png"),
-                        image: CachedNetworkImageProvider("$imageUrl"),
-                      ),
+                  child: Container(
+                    height: 60,
+                    width: 60,
+                    child: FadeInImage(
+                      fit: BoxFit.fill,
+                      placeholder: AssetImage("assets/placeHolderImage.png"),
+                      image: CachedNetworkImageProvider("$imageUrl"),
                     ),
                   ),
                 ),

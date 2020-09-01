@@ -22,7 +22,7 @@ class _AdvancedSearchPageState extends State<AdvancedSearchPage> {
         builder: (context, model, child) {
           return Scaffold(
             key: _scaffoldKey,
-            appBar: AppBar(),
+            appBar: AppBar(elevation: 0, title: Text("Advanced Search")),
             body: Container(
               child: Center(
                   child: Column(
@@ -45,7 +45,6 @@ class _AdvancedSearchPageState extends State<AdvancedSearchPage> {
                           onPressed: () async {
                             await PlatformSpec.dateTime(
                                 context, model.setPicker);
-                            print(model.range);
                           },
                         ),
                       ),

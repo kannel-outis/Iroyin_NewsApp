@@ -100,7 +100,6 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-    print(randomIndex);
     return ViewModelBuilder<HomeViewModel>.reactive(
         viewModelBuilder: () => HomeViewModel(),
         builder: (context, model, child) {
@@ -285,8 +284,10 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                Navigator.of(context)
-                                    .pushNamed(Routes.allArticlesPage);
+                                Navigator.of(context).pushNamed(
+                                    Routes.allArticlesPage,
+                                    arguments: AllArticlesPageArguments(
+                                        articles: model.articles));
                               },
                               child: Text(
                                 "All Articles",

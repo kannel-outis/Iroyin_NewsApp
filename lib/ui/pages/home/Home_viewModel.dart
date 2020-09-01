@@ -7,17 +7,15 @@ import 'package:hive/hive.dart';
 import 'package:stacked/stacked.dart';
 
 class HomeViewModel extends FutureViewModel<List<Article>> {
-  List<Article> articles;
+  List<Article> _articles;
   bool _isSearching = false;
-  bool get isSearching => _isSearching;
   Box<Favorite> _favoriteBox;
-  Box<Favorite> get favoriteBox => _favoriteBox;
 
   Future<List<Article>> articleList() async {
     var list = await Functions().getNewsFromApi();
-    articles = list;
+    _articles = list;
     notifyListeners();
-    return articles;
+    return _articles;
   }
 
   set isSearchingToFalse(bool isSearchingTofalse) {
@@ -37,6 +35,10 @@ class HomeViewModel extends FutureViewModel<List<Article>> {
 
     return _favoriteBox = Hive.box<Favorite>(HiveInit.favoriteBoxName);
   }
+
+  List<Article> get articles => _articles;
+  Box<Favorite> get favoriteBox => _favoriteBox;
+  bool get isSearching => _isSearching;
 
   @override
   Future<List<Article>> futureToRun() => articleList();

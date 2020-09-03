@@ -7,12 +7,6 @@ import 'package:NewsApp_Chingu/ui/pages/home/home_page.dart';
 import 'package:NewsApp_Chingu/ui/pages/search/search_result_page.dart';
 import 'package:auto_route/auto_route_annotations.dart';
 
-// class RoutesGenerator {
-//   static Route<dynamic> onGenerate(RouteSettings settings) {
-//     List<String> args = settings.arguments;
-//   }
-// }
-
 @MaterialAutoRouter(
   routes: <AutoRoute>[
     // initial route is named "/"

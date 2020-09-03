@@ -31,8 +31,6 @@ class _MyHomePageState extends State<MyHomePage> {
     randomIndex = math.Random().nextInt(99);
   }
 
-  ///temp
-
   Widget customListItems(List<Article> articles, int index) {
     return Container(
       margin: EdgeInsets.only(right: 20),
@@ -92,9 +90,6 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-
-  //401 = width
-  //802 = height
 
   @override
   Widget build(BuildContext context) {

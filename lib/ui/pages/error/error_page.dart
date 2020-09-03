@@ -1,3 +1,6 @@
+import 'package:NewsApp_Chingu/app/routes/route_generator.gr.dart';
+import 'package:NewsApp_Chingu/ui/const/color.dart';
+import 'package:connectivity_wrapper/connectivity_wrapper.dart';
 import 'package:flutter/material.dart';
 
 class ErrorPage extends StatefulWidget {
@@ -9,7 +12,25 @@ class _ErrorPageState extends State<ErrorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(),
+      appBar: AppBar(
+        title: Text("Connection Error"),
+        automaticallyImplyLeading: false,
+      ),
+      body: ConnectivityWidgetWrapper(
+        decoration: BoxDecoration(
+          color: constColor2,
+        ),
+        disableInteraction: true,
+        message: "Connect to an active internet Connection to Continue",
+        child: Center(
+          child: FlatButton(
+            onPressed: () {
+              Navigator.pushReplacementNamed(context, Routes.myHomePage);
+            },
+            child: Text("Continue"),
+          ),
+        ),
+      ),
     );
   }
 }

@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
     return ConnectivityAppWrapper(
       app: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
+        title: 'IROYIN',
         theme: ThemeData(
           primarySwatch: Colors.indigo,
           visualDensity: VisualDensity.adaptivePlatformDensity,

@@ -16,7 +16,7 @@ This App has the following Features
 - Share Article
 - Webview to view article in InApp Browser
 - reFresh to Load the most recent Articles
-- Save a Specific Article To favorites
+- add Article To favorites
 
 
 ## Running The Project

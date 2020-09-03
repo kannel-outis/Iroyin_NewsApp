@@ -62,19 +62,25 @@ class _AdvancedSearchPageState extends State<AdvancedSearchPage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
-                      PlatformSpec.optionDropOrPick(Icons.category,
-                          context: context,
-                          modelString: model.sortBy,
-                          options: Data.dropItemsPop,
-                          selectSide: model.selectSortBy),
+                      PlatformSpec.optionDropOrPick(
+                        Icons.category,
+                        context: context,
+                        modelString: model.sortBy,
+                        options: Data.dropItemsPop,
+                        selectSide: model.selectSortBy,
+                        selectOption: "select category",
+                      ),
                       SizedBox(
                         width: 30,
                       ),
-                      PlatformSpec.optionDropOrPick(Icons.language,
-                          context: context,
-                          modelString: model.selectedLanguage,
-                          options: Data.dropItemsLang,
-                          selectSide: model.selectLanguage)
+                      PlatformSpec.optionDropOrPick(
+                        Icons.language,
+                        context: context,
+                        modelString: model.selectedLanguage,
+                        options: Data.dropItemsLang,
+                        selectSide: model.selectLanguage,
+                        selectOption: "select Language",
+                      )
                     ],
                   ),
                   PlatformSpec.platFormButton(

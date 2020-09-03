@@ -38,11 +38,12 @@ class PlatformSpec {
       {@required BuildContext context,
       @required String modelString,
       @required List<String> options,
-      @required Function selectSide}) {
+      @required Function selectSide,
+      @required String selectOption}) {
     if (Platform.isAndroid) {
       return DropdownButton<String>(
           icon: Icon(icon),
-          hint: Text(modelString ?? "Select option"),
+          hint: Text(modelString ?? selectOption),
           items: options.map((value) {
             return DropdownMenuItem<String>(
               child: Text(value),
@@ -77,7 +78,7 @@ class PlatformSpec {
         textColor: Colors.white,
         color: Colors.indigo,
         onPressed: onPressed,
-        child: Text("from"),
+        child: Text(text),
       );
     } else if (Platform.isIOS) {
       return CupertinoButton(child: Text(text), onPressed: onPressed);

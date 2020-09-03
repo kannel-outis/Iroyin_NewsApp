@@ -4,8 +4,8 @@ A mobile news Aplication.
 
 ## Overview
 
-This app was created for the chingu Solo Challenge. It's a News app the gets news data from the [NewsApi](https://newsapi.org/).
-And was created with [Flutter](https://flutter.dev/)
+This app was created for the chingu Solo Challenge. It's a News app that gets news data from the [NewsApi](https://newsapi.org/).
+And it is written with [Flutter](https://flutter.dev/)
 
 ## Features
 This App has the following Features

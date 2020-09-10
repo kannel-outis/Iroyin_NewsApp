@@ -1,11 +1,13 @@
 import 'package:NewsApp_Chingu/ui/model_repo.dart';
 import 'package:connectivity_wrapper/connectivity_wrapper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'app/routes/route_generator.gr.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await ModelRepo().hiveInit();
+  await DotEnv().load('myApiKey.env');
   getRoute();
   runApp(MyApp());
 }
@@ -31,7 +33,7 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.indigo,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        initialRoute: _route,
+        initialRoute: Routes.myHomePage,
         onGenerateRoute: Router().onGenerateRoute,
       ),
     );

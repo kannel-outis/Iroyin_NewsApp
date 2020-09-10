@@ -18,7 +18,6 @@ class _AllArticlesPageState extends State<AllArticlesPage> {
   final HomeViewModel model = HomeViewModel();
   @override
   Widget build(BuildContext context) {
-    print(widget.articles[2].articlePublishedAT);
     return Scaffold(
         appBar: AppBar(
           elevation: 0,

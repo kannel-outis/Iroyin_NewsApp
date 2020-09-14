@@ -68,76 +68,74 @@ class _DetailsPageState extends State<DetailsPage> {
               });
             }),
         imageUrl: "${widget.articleUrlToImage}",
-        child: Column(
-          children: [
-            SizedBox(
-              height: 20,
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    "${widget.articleTitle ?? "Unknown"}".toUpperCase(),
-                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25),
-                  ),
-                ),
-              ],
-            ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
+        children: [
+          SizedBox(
+            height: 20,
+          ),
+          Row(
+            children: [
+              Expanded(
                 child: Text(
-                  "${widget.articlePublishedAT.substring(0, 10)}",
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                  "${widget.articleTitle ?? "Unknown"}".toUpperCase(),
+                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25),
                 ),
               ),
-            ),
-            SizedBox(height: 20),
-            Padding(
+            ],
+          ),
+          Align(
+            alignment: Alignment.centerRight,
+            child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                widget.articleContent ??
-                    "A content Could not be recieved at the Moment. please click on the Open browser button to view the content.",
-                style: TextStyle(
-                    color: (widget.articleContent == null)
-                        ? Colors.red
-                        : Colors.black),
+                "${widget.articlePublishedAT.substring(0, 10)}",
+                style: TextStyle(fontWeight: FontWeight.bold),
               ),
             ),
-            SizedBox(height: MediaQuery.of(context).size.width * .5),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                height: MediaQuery.of(context).size.width * .12,
-                width: MediaQuery.of(context).size.width * .4,
-                child: OutlineButton(
-                  onPressed: () {
-                    FlutterWebBrowser.openWebPage(
-                        url: "${widget.articleUrl}",
-                        androidToolbarColor: Colors.indigo);
-                  },
-                  child: Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("Open page"),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Icon(
-                          Icons.launch,
-                          color: Colors.grey,
-                          size: 20,
-                        ),
-                      ],
-                    ),
+          ),
+          SizedBox(height: 20),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              widget.articleContent ??
+                  "A content Could not be recieved at the Moment. please click on the Open browser button to view the content.",
+              style: TextStyle(
+                  color: (widget.articleContent == null)
+                      ? Colors.red
+                      : Colors.black),
+            ),
+          ),
+          SizedBox(height: MediaQuery.of(context).size.width * .5),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              height: MediaQuery.of(context).size.width * .12,
+              width: MediaQuery.of(context).size.width * .4,
+              child: OutlineButton(
+                onPressed: () {
+                  FlutterWebBrowser.openWebPage(
+                      url: "${widget.articleUrl}",
+                      androidToolbarColor: Colors.indigo);
+                },
+                child: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Open page"),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Icon(
+                        Icons.launch,
+                        color: Colors.grey,
+                        size: 20,
+                      ),
+                    ],
                   ),
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

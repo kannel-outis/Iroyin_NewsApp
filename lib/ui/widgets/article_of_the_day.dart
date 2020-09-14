@@ -3,6 +3,7 @@ import 'package:NewsApp_Chingu/ui/const/color.dart';
 import 'package:NewsApp_Chingu/ui/const/cutter.dart';
 import 'package:NewsApp_Chingu/ui/pages/favorites/favorite_model.dart';
 import 'package:NewsApp_Chingu/ui/pages/home/news_model_structure.dart';
+import 'package:NewsApp_Chingu/ui/responsive_conditions/responsive_conditions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
@@ -17,8 +18,8 @@ class ArticleOfTheDay extends StatelessWidget {
   const ArticleOfTheDay(this.favoriteBox, this.index, this.articles, {Key key})
       : super(key: key);
 
-  Widget checkIfNull(
-      List<Article> articles, BuildContext context, Box<Favorite> favoriteBox) {
+  Widget checkIfNull(List<Article> articles, BuildContext context,
+      Box<Favorite> favoriteBox, double deviceHeight) {
     if (articles != null) {
       return Column(
         children: [
@@ -40,7 +41,7 @@ class ArticleOfTheDay extends StatelessWidget {
               child: Stack(
                 children: [
                   Container(
-                    width: MediaQuery.of(context).size.height / 2,
+                    width: deviceHeight / 2,
                     child: Hero(
                       tag: index,
                       child: FadeInImage(
@@ -54,14 +55,19 @@ class ArticleOfTheDay extends StatelessWidget {
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: Container(
-                      height: 50,
+                      height: ResponsiveConditions
+                          .articleOfTheDayTitlePlateHeight, //plate height
                       width: double.infinity,
                       color: Colors.black.withOpacity(0.5),
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
                           "${articles[index].articleTitle}",
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: ResponsiveConditions
+                                .articleOfTheDayArticleTitleFontSize,
+                          ),
                         ),
                       ),
                     ),
@@ -80,7 +86,8 @@ class ArticleOfTheDay extends StatelessWidget {
                   "${articleAuthor(index, articles)}",
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 18,
+                    fontSize: ResponsiveConditions
+                        .articleOfTheDayArticleAuthorFontSize,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -94,6 +101,7 @@ class ArticleOfTheDay extends StatelessWidget {
                       ),
                       disabledColor: Colors.grey,
                       onPressed: () {
+                        ///articleOfTheDay viewModel
                         Favorite favorite = Favorite(
                             favoriteAuthor: articles[index].articleAuthor,
                             favoriteContent: articles[index].articleContent,
@@ -111,14 +119,14 @@ class ArticleOfTheDay extends StatelessWidget {
                         });
                       },
                     ),
-                    IconButton(
-                      icon: Icon(
-                        Icons.bookmark,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                      onPressed: () {},
-                    ),
+                    // IconButton(
+                    //   icon: Icon(
+                    //     Icons.bookmark,
+                    //     color: Colors.white,
+                    //     size: 20,
+                    //   ),
+                    //   onPressed: () {},
+                    // ),
                     IconButton(
                       icon: Icon(
                         FontAwesome5.share,
@@ -146,8 +154,11 @@ class ArticleOfTheDay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var deviceHeight = MediaQuery.of(context).size.height;
+    ResponsiveConditions.articleOfTheDayParams(context);
     return Container(
-      height: MediaQuery.of(context).size.height * .36,
+      ///36
+      height: ResponsiveConditions.articleOfTheDayMainCardHeight,
       child: Container(
         child: Stack(
           alignment: Alignment.center,
@@ -184,7 +195,8 @@ class ArticleOfTheDay extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: constColor2,
                     ),
-                    child: checkIfNull(articles, context, favoriteBox)),
+                    child: checkIfNull(
+                        articles, context, favoriteBox, deviceHeight)),
               ),
             ),
           ],

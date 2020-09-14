@@ -1,4 +1,5 @@
 import 'package:NewsApp_Chingu/app/routes/route_generator.gr.dart';
+import 'package:NewsApp_Chingu/ui/const/cutter.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -22,12 +23,12 @@ class ListViewTile extends StatelessWidget {
       this.articles})
       : super(key: key);
 
-  String get titleTitle {
-    if (title == null) {
-      return "Unknown";
-    }
-    return title;
-  }
+  // String get titleTitle {
+  //   if (title == null) {
+  //     return "Unknown";
+  //   }
+  //   return title;
+  // }
 
   String get sourceSource {
     if (source == null) {
@@ -38,6 +39,7 @@ class ListViewTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var deviceHeight = MediaQuery.of(context).size.height;
     return Container(
         height: MediaQuery.of(context).size.height * .137,
         child: GestureDetector(
@@ -69,11 +71,12 @@ class ListViewTile extends StatelessWidget {
                   width: 20,
                 ),
                 Expanded(
+                  flex: deviceHeight <= 600 ? 2 : 1,
                   child: Container(
                     width: 180,
                     child: Text(
-                      "${titleTitle.length > 65 ? titleTitle.replaceRange(66, titleTitle.length, "...") : titleTitle}",
-                      style: TextStyle(),
+                      allArticleTitleCutter(tag, title, context),
+                      style: TextStyle(fontSize: deviceHeight <= 600 ? 13 : 15),
                     ),
                   ),
                 ),
@@ -87,7 +90,10 @@ class ListViewTile extends StatelessWidget {
                       Center(
                           child: Text(
                         "$timePublished",
-                        style: TextStyle(fontWeight: FontWeight.w500),
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 10,
+                        ),
                       )),
                       Container(
                         margin: EdgeInsets.only(right: 10),
@@ -98,8 +104,9 @@ class ListViewTile extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               Text(
-                                "${sourceSource.length > 15 ? sourceSource.replaceRange(16, sourceSource.length, "...") : sourceSource}",
-                                style: TextStyle(fontWeight: FontWeight.bold),
+                                allArticleSourceCutter(tag, source, context),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 10),
                               ),
                             ],
                           ),

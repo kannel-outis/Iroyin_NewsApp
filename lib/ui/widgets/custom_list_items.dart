@@ -1,6 +1,8 @@
 import 'package:NewsApp_Chingu/ui/const/color.dart';
 import 'package:NewsApp_Chingu/ui/const/cutter.dart';
 import 'package:NewsApp_Chingu/ui/pages/home/news_model_structure.dart';
+import 'package:NewsApp_Chingu/ui/responsive_conditions/responsive_conditions.dart';
+// import 'package:NewsApp_Chingu/ui/widgets/responsive_widgets/custom_list_item_responsize.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -13,15 +15,16 @@ class CustomListItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // var deviceHeight = MediaQuery.of(context).size.height;
+    // var deviceWidth = MediaQuery.of(context).size.width;
+    ResponsiveConditions.customListParams(context);
     return Container(
       margin: EdgeInsets.only(right: 20),
-      //TODO: make width media
-      width: MediaQuery.of(context).size.width - 231,
+      width: ResponsiveConditions.customListResponsiveDeviceWidth,
       height: MediaQuery.of(context).size.height * .26,
       child: Column(
         children: [
           Container(
-            //TODO: qmake height media rebuilding
             height: MediaQuery.of(context).size.height * .149,
             width: double.infinity,
             decoration: BoxDecoration(
@@ -42,17 +45,19 @@ class CustomListItems extends StatelessWidget {
             ),
           ),
           Container(
-            height: MediaQuery.of(context).size.height * .101,
+            height: ResponsiveConditions.customListItemResponsiveDeviceHeight,
             color: constColor2,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: AutoSizeText("${articleTitle(index, articles)}",
-                      maxLines: 2,
-                      maxFontSize: 13,
-                      style: TextStyle(fontSize: 13, color: Colors.white)),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10.0, vertical: 7),
+                  child: AutoSizeText(
+                      "${articleTitle(index, articles, context)}",
+                      style: TextStyle(
+                          fontSize: ResponsiveConditions.customListFontSize,
+                          color: Colors.white)),
                 ),
                 Align(
                   alignment: Alignment.bottomRight,
@@ -61,7 +66,9 @@ class CustomListItems extends StatelessWidget {
                     child: Text(
                       "${articleAuthor(index, articles)}",
                       style: TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.bold),
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: ResponsiveConditions.customListFontSize),
                     ),
                   ),
                 ),
@@ -71,7 +78,6 @@ class CustomListItems extends StatelessWidget {
         ],
       ),
     );
+    // : CustomListItemResponsive(articles, index);
   }
 }
-
-Widget customListItems(List<Article> articles, int index) {}

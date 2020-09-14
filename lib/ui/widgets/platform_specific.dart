@@ -49,7 +49,7 @@ class PlatformSpec {
               child: Text(value),
               value: value,
             );
-          }).toList(),
+          }).toList(), 
           onChanged: (String value) {
             selectSide(value);
           });

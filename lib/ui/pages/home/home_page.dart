@@ -37,6 +37,8 @@ class _MyHomePageState extends State<MyHomePage> {
     return ViewModelBuilder<HomeViewModel>.reactive(
         viewModelBuilder: () => HomeViewModel(),
         builder: (context, model, child) {
+          var deviceHeight = MediaQuery.of(context).size.height;
+          var deviceWidth = MediaQuery.of(context).size.width;
           return ConnectivityWidgetWrapper(
             child: buildScaffold(
               context,
@@ -44,17 +46,22 @@ class _MyHomePageState extends State<MyHomePage> {
               model,
               _formKey,
               _scaffoldKey,
+              deviceHeight,
+              deviceWidth,
             ),
           );
         });
   }
 
   Scaffold buildScaffold(
-      BuildContext context,
-      List<Article> articles,
-      HomeViewModel model,
-      GlobalKey<FormState> formKey,
-      GlobalKey<ScaffoldState> scaffoldKey) {
+    BuildContext context,
+    List<Article> articles,
+    HomeViewModel model,
+    GlobalKey<FormState> formKey,
+    GlobalKey<ScaffoldState> scaffoldKey,
+    double deviceHeight,
+    double deviceWidth,
+  ) {
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
@@ -121,188 +128,184 @@ class _MyHomePageState extends State<MyHomePage> {
         child: RefreshIndicator(
           displacement: 5.0,
           onRefresh: model.articleList,
-          child: SingleChildScrollView(
-            child: Column(
-              // shrinkWrap: true,
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 25),
-                  child: Container(
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height:
-                              (MediaQuery.of(context).size.height * .9) / 40,
-                        ),
-                        Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Icon(
-                                Icons.search,
-                                size: 30,
-                              ),
-                              SizedBox(
-                                width:
-                                    (MediaQuery.of(context).size.width * .9) /
-                                        34,
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width - 130,
-                                child: Form(
-                                  key: formKey,
-                                  child: TextFormField(
-                                    controller: controller,
-                                    textInputAction: TextInputAction.search,
-                                    enableSuggestions: true,
-                                    cursorColor: fieldcolor,
-                                    style: TextStyle(fontSize: 23),
-                                    decoration: InputDecoration(
-                                      hintText: "Search",
-                                      hintStyle: TextStyle(
-                                        color: Color(0xFFbababa),
-                                      ),
-                                      contentPadding:
-                                          EdgeInsets.only(bottom: -15, left: 5),
-                                      focusColor: fieldcolor,
-                                      focusedBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                            color: fieldcolor,
-                                            style: BorderStyle.solid),
-                                      ),
-                                    ),
-                                    validator: (String value) {
-                                      if (value.length == 0) {
-                                        return "Field Cant be empty";
-                                      }
-                                      return null;
-                                    },
-                                    onFieldSubmitted: (String value) {
-                                      if (formKey.currentState.validate()) {
-                                        model
-                                            .getsearchedList(controller.text)
-                                            .then((value) {
-                                          if (value.length != 0) {
-                                            Navigator.of(context).pushNamed(
-                                                Routes.searchResultPage,
-                                                arguments:
-                                                    SearchResultPageArguments(
-                                                  searchedlist: value,
-                                                  searchedquery:
-                                                      controller.text,
-                                                ));
-                                            model.isSearchingToFalse = false;
-                                            controller.clear();
-                                          } else if (value.length == 0) {
-                                            model.isSearchingToFalse = false;
-                                            scaffoldKey.currentState
-                                                .showSnackBar(SnackBar(
-                                              content: Text("No results found"),
-                                            ));
-                                          }
-                                        });
-                                      }
-                                    },
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height:
-                              (MediaQuery.of(context).size.height * .9) / 40,
-                        ),
-                        Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Articles",
-                                style: TextStyle(fontSize: 17),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context).pushNamed(
-                                      Routes.allArticlesPage,
-                                      arguments: AllArticlesPageArguments(
-                                          articles: model.articles));
-                                },
-                                child: Text(
-                                  "All Articles",
+          child: ListView(
+            shrinkWrap: true,
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 25),
+                child: Container(
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: (deviceHeight * .9) /
+                            (deviceHeight <= 600 ? 70 : 40),
+                      ),
+                      Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Icon(
+                              Icons.search,
+                              size: 30,
+                            ),
+                            SizedBox(
+                              width: (deviceWidth * .9) / 34,
+                            ),
+                            Container(
+                              width: deviceWidth - 130,
+                              child: Form(
+                                key: formKey,
+                                child: TextFormField(
+                                  controller: controller,
+                                  textInputAction: TextInputAction.search,
+                                  enableSuggestions: true,
+                                  cursorColor: fieldcolor,
                                   style: TextStyle(
-                                      color: Color(0xFF3e9feb), fontSize: 17),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                        SizedBox(
-                          height:
-                              (MediaQuery.of(context).size.height * .9) / 40,
-                        ),
-                        Container(
-                          // height: 802 * .26,
-                          height: MediaQuery.of(context).size.height * .26,
-                          child: articles != null
-                              ? ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  itemCount: 10,
-                                  shrinkWrap: true,
-                                  itemBuilder: (context, index) {
-                                    return GestureDetector(
-                                      onTap: () {
-                                        Navigator.of(context).pushNamed(
-                                          Routes.detailsPage,
-                                          arguments: DetailsPageArguments(
-                                            index: index,
-                                            articleAuthor:
-                                                articles[index].articleAuthor,
-                                            articleContent:
-                                                articles[index].articleContent,
-                                            articleDescription: articles[index]
-                                                .articleDescription,
-                                            articlePublishedAT: articles[index]
-                                                .articlePublishedAT,
-                                            articleTitle:
-                                                articles[index].articleTitle,
-                                            articleUrl:
-                                                articles[index].articleUrl,
-                                            articleUrlToImage: articles[index]
-                                                .articleUrlToImage,
-                                          ),
-                                        );
-                                      },
-                                      child: CustomListItems(
-                                          articles: articles, index: index),
-                                    );
+                                      fontSize: deviceHeight <= 600 ? 18 : 23),
+                                  decoration: InputDecoration(
+                                    hintText: "Search",
+                                    hintStyle: TextStyle(
+                                      color: Color(0xFFbababa),
+                                    ),
+                                    contentPadding:
+                                        EdgeInsets.only(bottom: -15, left: 5),
+                                    focusColor: fieldcolor,
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: fieldcolor,
+                                          style: BorderStyle.solid),
+                                    ),
+                                  ),
+                                  validator: (String value) {
+                                    if (value.length == 0) {
+                                      return "Field Cant be empty";
+                                    }
+                                    return null;
                                   },
-                                )
-                              : Center(
-                                  child: CircularProgressIndicator(),
+                                  onFieldSubmitted: (String value) {
+                                    if (formKey.currentState.validate()) {
+                                      model
+                                          .getsearchedList(controller.text)
+                                          .then((value) {
+                                        if (value.length != 0) {
+                                          Navigator.of(context).pushNamed(
+                                              Routes.searchResultPage,
+                                              arguments:
+                                                  SearchResultPageArguments(
+                                                searchedlist: value,
+                                                searchedquery: controller.text,
+                                              ));
+                                          model.isSearchingToFalse = false;
+                                          controller.clear();
+                                        } else if (value.length == 0) {
+                                          model.isSearchingToFalse = false;
+                                          scaffoldKey.currentState
+                                              .showSnackBar(SnackBar(
+                                            content: Text("No results found"),
+                                          ));
+                                        }
+                                      });
+                                    }
+                                  },
                                 ),
-                        ),
-                        SizedBox(
-                            height:
-                                (MediaQuery.of(context).size.height * .9) / 20),
-                        Row(
-                          children: <Widget>[
-                            Text(
-                              "Article of the day",
-                              style: TextStyle(
-                                fontSize: 23,
                               ),
                             ),
                           ],
                         ),
-                        ArticleOfTheDay(favoriteBox, randomIndex, articles),
-                      ],
-                    ),
+                      ),
+                      SizedBox(
+                        height: (deviceHeight * .9) /
+                            (deviceHeight <= 600 ? 45 : 40),
+                      ),
+                      Container(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              "Articles",
+                              style: TextStyle(fontSize: 17),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).pushNamed(
+                                    Routes.allArticlesPage,
+                                    arguments: AllArticlesPageArguments(
+                                        articles: model.articles));
+                              },
+                              child: Text(
+                                "All Articles",
+                                style: TextStyle(
+                                    color: Color(0xFF3e9feb), fontSize: 17),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: (deviceHeight * .9) / 40,
+                      ),
+                      Container(
+                        // height: 802 * .26,
+                        height: deviceHeight * .26,
+                        color: Colors.pink,
+                        child: articles != null
+                            ? ListView.builder(
+                                scrollDirection: Axis.horizontal,
+                                itemCount: 10,
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) {
+                                  return GestureDetector(
+                                    onTap: () {
+                                      Navigator.of(context).pushNamed(
+                                        Routes.detailsPage,
+                                        arguments: DetailsPageArguments(
+                                          index: index,
+                                          articleAuthor:
+                                              articles[index].articleAuthor,
+                                          articleContent:
+                                              articles[index].articleContent,
+                                          articleDescription: articles[index]
+                                              .articleDescription,
+                                          articlePublishedAT: articles[index]
+                                              .articlePublishedAT,
+                                          articleTitle:
+                                              articles[index].articleTitle,
+                                          articleUrl:
+                                              articles[index].articleUrl,
+                                          articleUrlToImage:
+                                              articles[index].articleUrlToImage,
+                                        ),
+                                      );
+                                    },
+                                    child: CustomListItems(
+                                        articles: articles, index: index),
+                                  );
+                                },
+                              )
+                            : Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                      ),
+                      SizedBox(
+                          height: (deviceHeight * .9) /
+                              (deviceHeight <= 600 ? 30 : 20)),
+                      Row(
+                        children: <Widget>[
+                          Text(
+                            "Article of the day",
+                            style: TextStyle(
+                              fontSize: deviceHeight <= 600 ? 18 : 23,
+                            ),
+                          ),
+                        ],
+                      ),
+                      ArticleOfTheDay(favoriteBox, randomIndex, articles),
+                    ],
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

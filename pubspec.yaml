@@ -26,6 +26,7 @@ dependencies:
   # /////////
   auto_size_text: ^2.1.0
   flutter_dotenv: ^2.1.0
+  device_preview: ^0.4.8
 
 dev_dependencies:
   flutter_test:
@@ -43,3 +44,4 @@ flutter:
   assets:
     - assets/
     - myApiKey.env
+

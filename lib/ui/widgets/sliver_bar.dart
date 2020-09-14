@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 class SliverAppBarWidget extends StatelessWidget {
   final String author;
   final String imageUrl;
-  final Widget child;
+  final List<Widget> children;
   final Widget iconChild;
 
   const SliverAppBarWidget(
-      {Key key, this.author, this.imageUrl, this.child, this.iconChild})
+      {Key key, this.author, this.imageUrl, this.children, this.iconChild})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -30,11 +30,12 @@ class SliverAppBarWidget extends StatelessWidget {
             ),
           ),
         ),
-        SliverFillRemaining(
-          child: child,
-          hasScrollBody: true,
-          fillOverscroll: true,
-        ),
+        SliverList(delegate: SliverChildListDelegate(children)),
+        // SliverFillRemaining(
+        //   child: child,
+        //   hasScrollBody: true,
+        //   fillOverscroll: true,
+        // ),
       ],
     );
   }

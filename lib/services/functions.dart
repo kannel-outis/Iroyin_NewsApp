@@ -30,6 +30,7 @@ class Functions extends WebServiceApi {
           Article article = Article.fromJson(element);
           articles.add(article);
         });
+        print(articles[36]);
       } else {
         print(response.data);
       }

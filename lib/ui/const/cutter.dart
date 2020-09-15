@@ -62,7 +62,7 @@ String allArticleTitleCutter(int index, String article, BuildContext context) {
     return article.length > 40
         ? article.replaceRange(41, article.length, "...")
         : article;
-  } else if (MediaQuery.of(context).size.height > 600) {
+  } else if (MediaQuery.of(context).size.width > 600) {
     return article;
   }
   return article.length > 65
@@ -79,7 +79,7 @@ String allArticleSourceCutter(int index, String source, BuildContext context) {
         ? source.replaceRange(7, source.length, "...")
         : source;
   }
-  return source.length > 15
+  return source.length > 11
       ? source.replaceRange(10, source.length, "...")
       : source;
 }

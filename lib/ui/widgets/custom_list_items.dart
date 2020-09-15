@@ -2,8 +2,6 @@ import 'package:NewsApp_Chingu/ui/const/color.dart';
 import 'package:NewsApp_Chingu/ui/const/cutter.dart';
 import 'package:NewsApp_Chingu/ui/pages/home/news_model_structure.dart';
 import 'package:NewsApp_Chingu/ui/responsive_conditions/responsive_conditions.dart';
-// import 'package:NewsApp_Chingu/ui/widgets/responsive_widgets/custom_list_item_responsize.dart';
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -51,8 +49,7 @@ class CustomListItems extends StatelessWidget {
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 10.0, vertical: 7),
-                  child: AutoSizeText(
-                      "${articleTitle(index, articles, context)}",
+                  child: Text("${articleTitle(index, articles, context)}",
                       style: TextStyle(
                           fontSize: ResponsiveConditions.customListFontSize,
                           color: Colors.white)),

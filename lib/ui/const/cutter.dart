@@ -6,7 +6,11 @@ String articleAuthor(int index, List<Article> articles, BuildContext context) {
     return "Unknown Source";
   } else if (MediaQuery.of(context).size.shortestSide >= 600 &&
       MediaQuery.of(context).size.shortestSide <= 800) {
-    return articles[index].articleAuthor;
+    return articles[index].articleAuthor.length > 40
+        ? articles[index]
+            .articleAuthor
+            .replaceRange(41, articles[index].articleAuthor.length, "...")
+        : articles[index].articleAuthor;
   }
 
   return articles[index].articleAuthor.length > 15

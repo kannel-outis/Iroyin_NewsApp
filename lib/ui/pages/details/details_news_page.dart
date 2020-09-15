@@ -73,7 +73,11 @@ class _DetailsPageState extends State<DetailsPage> {
               Expanded(
                 child: Text(
                   "${widget.articleTitle ?? "Unknown"}".toUpperCase(),
-                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 25),
+                  style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      fontSize: MediaQuery.of(context).size.shortestSide > 700
+                          ? 35
+                          : 25),
                 ),
               ),
             ],
@@ -84,7 +88,11 @@ class _DetailsPageState extends State<DetailsPage> {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 "${widget.articlePublishedAT.substring(0, 10)}",
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: MediaQuery.of(context).size.shortestSide > 700
+                        ? 20
+                        : 15),
               ),
             ),
           ),
@@ -97,7 +105,9 @@ class _DetailsPageState extends State<DetailsPage> {
               style: TextStyle(
                   color: (widget.articleContent == null)
                       ? Colors.red
-                      : Colors.black),
+                      : Colors.black,
+                  fontSize:
+                      MediaQuery.of(context).size.shortestSide > 700 ? 25 : 15),
             ),
           ),
           SizedBox(height: MediaQuery.of(context).size.width * .5),

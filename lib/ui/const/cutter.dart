@@ -1,9 +1,12 @@
 import 'package:NewsApp_Chingu/ui/pages/home/news_model_structure.dart';
 import 'package:flutter/cupertino.dart';
 
-String articleAuthor(int index, List<Article> articles) {
+String articleAuthor(int index, List<Article> articles, BuildContext context) {
   if (articles[index].articleAuthor == null) {
     return "Unknown Source";
+  } else if (MediaQuery.of(context).size.shortestSide >= 600 &&
+      MediaQuery.of(context).size.shortestSide <= 800) {
+    return articles[index].articleAuthor;
   }
 
   return articles[index].articleAuthor.length > 15
@@ -30,6 +33,13 @@ String articleTitle(int index, List<Article> articles, BuildContext context) {
             .articleTitle
             .replaceRange(41, articles[index].articleTitle.length, "...")
         : articles[index].articleTitle;
+  } else if (MediaQuery.of(context).size.shortestSide >= 600 &&
+      MediaQuery.of(context).size.shortestSide <= 800) {
+    return articles[index].articleTitle.length > 90
+        ? articles[index]
+            .articleTitle
+            .replaceRange(91, articles[index].articleTitle.length, "...")
+        : articles[index].articleTitle;
   }
   return articles[index].articleTitle.length > 50
       ? articles[index]
@@ -40,7 +50,6 @@ String articleTitle(int index, List<Article> articles, BuildContext context) {
 
 /////////////////////////////////
 ///allArticleCutter
-//TODO: search problem arthor getter error
 String allArticleTitleCutter(int index, String article, BuildContext context) {
   if (article == null) {
     return "Unknown";
@@ -49,6 +58,8 @@ String allArticleTitleCutter(int index, String article, BuildContext context) {
     return article.length > 40
         ? article.replaceRange(41, article.length, "...")
         : article;
+  } else if (MediaQuery.of(context).size.height > 600) {
+    return article;
   }
   return article.length > 65
       ? article.replaceRange(66, article.length, "...")

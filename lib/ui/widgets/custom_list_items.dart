@@ -15,8 +15,6 @@ class CustomListItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // var deviceHeight = MediaQuery.of(context).size.height;
-    // var deviceWidth = MediaQuery.of(context).size.width;
     ResponsiveConditions.customListParams(context);
     return Container(
       margin: EdgeInsets.only(right: 20),
@@ -64,7 +62,7 @@ class CustomListItems extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.only(right: 8.0),
                     child: Text(
-                      "${articleAuthor(index, articles)}",
+                      "${articleAuthor(index, articles, context)}",
                       style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -78,6 +76,5 @@ class CustomListItems extends StatelessWidget {
         ],
       ),
     );
-    // : CustomListItemResponsive(articles, index);
   }
 }

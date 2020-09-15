@@ -1,5 +1,6 @@
 import 'package:NewsApp_Chingu/app/routes/route_generator.gr.dart';
 import 'package:NewsApp_Chingu/ui/const/cutter.dart';
+import 'package:NewsApp_Chingu/ui/responsive_conditions/responsive_conditions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -23,23 +24,9 @@ class ListViewTile extends StatelessWidget {
       this.articles})
       : super(key: key);
 
-  // String get titleTitle {
-  //   if (title == null) {
-  //     return "Unknown";
-  //   }
-  //   return title;
-  // }
-
-  String get sourceSource {
-    if (source == null) {
-      return "Unknown";
-    }
-    return source;
-  }
-
   @override
   Widget build(BuildContext context) {
-    var deviceHeight = MediaQuery.of(context).size.height;
+    ResponsiveConditions.allArticlesPageParams(context);
     return Container(
         height: MediaQuery.of(context).size.height * .137,
         child: GestureDetector(
@@ -58,8 +45,10 @@ class ListViewTile extends StatelessWidget {
                 Hero(
                   tag: tag,
                   child: Container(
-                    height: 60,
-                    width: 60,
+                    height:
+                        ResponsiveConditions.allArticlesListViewTileImageSize,
+                    width:
+                        ResponsiveConditions.allArticlesListViewTileImageSize,
                     child: FadeInImage(
                       fit: BoxFit.fill,
                       placeholder: AssetImage("assets/placeHolderImage.png"),
@@ -71,12 +60,14 @@ class ListViewTile extends StatelessWidget {
                   width: 20,
                 ),
                 Expanded(
-                  flex: deviceHeight <= 600 ? 2 : 1,
+                  flex: 2,
                   child: Container(
                     width: 180,
                     child: Text(
                       allArticleTitleCutter(tag, title, context),
-                      style: TextStyle(fontSize: deviceHeight <= 600 ? 13 : 15),
+                      style: TextStyle(
+                          fontSize: ResponsiveConditions
+                              .allArticlesListViewTileTitleFontSize),
                     ),
                   ),
                 ),
@@ -92,13 +83,13 @@ class ListViewTile extends StatelessWidget {
                         "$timePublished",
                         style: TextStyle(
                           fontWeight: FontWeight.w500,
-                          fontSize: 10,
+                          fontSize: ResponsiveConditions
+                              .allArticlesListViewTileSourceAndTimeFontSize,
                         ),
                       )),
                       Container(
                         margin: EdgeInsets.only(right: 10),
                         child: Container(
-                          // color: Colors.blue,
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.end,
@@ -106,7 +97,9 @@ class ListViewTile extends StatelessWidget {
                               Text(
                                 allArticleSourceCutter(tag, source, context),
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 10),
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: ResponsiveConditions
+                                        .allArticlesListViewTileSourceAndTimeFontSize),
                               ),
                             ],
                           ),

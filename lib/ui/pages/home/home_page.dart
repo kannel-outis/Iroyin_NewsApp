@@ -246,9 +246,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         height: (deviceHeight * .9) / 40,
                       ),
                       Container(
-                        // height: 802 * .26,
                         height: deviceHeight * .26,
-                        color: Colors.pink,
                         child: articles != null
                             ? ListView.builder(
                                 scrollDirection: Axis.horizontal,

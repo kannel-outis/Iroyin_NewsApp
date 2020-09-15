@@ -7,9 +7,15 @@ class SliverAppBarWidget extends StatelessWidget {
   final String imageUrl;
   final List<Widget> children;
   final Widget iconChild;
+  final int tag;
 
   const SliverAppBarWidget(
-      {Key key, this.author, this.imageUrl, this.children, this.iconChild})
+      {Key key,
+      this.author,
+      this.imageUrl,
+      this.children,
+      this.iconChild,
+      @required this.tag})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -31,11 +37,6 @@ class SliverAppBarWidget extends StatelessWidget {
           ),
         ),
         SliverList(delegate: SliverChildListDelegate(children)),
-        // SliverFillRemaining(
-        //   child: child,
-        //   hasScrollBody: true,
-        //   fillOverscroll: true,
-        // ),
       ],
     );
   }

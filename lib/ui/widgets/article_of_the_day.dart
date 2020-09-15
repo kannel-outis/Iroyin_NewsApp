@@ -42,14 +42,11 @@ class ArticleOfTheDay extends StatelessWidget {
                 children: [
                   Container(
                     width: deviceHeight / 2,
-                    child: Hero(
-                      tag: index,
-                      child: FadeInImage(
-                        fit: BoxFit.cover,
-                        placeholder: AssetImage("assets/placeHolderImage.png"),
-                        image: CachedNetworkImageProvider(
-                            "${articles[index].articleUrlToImage}"),
-                      ),
+                    child: FadeInImage(
+                      fit: BoxFit.cover,
+                      placeholder: AssetImage("assets/placeHolderImage.png"),
+                      image: CachedNetworkImageProvider(
+                          "${articles[index].articleUrlToImage}"),
                     ),
                   ),
                   Align(
@@ -83,7 +80,7 @@ class ArticleOfTheDay extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 Text(
-                  "${articleAuthor(index, articles)}",
+                  "${articleAuthor(index, articles, context)}",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: ResponsiveConditions
@@ -101,7 +98,6 @@ class ArticleOfTheDay extends StatelessWidget {
                       ),
                       disabledColor: Colors.grey,
                       onPressed: () {
-                        ///articleOfTheDay viewModel
                         Favorite favorite = Favorite(
                             favoriteAuthor: articles[index].articleAuthor,
                             favoriteContent: articles[index].articleContent,
@@ -119,14 +115,6 @@ class ArticleOfTheDay extends StatelessWidget {
                         });
                       },
                     ),
-                    // IconButton(
-                    //   icon: Icon(
-                    //     Icons.bookmark,
-                    //     color: Colors.white,
-                    //     size: 20,
-                    //   ),
-                    //   onPressed: () {},
-                    // ),
                     IconButton(
                       icon: Icon(
                         FontAwesome5.share,
@@ -157,7 +145,6 @@ class ArticleOfTheDay extends StatelessWidget {
     var deviceHeight = MediaQuery.of(context).size.height;
     ResponsiveConditions.articleOfTheDayParams(context);
     return Container(
-      ///36
       height: ResponsiveConditions.articleOfTheDayMainCardHeight,
       child: Container(
         child: Stack(
@@ -205,5 +192,3 @@ class ArticleOfTheDay extends StatelessWidget {
     );
   }
 }
-
-// height: MediaQuery.of(context).size.height - 550,

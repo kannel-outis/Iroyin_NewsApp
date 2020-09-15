@@ -12,7 +12,6 @@ abstract class WebServiceApi {
 }
 
 class Functions extends WebServiceApi {
-  // final DotEnv dotEnv = DotEnv();
   static final String apiKey = DotEnv().env['apiKey'];
 
   String dateTimeAsString = DateTime.now().toString().substring(0, 10);
@@ -30,13 +29,8 @@ class Functions extends WebServiceApi {
           Article article = Article.fromJson(element);
           articles.add(article);
         });
-        print(articles[36]);
-      } else {
-        print(response.data);
-      }
-    } catch (e) {
-      print(e.toString());
-    }
+      } else {}
+    } catch (e) {}
 
     return articles;
   }
@@ -56,13 +50,9 @@ class Functions extends WebServiceApi {
             final Search articleReceived = Search.fromJson(article);
             searchedList.add(articleReceived);
           }
-        } else {
-          print(response.data);
-        }
+        } else {}
       });
-    } catch (e) {
-      print(e.toString);
-    }
+    } catch (e) {}
     return searchedList;
   }
 
@@ -86,13 +76,9 @@ class Functions extends WebServiceApi {
             final Search articleReceived = Search.fromJson(article);
             searchedList.add(articleReceived);
           }
-        } else {
-          print(response.data);
-        }
+        } else {}
       });
-    } catch (e) {
-      print(e.toString);
-    }
+    } catch (e) {}
     return searchedList;
   }
 }

@@ -34,7 +34,6 @@ class AdvancedSearchViewModel extends BaseViewModel {
   void setPicker(DateTime dateTime) {
     if (dateTime != null) {
       _range = dateTime.toString().substring(0, 10);
-      print(_range);
       notifyListeners();
     }
   }
@@ -42,7 +41,6 @@ class AdvancedSearchViewModel extends BaseViewModel {
   void setPicker2(DateTime dateTime) {
     if (dateTime != null) {
       _range2 = dateTime.toString().substring(0, 10);
-      print(_range2);
       notifyListeners();
     }
   }

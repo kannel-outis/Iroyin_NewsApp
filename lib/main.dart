@@ -10,24 +10,13 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await ModelRepo().hiveInit();
   await DotEnv().load('myApiKey.env');
-  // getRoute();
   runApp(
     DevicePreview(
-      //made some silly changes
       enabled: !kReleaseMode,
       builder: (context) => MyApp(),
     ),
   );
 }
-
-// String _route;
-// getRoute() async {
-//   if (await ConnectivityWrapper.instance.isConnected) {
-//     return _route = Routes.myHomePage;
-//   } else {
-//     return _route = Routes.errorPage;
-//   }
-// }
 
 // ignore: must_be_immutable
 class MyApp extends StatelessWidget {

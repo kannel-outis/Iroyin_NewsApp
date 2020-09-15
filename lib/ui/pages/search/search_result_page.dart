@@ -27,7 +27,6 @@ class _SearchResultPageState extends State<SearchResultPage> {
 
   @override
   Widget build(BuildContext context) {
-    print(widget.searchedquery);
     return Scaffold(
       appBar: AppBar(
         title: Text("Results found on ${widget.searchedquery}"),

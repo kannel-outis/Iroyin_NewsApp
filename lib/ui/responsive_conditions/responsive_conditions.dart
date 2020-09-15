@@ -77,9 +77,11 @@ class ResponsiveConditions {
     if (deviceHeight <= 600) {
       allArticlesListViewTileTitleFontSize = 13;
       allArticlesListViewTileSourceAndTimeFontSize = 10;
+      allArticlesListViewTileImageSize = 60;
     } else if (deviceHeight > 600 && deviceHeight < 800) {
       allArticlesListViewTileTitleFontSize = 13;
       allArticlesListViewTileSourceAndTimeFontSize = 10;
+      allArticlesListViewTileImageSize = 60;
     } else if (deviceWidth >= 600) {
       allArticlesListViewTileImageSize = 80;
       allArticlesListViewTileTitleFontSize = 20;

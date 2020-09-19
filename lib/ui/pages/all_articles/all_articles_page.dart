@@ -1,4 +1,4 @@
-import 'package:NewsApp_Chingu/app/routes/route_generator.gr.dart';
+import 'package:NewsApp_Chingu/app/enums/enums.dart';
 import 'package:NewsApp_Chingu/ui/const/color.dart';
 import 'package:NewsApp_Chingu/ui/pages/home/Home_viewModel.dart';
 import 'package:NewsApp_Chingu/ui/pages/home/news_model_structure.dart';
@@ -35,6 +35,9 @@ class _AllArticlesPageState extends State<AllArticlesPage> {
                         itemBuilder: (context, index) {
                           return ListViewTile(
                             articles: widget.articles,
+                            detailsPageArgsFor:
+                                DetailsPageArgsFor.detailsPageAllArticles,
+                            // index: index,
                             tag: index,
                             title: widget.articles[index].articleTitle,
                             timePublished: widget
@@ -42,23 +45,6 @@ class _AllArticlesPageState extends State<AllArticlesPage> {
                                 .substring(0, 10),
                             source: widget.articles[index].articleAuthor,
                             imageUrl: widget.articles[index].articleUrlToImage,
-                            arguments: DetailsPageArguments(
-                              articleAuthor:
-                                  widget.articles[index].articleAuthor,
-                              articleContent:
-                                  widget.articles[index].articleContent,
-                              articleDescription:
-                                  widget.articles[index].articleDescription,
-                              articlePublishedAT:
-                                  widget.articles[index].articlePublishedAT,
-                              articleTitle:
-                                  widget.articles[index].articleTitle ??
-                                      "No Title",
-                              articleUrl: widget.articles[index].articleUrl,
-                              articleUrlToImage:
-                                  widget.articles[index].articleUrlToImage,
-                              index: index,
-                            ),
                           );
                         }),
                   )

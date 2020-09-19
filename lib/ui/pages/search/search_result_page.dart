@@ -1,4 +1,4 @@
-import 'package:NewsApp_Chingu/app/routes/route_generator.gr.dart';
+import 'package:NewsApp_Chingu/app/enums/enums.dart';
 import 'package:NewsApp_Chingu/ui/pages/search/search.dart';
 import 'package:NewsApp_Chingu/ui/widgets/list_view_tile.dart';
 import 'package:flutter/material.dart';
@@ -42,21 +42,10 @@ class _SearchResultPageState extends State<SearchResultPage> {
                   imageUrl: widget.searchedlist[index].resultUrlToImage,
                   timePublished: widget.searchedlist[index].resultPublishedAT,
                   source: widget.searchedlist[index].resultAuthor,
-                  articles: widget.searchedlist,
+                  searchedList: widget.searchedlist,
                   tag: index,
-                  arguments: DetailsPageArguments(
-                    articleAuthor: widget.searchedlist[index].resultAuthor,
-                    articleContent: widget.searchedlist[index].resultContent,
-                    articleDescription:
-                        widget.searchedlist[index].resultDescription,
-                    articlePublishedAT:
-                        widget.searchedlist[index].resultPublishedAT,
-                    articleTitle: widget.searchedlist[index].resultTitle,
-                    articleUrl: widget.searchedlist[index].resultUrl,
-                    articleUrlToImage:
-                        widget.searchedlist[index].resultUrlToImage,
-                    index: index,
-                  ),
+                  detailsPageArgsFor:
+                      DetailsPageArgsFor.detailsPageSearchResults,
                 );
               }),
         ),

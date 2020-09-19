@@ -1,7 +1,9 @@
+import 'package:NewsApp_Chingu/app/enums/enums.dart';
 import 'package:NewsApp_Chingu/app/routes/route_generator.gr.dart';
 import 'package:NewsApp_Chingu/ui/const/color.dart';
 import 'package:NewsApp_Chingu/ui/const/cutter.dart';
 import 'package:NewsApp_Chingu/ui/pages/favorites/favorite_model.dart';
+import 'package:NewsApp_Chingu/ui/pages/home/Home_viewModel.dart';
 import 'package:NewsApp_Chingu/ui/pages/home/news_model_structure.dart';
 import 'package:NewsApp_Chingu/ui/responsive_conditions/responsive_conditions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -14,8 +16,10 @@ class ArticleOfTheDay extends StatelessWidget {
   final List<Article> articles;
   final Box<Favorite> favoriteBox;
   final int index;
+  final HomeViewModel model;
 
-  const ArticleOfTheDay(this.favoriteBox, this.index, this.articles, {Key key})
+  const ArticleOfTheDay(this.favoriteBox, this.index, this.articles, this.model,
+      {Key key})
       : super(key: key);
 
   Widget checkIfNull(List<Article> articles, BuildContext context,
@@ -26,17 +30,10 @@ class ArticleOfTheDay extends StatelessWidget {
           Expanded(
             child: GestureDetector(
               onTap: () {
-                Navigator.of(context).pushNamed(Routes.detailsPage,
-                    arguments: DetailsPageArguments(
-                      articleAuthor: articles[index].articleAuthor,
-                      articleContent: articles[index].articleContent,
-                      articleDescription: articles[index].articleDescription,
-                      articlePublishedAT: articles[index].articlePublishedAT,
-                      articleTitle: articles[index].articleTitle,
-                      articleUrl: articles[index].articleUrl,
-                      articleUrlToImage: articles[index].articleUrlToImage,
-                      index: index,
-                    ));
+                model.navigate(Routes.detailsPage,
+                    isSearch: false,
+                    index: index,
+                    detailsPageArgsFor: DetailsPageArgsFor.detailsPageHomepage);
               },
               child: Stack(
                 children: [
@@ -98,21 +95,11 @@ class ArticleOfTheDay extends StatelessWidget {
                       ),
                       disabledColor: Colors.grey,
                       onPressed: () {
-                        Favorite favorite = Favorite(
-                            favoriteAuthor: articles[index].articleAuthor,
-                            favoriteContent: articles[index].articleContent,
-                            favoriteDescription:
-                                articles[index].articleDescription,
-                            favoriteTitle: articles[index].articleTitle,
-                            favoritePublishedAT:
-                                articles[index].articlePublishedAT,
-                            favoriteUrl: articles[index].articleUrl,
-                            favoriteUrlToImage:
-                                articles[index].articleUrlToImage);
-                        favoriteBox.add(favorite).then((value) {
-                          Scaffold.of(context).showSnackBar(
-                              SnackBar(content: Text("added to favorites")));
-                        });
+                        model.addtoFav(
+                            index,
+                            favoriteBox,
+                            () => Scaffold.of(context).showSnackBar(
+                                SnackBar(content: Text("added to favorites"))));
                       },
                     ),
                     IconButton(

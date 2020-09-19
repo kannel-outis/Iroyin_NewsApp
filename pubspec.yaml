@@ -24,6 +24,7 @@ dependencies:
   stacked: ^1.7.6
   connectivity_wrapper: ^1.0.4
   flutter_dotenv: ^2.1.0
+  get_it: ^5.0.0
   # device_preview: ^0.4.8
 
 dev_dependencies:

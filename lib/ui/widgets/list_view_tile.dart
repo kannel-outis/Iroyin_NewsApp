@@ -1,5 +1,10 @@
+import 'package:NewsApp_Chingu/app/enums/enums.dart';
 import 'package:NewsApp_Chingu/app/routes/route_generator.gr.dart';
 import 'package:NewsApp_Chingu/ui/const/cutter.dart';
+import 'package:NewsApp_Chingu/ui/pages/favorites/favorite_model.dart';
+import 'package:NewsApp_Chingu/ui/pages/home/Home_viewModel.dart';
+import 'package:NewsApp_Chingu/ui/pages/home/news_model_structure.dart';
+import 'package:NewsApp_Chingu/ui/pages/search/search.dart';
 import 'package:NewsApp_Chingu/ui/responsive_conditions/responsive_conditions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -10,29 +15,41 @@ class ListViewTile extends StatelessWidget {
   final String timePublished;
   final String source;
   final int tag;
-  final List articles;
-  final Object arguments;
+  final List<Article> articles;
+  final List<Search> searchedList;
+  final DetailsPageArgsFor detailsPageArgsFor;
+  final Favorite fav;
 
   const ListViewTile(
       {this.tag,
       Key key,
-      @required this.arguments,
+      @required this.detailsPageArgsFor,
       @required this.title,
       @required this.imageUrl,
       @required this.timePublished,
       @required this.source,
+      this.searchedList,
+      this.fav,
       this.articles})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     ResponsiveConditions.allArticlesPageParams(context);
+    HomeViewModel model = HomeViewModel();
     return Container(
         height: MediaQuery.of(context).size.height * .137,
         child: GestureDetector(
           onTap: () {
-            Navigator.of(context)
-                .pushNamed(Routes.detailsPage, arguments: arguments);
+            model.navigate(
+              Routes.detailsPage,
+              detailsPageArgsFor: detailsPageArgsFor,
+              fav: fav,
+              searchedlist: searchedList,
+              articles: articles,
+              index: tag,
+              isSearch: false,
+            );
           },
           child: Card(
             elevation: 5,

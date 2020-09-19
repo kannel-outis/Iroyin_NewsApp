@@ -1,4 +1,3 @@
-import 'package:NewsApp_Chingu/app/routes/route_generator.gr.dart';
 import 'package:NewsApp_Chingu/services/utils/languages_and_sortBy.dart';
 import 'package:NewsApp_Chingu/ui/pages/advanced_search/advanced_search_viewModel.dart';
 import 'package:NewsApp_Chingu/ui/widgets/platform_specific.dart';
@@ -86,31 +85,12 @@ class _AdvancedSearchPageState extends State<AdvancedSearchPage> {
                   PlatformSpec.platFormButton(
                     text: "Search",
                     onPressed: () {
-                      model.setIsSearching = true;
-                      model
-                          .getAdvancedSearchedList(
-                        from: model.range,
-                        to: model.range2,
-                        lang: model.selectedLanguage,
-                        sortBy: model.sortBy,
+                      model.navigate(
                         query: controller.text,
-                      )
-                          .then(
-                        (value) {
-                          if (value.length != 0) {
-                            Navigator.of(context).pushNamed(
-                              Routes.searchResultPage,
-                              arguments: SearchResultPageArguments(
-                                searchedquery: controller.text,
-                                searchedlist: value,
-                              ),
-                            );
-                            model.setIsSearching = false;
-                          } else {
-                            _scaffoldKey.currentState.showSnackBar(
-                                SnackBar(content: Text("No Results")));
-                            model.setIsSearching = false;
-                          }
+                        snack: () {
+                          _scaffoldKey.currentState.showSnackBar(
+                              SnackBar(content: Text("No Results")));
+                          model.setIsSearching = false;
                         },
                       );
                     },

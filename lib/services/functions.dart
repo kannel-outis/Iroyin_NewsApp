@@ -12,7 +12,7 @@ abstract class WebServiceApi {
 }
 
 class Functions extends WebServiceApi {
-  static final String apiKey = DotEnv().env['apiKey'];
+  final String apiKey = DotEnv().env['apiKey'];
 
   String dateTimeAsString = DateTime.now().toString().substring(0, 10);
 

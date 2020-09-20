@@ -39,6 +39,8 @@ Then:
 ```
 6. Read a lot of News!!!
 
+PS: replace where it says apiKey with your api key. go to [newsApi](https://newsApi.org) to get an apiKey.Also remove the *await DotNet() line from main.dart and the apiKey variable from functions.dart
+
 ## Dependencies
 -  [cached_network_image](https://pub.dev/packages/cached_network_image)
 -  [flutter_web_browser](https://pub.dev/packages/flutter_web_browser)

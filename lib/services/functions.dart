@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:NewsApp_Chingu/ui/pages/home/news_model_structure.dart';
 import 'package:NewsApp_Chingu/ui/pages/search/search.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+// import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 abstract class WebServiceApi {
   Future<List<Article>> getNewsFromApi();
@@ -12,7 +12,8 @@ abstract class WebServiceApi {
 }
 
 class Functions extends WebServiceApi {
-  final String apiKey = DotEnv().env['apiKey'];
+  // final String apiKey = DotEnv().env['apiKey'];
+  final String apiKey = "a8afde170c67487fb748e3409714cf36";
 
   String dateTimeAsString = DateTime.now().toString().substring(0, 10);
 

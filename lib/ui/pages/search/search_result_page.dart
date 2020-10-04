@@ -14,16 +14,7 @@ class SearchResultPage extends StatefulWidget {
 }
 
 class _SearchResultPageState extends State<SearchResultPage> {
-  // String resultAuthor(int index, List<Search> articles) {
-  //   if (articles[index].resultAuthor == null) {
-  //     return "No Source";
-  //   }
-  //   return articles[index].resultAuthor.length > 13
-  //       ? articles[index]
-  //           .resultAuthor
-  //           .replaceRange(14, articles[index].resultAuthor.length, "...")
-  //       : articles[index].resultAuthor;
-  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

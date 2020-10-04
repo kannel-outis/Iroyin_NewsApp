@@ -1,8 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 
-import 'package:NewsApp_Chingu/ui/pages/home/news_model_structure.dart';
-import 'package:NewsApp_Chingu/ui/pages/search/search.dart';
-import 'package:dio/dio.dart';
+import '../../ui/pages/home/news_model_structure.dart';
+import '../../ui/pages/search/search.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 abstract class WebServiceApi {
@@ -12,7 +13,7 @@ abstract class WebServiceApi {
 }
 
 class Functions extends WebServiceApi {
-  static final String apiKey = DotEnv().env['apiKey'];
+  final String apiKey = DotEnv().env['apiKey'];
 
   String dateTimeAsString = DateTime.now().toString().substring(0, 10);
 
@@ -21,16 +22,16 @@ class Functions extends WebServiceApi {
     List<Article> articles = [];
 
     try {
-      Response<String> response = await Dio().get(
+      http.Response response = await http.get(
           "https://newsapi.org/v2/everything?q=politics&from=$dateTimeAsString&to=2020-08-19&sortBy=publishedAt&pageSize=100&apiKey=$apiKey");
       if (response.statusCode == 200) {
-        Map<String, dynamic> responseDecode = json.decode(response.data);
+        Map<String, dynamic> responseDecode = json.decode(response.body);
         responseDecode['articles'].forEach((element) {
           Article article = Article.fromJson(element);
           articles.add(article);
         });
       } else {}
-    } catch (e) {}
+    } on SocketException {}
 
     return articles;
   }
@@ -39,12 +40,12 @@ class Functions extends WebServiceApi {
   Future<List<Search>> getSearchedList({String query}) async {
     List<Search> searchedList = [];
     try {
-      await Dio()
-          .get<String>(
+      await http
+          .get(
               "https://newsapi.org/v2/everything?qInTitle=$query&from=$dateTimeAsString&to=2020-08-19&sortBy=popularity&pageSize=100&apiKey=$apiKey")
           .then((response) {
         if (response.statusCode == 200) {
-          var jsonDecode = json.decode(response.data);
+          var jsonDecode = json.decode(response.body);
           List jsonList = jsonDecode['articles'];
           for (var article in jsonList) {
             final Search articleReceived = Search.fromJson(article);
@@ -65,12 +66,12 @@ class Functions extends WebServiceApi {
       String lang}) async {
     List<Search> searchedList = [];
     try {
-      await Dio()
-          .get<String>(
+      await http
+          .get(
               "https://newsapi.org/v2/everything?qInTitle=$query&from=$from&to=$to&sortBy=$sortBy&pageSize=100&language=$lang&apiKey=$apiKey")
           .then((response) {
         if (response.statusCode == 200) {
-          var jsonDecode = json.decode(response.data);
+          var jsonDecode = json.decode(response.body);
           List jsonList = jsonDecode['articles'];
           for (var article in jsonList) {
             final Search articleReceived = Search.fromJson(article);

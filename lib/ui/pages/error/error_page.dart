@@ -1,5 +1,5 @@
-import 'package:NewsApp_Chingu/app/routes/route_generator.gr.dart';
-import 'package:NewsApp_Chingu/ui/const/color.dart';
+import '../../../app/routes/route_generator.gr.dart';
+import '../../../ui/const/color.dart';
 import 'package:connectivity_wrapper/connectivity_wrapper.dart';
 import 'package:flutter/material.dart';
 

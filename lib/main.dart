@@ -1,13 +1,16 @@
-import 'package:NewsApp_Chingu/ui/model_repo.dart';
+import './services/navigation_service/navigation_services.dart';
+import './ui/model_repo.dart';
 import 'package:connectivity_wrapper/connectivity_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'app/routes/route_generator.gr.dart';
+import 'app/locator/locator.dart';
+import 'app/routes/route_generator.gr.dart' as routes;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await ModelRepo().hiveInit();
   await DotEnv().load('myApiKey.env');
+  setupLocator();
   runApp(
     MyApp(),
   );
@@ -25,8 +28,9 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.indigo,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        initialRoute: Routes.myHomePage,
-        onGenerateRoute: Router().onGenerateRoute,
+        navigatorKey: locator<NavigationService>().navigatorKey,
+        initialRoute: routes.Routes.myHomePage,
+        onGenerateRoute: routes.Router().onGenerateRoute,
       ),
     );
   }

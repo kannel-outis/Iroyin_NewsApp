@@ -1,10 +1,11 @@
-import 'package:NewsApp_Chingu/app/routes/route_generator.gr.dart';
-import 'package:NewsApp_Chingu/ui/const/color.dart';
-import 'package:NewsApp_Chingu/ui/pages/favorites/favorite_model.dart';
-import 'package:NewsApp_Chingu/ui/pages/home/Home_viewModel.dart';
-import 'package:NewsApp_Chingu/ui/pages/home/news_model_structure.dart';
-import 'package:NewsApp_Chingu/ui/widgets/article_of_the_day.dart';
-import 'package:NewsApp_Chingu/ui/widgets/custom_list_items.dart';
+import '../../../app/enums/enums.dart';
+import '../../../app/routes/route_generator.gr.dart';
+import '../../../ui/const/color.dart';
+import '../../../ui/pages/favorites/favorite_model.dart';
+import '../../../ui/pages/home/Home_viewModel.dart';
+import '../../../ui/pages/home/news_model_structure.dart';
+import '../../../ui/widgets/article_of_the_day.dart';
+import '../../../ui/widgets/custom_list_items.dart';
 import 'package:connectivity_wrapper/connectivity_wrapper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -88,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
               children: <Widget>[
                 ListTile(
                   onTap: () {
-                    Navigator.of(context).pushNamed(Routes.favoritesPage);
+                    model.navigate(Routes.favoritesPage);
                   },
                   trailing: Icon(
                     Icons.favorite,
@@ -103,7 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 ListTile(
                   onTap: () {
-                    Navigator.of(context).pushNamed(Routes.advancedSearchPage);
+                    model.navigate(Routes.advancedSearchPage);
                   },
                   trailing: Icon(
                     Icons.search,
@@ -185,27 +186,18 @@ class _MyHomePageState extends State<MyHomePage> {
                                   },
                                   onFieldSubmitted: (String value) {
                                     if (formKey.currentState.validate()) {
-                                      model
-                                          .getsearchedList(controller.text)
-                                          .then((value) {
-                                        if (value.length != 0) {
-                                          Navigator.of(context).pushNamed(
-                                              Routes.searchResultPage,
-                                              arguments:
-                                                  SearchResultPageArguments(
-                                                searchedlist: value,
-                                                searchedquery: controller.text,
-                                              ));
-                                          model.isSearchingToFalse = false;
-                                          controller.clear();
-                                        } else if (value.length == 0) {
-                                          model.isSearchingToFalse = false;
-                                          scaffoldKey.currentState
-                                              .showSnackBar(SnackBar(
-                                            content: Text("No results found"),
-                                          ));
-                                        }
-                                      });
+                                      model.navigate(
+                                        Routes.searchResultPage,
+                                        isSearch: true,
+                                        query: controller.text,
+                                        snack: () {
+                                          scaffoldKey.currentState.showSnackBar(
+                                            SnackBar(
+                                              content: Text("No results found"),
+                                            ),
+                                          );
+                                        },
+                                      );
                                     }
                                   },
                                 ),
@@ -228,10 +220,11 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                             GestureDetector(
                               onTap: () {
-                                Navigator.of(context).pushNamed(
-                                    Routes.allArticlesPage,
-                                    arguments: AllArticlesPageArguments(
-                                        articles: model.articles));
+                                model.navigate(Routes.allArticlesPage,
+                                    isSearch: false,
+                                    allArticlesPage: true,
+                                    detailsPageArgsFor: DetailsPageArgsFor
+                                        .detailsPageAllArticles);
                               },
                               child: Text(
                                 "All Articles",
@@ -255,25 +248,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                 itemBuilder: (context, index) {
                                   return GestureDetector(
                                     onTap: () {
-                                      Navigator.of(context).pushNamed(
+                                      model.navigate(
                                         Routes.detailsPage,
-                                        arguments: DetailsPageArguments(
-                                          index: index,
-                                          articleAuthor:
-                                              articles[index].articleAuthor,
-                                          articleContent:
-                                              articles[index].articleContent,
-                                          articleDescription: articles[index]
-                                              .articleDescription,
-                                          articlePublishedAT: articles[index]
-                                              .articlePublishedAT,
-                                          articleTitle:
-                                              articles[index].articleTitle,
-                                          articleUrl:
-                                              articles[index].articleUrl,
-                                          articleUrlToImage:
-                                              articles[index].articleUrlToImage,
-                                        ),
+                                        detailsPageArgsFor: DetailsPageArgsFor
+                                            .detailsPageHomepage,
+                                        index: index,
+                                        isSearch: false,
                                       );
                                     },
                                     child: CustomListItems(
@@ -298,7 +278,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           ),
                         ],
                       ),
-                      ArticleOfTheDay(favoriteBox, randomIndex, articles),
+                      ArticleOfTheDay(
+                          favoriteBox, randomIndex, articles, model),
                     ],
                   ),
                 ),

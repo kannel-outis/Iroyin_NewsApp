@@ -1,4 +1,4 @@
-import 'package:NewsApp_Chingu/ui/pages/home/news_model_structure.dart';
+import '../../ui/pages/home/news_model_structure.dart';
 import 'package:flutter/cupertino.dart';
 
 String articleAuthor(int index, List<Article> articles, BuildContext context) {

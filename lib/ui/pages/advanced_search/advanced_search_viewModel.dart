@@ -1,8 +1,12 @@
-import 'package:NewsApp_Chingu/services/functions.dart';
-import 'package:NewsApp_Chingu/ui/pages/search/search.dart';
+import '../../../app/locator/locator.dart';
+import '../../../app/routes/route_generator.gr.dart';
+import '../../../services/news_services/functions.dart';
+import '../../../services/navigation_service/navigation_services.dart';
+import '../../../ui/pages/search/search.dart';
 import 'package:stacked/stacked.dart';
 
 class AdvancedSearchViewModel extends BaseViewModel {
+  final NavigationService _navigationService = locator<NavigationService>();
   bool _isSearching = false;
   String _sortBy;
   String _selectedLanguage;
@@ -53,6 +57,32 @@ class AdvancedSearchViewModel extends BaseViewModel {
   void selectSortBy(String option) {
     _sortBy = option;
     notifyListeners();
+  }
+
+  void navigate({String query, Function snack}) {
+    setIsSearching = true;
+    getAdvancedSearchedList(
+      from: range,
+      to: range2,
+      lang: selectedLanguage,
+      sortBy: sortBy,
+      query: query, //Controller.text
+    ).then(
+      (value) {
+        if (value.length != 0) {
+          _navigationService.navigateTo(
+            Routes.searchResultPage,
+            arguments: SearchResultPageArguments(
+              searchedquery: query,
+              searchedlist: value,
+            ),
+          );
+          setIsSearching = false;
+        } else {
+          snack();
+        }
+      },
+    );
   }
 
   String get sortBy => _sortBy;

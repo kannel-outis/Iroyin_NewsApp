@@ -1,7 +1,7 @@
-import 'package:NewsApp_Chingu/app/routes/route_generator.gr.dart';
-import 'package:NewsApp_Chingu/ui/pages/favorites/favorite_model.dart';
-import 'package:NewsApp_Chingu/ui/pages/home/Home_viewModel.dart';
-import 'package:NewsApp_Chingu/ui/widgets/list_view_tile.dart';
+import '../../../app/enums/enums.dart';
+import '../../../ui/pages/favorites/favorite_model.dart';
+import '../../../ui/pages/home/Home_viewModel.dart';
+import '../../../ui/widgets/list_view_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -72,21 +72,14 @@ class _FavoritesPageState extends State<FavoritesPage> {
                         }
                       },
                       child: ListViewTile(
-                        arguments: DetailsPageArguments(
-                          articleAuthor: fav.favoriteAuthor,
-                          articleContent: fav.favoriteContent,
-                          articleDescription: fav.favoriteDescription,
-                          articlePublishedAT: fav.favoritePublishedAT,
-                          articleTitle: fav.favoriteTitle,
-                          articleUrl: fav.favoriteUrl,
-                          articleUrlToImage: fav.favoriteUrlToImage,
-                          index: index,
-                        ),
                         tag: index,
                         title: fav.favoriteTitle,
                         imageUrl: fav.favoriteUrlToImage,
                         timePublished: fav.favoritePublishedAT,
                         source: fav.favoriteAuthor,
+                        detailsPageArgsFor:
+                            DetailsPageArgsFor.detailsPageFavorites,
+                        fav: fav,
                       ),
                     );
                   });

@@ -1,6 +1,6 @@
-import 'package:NewsApp_Chingu/ui/pages/favorites/favorite_model.dart';
-import 'package:NewsApp_Chingu/ui/pages/home/Home_viewModel.dart';
-import 'package:NewsApp_Chingu/ui/widgets/sliver_bar.dart';
+import '../../../ui/pages/favorites/favorite_model.dart';
+import '../../../ui/pages/home/Home_viewModel.dart';
+import '../../../ui/widgets/sliver_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_web_browser/flutter_web_browser.dart';
 import 'package:hive/hive.dart';

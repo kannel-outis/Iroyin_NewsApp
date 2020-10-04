@@ -1,6 +1,6 @@
-import 'package:NewsApp_Chingu/app/enums/enums.dart';
-import 'package:NewsApp_Chingu/ui/pages/search/search.dart';
-import 'package:NewsApp_Chingu/ui/widgets/list_view_tile.dart';
+import '../../../app/enums/enums.dart';
+import '../../../ui/pages/search/search.dart';
+import '../../../ui/widgets/list_view_tile.dart';
 import 'package:flutter/material.dart';
 
 class SearchResultPage extends StatefulWidget {

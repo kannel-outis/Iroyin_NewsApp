@@ -27,4 +27,6 @@ class Favorite {
     this.favoritePublishedAT,
     this.favoriteContent,
   });
+
+  List<Favorite> list = [];
 }

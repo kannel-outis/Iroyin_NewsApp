@@ -1,12 +1,12 @@
-import 'package:NewsApp_Chingu/app/enums/enums.dart';
-import 'package:NewsApp_Chingu/app/locator/locator.dart';
-import 'package:NewsApp_Chingu/app/routes/route_generator.gr.dart';
-import 'package:NewsApp_Chingu/services/functions.dart';
-import 'package:NewsApp_Chingu/services/hive_prefs.dart';
-import 'package:NewsApp_Chingu/services/navigation_service/navigation_services.dart';
-import 'package:NewsApp_Chingu/ui/pages/favorites/favorite_model.dart';
-import 'package:NewsApp_Chingu/ui/pages/home/news_model_structure.dart';
-import 'package:NewsApp_Chingu/ui/pages/search/search.dart';
+import '../../../app/enums/enums.dart';
+import '../../../app/locator/locator.dart';
+import '../../../app/routes/route_generator.gr.dart';
+import '../../../services/news_services/functions.dart';
+import '../../../services/prefs/hive_prefs.dart';
+import '../../../services/navigation_service/navigation_services.dart';
+import '../../../ui/pages/favorites/favorite_model.dart';
+import '../../../ui/pages/home/news_model_structure.dart';
+import '../../../ui/pages/search/search.dart';
 import 'package:hive/hive.dart';
 import 'package:stacked/stacked.dart';
 

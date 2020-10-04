@@ -1,6 +1,6 @@
-import 'package:NewsApp_Chingu/services/utils/languages_and_sortBy.dart';
-import 'package:NewsApp_Chingu/ui/pages/advanced_search/advanced_search_viewModel.dart';
-import 'package:NewsApp_Chingu/ui/widgets/platform_specific.dart';
+import '../../../services/utils/languages_and_sortBy.dart';
+import '../../../ui/pages/advanced_search/advanced_search_viewModel.dart';
+import '../../../ui/widgets/platform_specific.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 

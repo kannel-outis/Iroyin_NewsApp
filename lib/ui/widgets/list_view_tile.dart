@@ -1,11 +1,11 @@
-import 'package:NewsApp_Chingu/app/enums/enums.dart';
-import 'package:NewsApp_Chingu/app/routes/route_generator.gr.dart';
-import 'package:NewsApp_Chingu/ui/const/cutter.dart';
-import 'package:NewsApp_Chingu/ui/pages/favorites/favorite_model.dart';
-import 'package:NewsApp_Chingu/ui/pages/home/Home_viewModel.dart';
-import 'package:NewsApp_Chingu/ui/pages/home/news_model_structure.dart';
-import 'package:NewsApp_Chingu/ui/pages/search/search.dart';
-import 'package:NewsApp_Chingu/ui/responsive_conditions/responsive_conditions.dart';
+import '../../app/enums/enums.dart';
+import '../../app/routes/route_generator.gr.dart';
+import '../../ui/const/cutter.dart';
+import '../../ui/pages/favorites/favorite_model.dart';
+import '../../ui/pages/home/Home_viewModel.dart';
+import '../../ui/pages/home/news_model_structure.dart';
+import '../../ui/pages/search/search.dart';
+import '../../ui/responsive_conditions/responsive_conditions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 

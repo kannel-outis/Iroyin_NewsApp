@@ -1,8 +1,8 @@
-import 'package:NewsApp_Chingu/app/enums/enums.dart';
-import 'package:NewsApp_Chingu/ui/const/color.dart';
-import 'package:NewsApp_Chingu/ui/pages/home/Home_viewModel.dart';
-import 'package:NewsApp_Chingu/ui/pages/home/news_model_structure.dart';
-import 'package:NewsApp_Chingu/ui/widgets/list_view_tile.dart';
+import '../../../app/enums/enums.dart';
+import '../../../ui/const/color.dart';
+import '../../../ui/pages/home/Home_viewModel.dart';
+import '../../../ui/pages/home/news_model_structure.dart';
+import '../../../ui/widgets/list_view_tile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

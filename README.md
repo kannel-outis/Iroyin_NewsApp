@@ -50,7 +50,7 @@ PS: replace where it says apiKey with your api key. go to [newsApi](https://news
 -  [hive_flutter](https://pub.dev/packages/hive_flutter)
 -  [hive](https://pub.dev/packages/hive)
 -  [path_provider](https://pub.dev/packages/path_provider)
--  [dio](https://pub.dev/packages/dio)
+-  [http](https://pub.dev/packages/http)
 -  [auto_route](https://pub.dev/packages/auto_route)
 -  [stacked](https://pub.dev/packages/stacked)
 -  [connectivity_wrapper](https://pub.dev/packages/connectivity_wrapper)

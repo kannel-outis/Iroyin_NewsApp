@@ -50,7 +50,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
         child: ValueListenableBuilder<Box<Favorite>>(
             valueListenable: favoriteBox.listenable(),
             builder: (context, box, child) {
-              List<int> keys = box.keys.cast<int>().toList();
+              List<int> keys = box.keys.cast<int>().toList().reversed.toList();
               return ListView.builder(
                   itemCount: keys.length,
                   itemBuilder: (context, index) {

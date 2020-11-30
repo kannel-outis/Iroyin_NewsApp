@@ -25,6 +25,8 @@ dependencies:
   connectivity_wrapper: ^1.0.4
   flutter_dotenv: ^2.1.0
   get_it: ^5.0.0
+  hooks_riverpod: ^0.12.1
+  flutter_hooks: ^0.15.0
   # device_preview: ^0.4.8
 
 dev_dependencies:

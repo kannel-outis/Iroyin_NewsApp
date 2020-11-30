@@ -1,12 +1,14 @@
+import 'package:NewsApp_Chingu/services/news_services/handlers.dart';
+
 import '../../../app/locator/locator.dart';
 import '../../../app/routes/route_generator.gr.dart';
-import '../../../services/news_services/functions.dart';
 import '../../../services/navigation_service/navigation_services.dart';
 import '../../../ui/pages/search/search.dart';
 import 'package:stacked/stacked.dart';
 
 class AdvancedSearchViewModel extends BaseViewModel {
   final NavigationService _navigationService = locator<NavigationService>();
+  final _handlers = locator<Handlers>();
   bool _isSearching = false;
   String _sortBy;
   String _selectedLanguage;
@@ -19,7 +21,7 @@ class AdvancedSearchViewModel extends BaseViewModel {
       String to,
       String sortBy,
       String lang}) async {
-    var list = await Functions().getAdvanceSearchedList(
+    var list = await _handlers.getAdvanceSearchedList(
       query: query,
       from: from,
       to: to,

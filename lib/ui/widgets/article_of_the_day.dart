@@ -1,3 +1,6 @@
+import 'package:NewsApp_Chingu/ui/pages/home/home_page.dart';
+import 'package:hooks_riverpod/all.dart';
+
 import '../../app/enums/enums.dart';
 import '../../app/routes/route_generator.gr.dart';
 import '../../ui/const/color.dart';
@@ -12,18 +15,17 @@ import 'package:fluttericon/font_awesome5_icons.dart';
 import 'package:hive/hive.dart';
 import 'package:share/share.dart';
 
-class ArticleOfTheDay extends StatelessWidget {
+class ArticleOfTheDay extends ConsumerWidget {
   final List<Article> articles;
   final Box<Favorite> favoriteBox;
   final int index;
-  final HomeViewModel model;
+  // final HomeViewModel model;
 
-  const ArticleOfTheDay(this.favoriteBox, this.index, this.articles, this.model,
-      {Key key})
+  const ArticleOfTheDay(this.favoriteBox, this.index, this.articles, {Key key})
       : super(key: key);
 
   Widget checkIfNull(List<Article> articles, BuildContext context,
-      Box<Favorite> favoriteBox, double deviceHeight) {
+      Box<Favorite> favoriteBox, double deviceHeight, HomeViewModel model) {
     if (articles != null) {
       return Column(
         children: [
@@ -128,7 +130,8 @@ class ArticleOfTheDay extends StatelessWidget {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ScopedReader watch) {
+    var model = watch(homeViewModel);
     var deviceHeight = MediaQuery.of(context).size.height;
     ResponsiveConditions.articleOfTheDayParams(context);
     return Container(
@@ -170,7 +173,7 @@ class ArticleOfTheDay extends StatelessWidget {
                       color: constColor2,
                     ),
                     child: checkIfNull(
-                        articles, context, favoriteBox, deviceHeight)),
+                        articles, context, favoriteBox, deviceHeight, model)),
               ),
             ),
           ],

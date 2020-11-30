@@ -1,3 +1,6 @@
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/all.dart';
+
 import '../../../app/enums/enums.dart';
 import '../../../app/routes/route_generator.gr.dart';
 import '../../../ui/const/color.dart';
@@ -11,47 +14,49 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
-import 'package:stacked/stacked.dart';
 import 'dart:math' as math;
 
-class MyHomePage extends StatefulWidget {
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
+// Provider
+final homeViewModel = ChangeNotifierProvider<HomeViewModel>((ref) {
+  return HomeViewModel();
+});
+final randomIndex = Provider<int>((ref) {
+  return math.Random().nextInt(99);
+});
+final futureHomeViewModel = FutureProvider.autoDispose<List<Article>>((ref) {
+  return ref.read(homeViewModel).articleList();
+});
 
-class _MyHomePageState extends State<MyHomePage> {
+class MyHomePage extends HookWidget {
   static final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  TextEditingController controller;
-  Box<Favorite> favoriteBox;
-  int randomIndex;
-  @override
-  void initState() {
-    super.initState();
-    favoriteBox = HomeViewModel().favOp();
-    controller = TextEditingController();
-    randomIndex = math.Random().nextInt(99);
-  }
-
   @override
   Widget build(BuildContext context) {
+    var deviceHeight = MediaQuery.of(context).size.height;
+    var deviceWidth = MediaQuery.of(context).size.width;
+    var model = useProvider(homeViewModel);
+    var controller = useTextEditingController();
+    Box<Favorite> favoriteBox;
+    // int randomIndex;
+    useEffect(() {
+      // randomIndex =
+      favoriteBox = HomeViewModel().favOp();
+
+      return;
+    }, const []);
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-    return ViewModelBuilder<HomeViewModel>.reactive(
-        viewModelBuilder: () => HomeViewModel(),
-        builder: (context, model, child) {
-          var deviceHeight = MediaQuery.of(context).size.height;
-          var deviceWidth = MediaQuery.of(context).size.width;
-          return ConnectivityWidgetWrapper(
-            child: buildScaffold(
-              context,
-              model.articles,
-              model,
-              _formKey,
-              _scaffoldKey,
-              deviceHeight,
-              deviceWidth,
-            ),
-          );
-        });
+    return ConnectivityWidgetWrapper(
+      child: buildScaffold(
+          context,
+          // this must Change
+          model.articles,
+          model,
+          _formKey,
+          _scaffoldKey,
+          deviceHeight,
+          deviceWidth,
+          controller,
+          favoriteBox),
+    );
   }
 
   Scaffold buildScaffold(
@@ -62,6 +67,8 @@ class _MyHomePageState extends State<MyHomePage> {
     GlobalKey<ScaffoldState> scaffoldKey,
     double deviceHeight,
     double deviceWidth,
+    TextEditingController controller,
+    Box<Favorite> favoriteBox,
   ) {
     return Scaffold(
       key: scaffoldKey,
@@ -128,7 +135,7 @@ class _MyHomePageState extends State<MyHomePage> {
         color: constColor3,
         child: RefreshIndicator(
           displacement: 5.0,
-          onRefresh: model.articleList,
+          onRefresh: useProvider(homeViewModel).articleList,
           child: ListView(
             shrinkWrap: true,
             children: [
@@ -239,32 +246,37 @@ class _MyHomePageState extends State<MyHomePage> {
                         height: (deviceHeight * .9) / 40,
                       ),
                       Container(
-                        height: deviceHeight * .26,
-                        child: articles != null
-                            ? ListView.builder(
-                                scrollDirection: Axis.horizontal,
-                                itemCount: 10,
-                                shrinkWrap: true,
-                                itemBuilder: (context, index) {
-                                  return GestureDetector(
-                                    onTap: () {
-                                      model.navigate(
-                                        Routes.detailsPage,
-                                        detailsPageArgsFor: DetailsPageArgsFor
-                                            .detailsPageHomepage,
-                                        index: index,
-                                        isSearch: false,
-                                      );
-                                    },
-                                    child: CustomListItems(
-                                        articles: articles, index: index),
-                                  );
-                                },
-                              )
-                            : Center(
-                                child: CircularProgressIndicator(),
-                              ),
-                      ),
+                          height: deviceHeight * .26,
+                          child: useProvider(futureHomeViewModel).when(
+                              data: (data) {
+                                return ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: 10,
+                                  shrinkWrap: true,
+                                  itemBuilder: (context, index) {
+                                    return GestureDetector(
+                                      onTap: () {
+                                        model.navigate(
+                                          Routes.detailsPage,
+                                          detailsPageArgsFor: DetailsPageArgsFor
+                                              .detailsPageHomepage,
+                                          index: index,
+                                          isSearch: false,
+                                        );
+                                      },
+                                      child: CustomListItems(
+                                          articles: model.articles,
+                                          index: index),
+                                    );
+                                  },
+                                );
+                              },
+                              loading: () => Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                              error: (o, s) {
+                                return Center(child: Text(o.toString()));
+                              })),
                       SizedBox(
                           height: (deviceHeight * .9) /
                               (deviceHeight <= 600 ? 30 : 20)),
@@ -279,7 +291,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         ],
                       ),
                       ArticleOfTheDay(
-                          favoriteBox, randomIndex, articles, model),
+                          favoriteBox, useProvider(randomIndex), articles),
                     ],
                   ),
                 ),

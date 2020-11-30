@@ -1,23 +1,25 @@
+import 'package:NewsApp_Chingu/services/news_services/handlers.dart';
+import 'package:flutter/cupertino.dart';
+
 import '../../../app/enums/enums.dart';
 import '../../../app/locator/locator.dart';
 import '../../../app/routes/route_generator.gr.dart';
-import '../../../services/news_services/functions.dart';
 import '../../../services/prefs/hive_prefs.dart';
 import '../../../services/navigation_service/navigation_services.dart';
 import '../../../ui/pages/favorites/favorite_model.dart';
 import '../../../ui/pages/home/news_model_structure.dart';
 import '../../../ui/pages/search/search.dart';
 import 'package:hive/hive.dart';
-import 'package:stacked/stacked.dart';
 
-class HomeViewModel extends FutureViewModel<List<Article>> {
-  final NavigationService _navigationService = locator<NavigationService>();
+class HomeViewModel extends ChangeNotifier {
+  final _navigationService = locator<NavigationService>();
+  final _handlers = locator<Handlers>();
   List<Article> _articles;
   bool _isSearching = false;
   Box<Favorite> _favoriteBox;
 
   Future<List<Article>> articleList() async {
-    var list = await Functions().getNewsFromApi();
+    var list = await _handlers.getNewsFromApi();
     _articles = list;
     notifyListeners();
     return _articles;
@@ -30,7 +32,7 @@ class HomeViewModel extends FutureViewModel<List<Article>> {
   Future<List<Search>> getsearchedList(String query) async {
     _isSearching = true;
     notifyListeners();
-    var list = await Functions().getSearchedList(query: query);
+    var list = await _handlers.getSearchedList(query: query);
     notifyListeners();
     return list;
   }
@@ -155,6 +157,6 @@ class HomeViewModel extends FutureViewModel<List<Article>> {
   Box<Favorite> get favoriteBox => _favoriteBox;
   bool get isSearching => _isSearching;
 
-  @override
-  Future<List<Article>> futureToRun() => articleList();
+  // @override
+  // Future<List<Article>> futureToRun() => articleList();
 }

@@ -1,3 +1,5 @@
+import 'package:hooks_riverpod/all.dart';
+
 import './services/navigation_service/navigation_services.dart';
 import './ui/model_repo.dart';
 import 'package:connectivity_wrapper/connectivity_wrapper.dart';
@@ -12,7 +14,9 @@ void main() async {
   await DotEnv().load('myApiKey.env');
   setupLocator();
   runApp(
-    MyApp(),
+    ProviderScope(
+      child: MyApp(),
+    ),
   );
 }
 

@@ -52,7 +52,8 @@ PS: replace where it says apiKey with your api key. go to [newsApi](https://news
 -  [path_provider](https://pub.dev/packages/path_provider)
 -  [http](https://pub.dev/packages/http)
 -  [auto_route](https://pub.dev/packages/auto_route)
--  [stacked](https://pub.dev/packages/stacked)
+-  [hooks_riverpod](https://pub.dev/packages/hooks_riverpod)
+-  [flutter_hooks](https://pub.dev/packages/flutter_hooks)
 -  [connectivity_wrapper](https://pub.dev/packages/connectivity_wrapper)
 
 

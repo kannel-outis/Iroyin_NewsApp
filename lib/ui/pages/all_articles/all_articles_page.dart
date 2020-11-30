@@ -5,7 +5,7 @@ import '../../../app/enums/enums.dart';
 import '../../../ui/const/color.dart';
 import '../../../ui/pages/home/Home_viewModel.dart';
 import '../../../ui/pages/home/news_model_structure.dart';
-import '../../../ui/widgets/list_view_tile.dart';
+import '../../../ui/custom/widgets/list_view_tile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

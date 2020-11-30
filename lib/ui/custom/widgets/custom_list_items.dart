@@ -1,7 +1,7 @@
-import '../../ui/const/color.dart';
-import '../../ui/const/cutter.dart';
-import '../../ui/pages/home/news_model_structure.dart';
-import '../../ui/responsive_conditions/responsive_conditions.dart';
+import '../../../ui/const/color.dart';
+import '../../../ui/const/cutter.dart';
+import '../../../ui/pages/home/news_model_structure.dart';
+import '../../../ui/responsive_conditions/responsive_conditions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 

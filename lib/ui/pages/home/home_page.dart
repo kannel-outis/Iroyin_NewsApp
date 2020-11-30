@@ -1,3 +1,4 @@
+import 'package:NewsApp_Chingu/ui/custom/hook/favorite_box_hook.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/all.dart';
 
@@ -7,8 +8,8 @@ import '../../../ui/const/color.dart';
 import '../../../ui/pages/favorites/favorite_model.dart';
 import '../../../ui/pages/home/Home_viewModel.dart';
 import '../../../ui/pages/home/news_model_structure.dart';
-import '../../../ui/widgets/article_of_the_day.dart';
-import '../../../ui/widgets/custom_list_items.dart';
+import '../../../ui/custom/widgets/article_of_the_day.dart';
+import '../../../ui/custom/widgets/custom_list_items.dart';
 import 'package:connectivity_wrapper/connectivity_wrapper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -35,14 +36,7 @@ class MyHomePage extends HookWidget {
     var deviceWidth = MediaQuery.of(context).size.width;
     var model = useProvider(homeViewModel);
     var controller = useTextEditingController();
-    Box<Favorite> favoriteBox;
-    // int randomIndex;
-    useEffect(() {
-      // randomIndex =
-      favoriteBox = HomeViewModel().favOp();
-
-      return;
-    }, const []);
+    var favoriteBox = useFavoriteBox(context);
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     return ConnectivityWidgetWrapper(
       child: buildScaffold(

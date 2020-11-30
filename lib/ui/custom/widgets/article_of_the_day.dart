@@ -1,14 +1,14 @@
 import 'package:NewsApp_Chingu/ui/pages/home/home_page.dart';
 import 'package:hooks_riverpod/all.dart';
 
-import '../../app/enums/enums.dart';
-import '../../app/routes/route_generator.gr.dart';
-import '../../ui/const/color.dart';
-import '../../ui/const/cutter.dart';
-import '../../ui/pages/favorites/favorite_model.dart';
-import '../../ui/pages/home/Home_viewModel.dart';
-import '../../ui/pages/home/news_model_structure.dart';
-import '../../ui/responsive_conditions/responsive_conditions.dart';
+import '../../../app/enums/enums.dart';
+import '../../../app/routes/route_generator.gr.dart';
+import '../../../ui/const/color.dart';
+import '../../../ui/const/cutter.dart';
+import '../../../ui/pages/favorites/favorite_model.dart';
+import '../../../ui/pages/home/Home_viewModel.dart';
+import '../../../ui/pages/home/news_model_structure.dart';
+import '../../../ui/responsive_conditions/responsive_conditions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttericon/font_awesome5_icons.dart';
@@ -19,7 +19,6 @@ class ArticleOfTheDay extends ConsumerWidget {
   final List<Article> articles;
   final Box<Favorite> favoriteBox;
   final int index;
-  // final HomeViewModel model;
 
   const ArticleOfTheDay(this.favoriteBox, this.index, this.articles, {Key key})
       : super(key: key);

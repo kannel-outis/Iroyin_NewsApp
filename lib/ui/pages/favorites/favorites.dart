@@ -1,28 +1,19 @@
+import 'package:NewsApp_Chingu/ui/custom/hook/favorite_box_hook.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+
 import '../../../app/enums/enums.dart';
 import '../../../ui/pages/favorites/favorite_model.dart';
-import '../../../ui/pages/home/Home_viewModel.dart';
-import '../../../ui/widgets/list_view_tile.dart';
+import '../../../ui/custom/widgets/list_view_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-class FavoritesPage extends StatefulWidget {
-  @override
-  _FavoritesPageState createState() => _FavoritesPageState();
-}
-
-class _FavoritesPageState extends State<FavoritesPage> {
-  Box<Favorite> favoriteBox;
-  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
-  @override
-  void initState() {
-    super.initState();
-    favoriteBox = HomeViewModel().favOp();
-  }
+class FavoritesPage extends HookWidget {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
+    var favoriteBox = useFavoriteBox(context);
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -63,8 +54,11 @@ class _FavoritesPageState extends State<FavoritesPage> {
                       direction: DismissDirection.startToEnd,
                       onDismissed: (DismissDirection dismissDirection) {
                         if (dismissDirection == DismissDirection.startToEnd) {
-                          keys.removeAt(index);
-                          box.deleteAt(index).then((value) {
+                          box.delete(keys[index]).then((value) {
+                            keys.reversed.toList().removeAt(index);
+                            if (favoriteBox.isEmpty) {
+                              favoriteBox.clear();
+                            }
                             _scaffoldKey.currentState.showSnackBar(SnackBar(
                                 content: Text(
                                     "${fav.favoriteTitle} removed from favorites")));

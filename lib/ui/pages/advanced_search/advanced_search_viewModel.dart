@@ -1,12 +1,13 @@
 import 'package:NewsApp_Chingu/services/news_services/handlers.dart';
+import 'package:flutter/foundation.dart';
 
 import '../../../app/locator/locator.dart';
 import '../../../app/routes/route_generator.gr.dart';
 import '../../../services/navigation_service/navigation_services.dart';
 import '../../../ui/pages/search/search.dart';
-import 'package:stacked/stacked.dart';
+// import 'package:stacked/stacked.dart';
 
-class AdvancedSearchViewModel extends BaseViewModel {
+class AdvancedSearchViewModel extends ChangeNotifier {
   final NavigationService _navigationService = locator<NavigationService>();
   final _handlers = locator<Handlers>();
   bool _isSearching = false;

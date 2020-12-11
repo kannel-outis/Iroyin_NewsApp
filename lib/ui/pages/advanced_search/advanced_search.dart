@@ -1,112 +1,109 @@
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/all.dart';
+
 import '../../../services/utils/languages_and_sortBy.dart';
 import '../../../ui/pages/advanced_search/advanced_search_viewModel.dart';
-import '../../../ui/widgets/platform_specific.dart';
+import '../../../ui/custom/widgets/platform_specific.dart';
 import 'package:flutter/material.dart';
-import 'package:stacked/stacked.dart';
 
-class AdvancedSearchPage extends StatefulWidget {
-  @override
-  _AdvancedSearchPageState createState() => _AdvancedSearchPageState();
-}
+final advancedSearchViewModel =
+    ChangeNotifierProvider<AdvancedSearchViewModel>((ref) {
+  return AdvancedSearchViewModel();
+});
 
-class _AdvancedSearchPageState extends State<AdvancedSearchPage> {
-  String repository;
-  final TextEditingController controller = TextEditingController();
+class AdvancedSearchPage extends HookWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<AdvancedSearchViewModel>.reactive(
-        viewModelBuilder: () => AdvancedSearchViewModel(),
-        builder: (context, model, child) {
-          return Scaffold(
-            key: _scaffoldKey,
-            appBar: AppBar(elevation: 0, title: Text("Advanced Search")),
-            body: Container(
-              child: Center(
-                  child: Column(
-                children: [
-                  Container(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 12.0, vertical: 20.0),
-                    child:
-                        PlatformSpec.platFormTextfield(controller: controller),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Container(
-                        child: PlatformSpec.platFormButton(
-                          text: "From",
-                          onPressed: () async {
-                            await PlatformSpec.dateTime(
-                                context, model.setPicker);
-                          },
-                        ),
-                      ),
-                      Container(
-                        child: PlatformSpec.platFormButton(
-                          text: "To",
-                          onPressed: () async {
-                            await PlatformSpec.dateTime(
-                                context, model.setPicker2);
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      PlatformSpec.optionDropOrPick(
-                        Icons.category,
-                        context: context,
-                        modelString: model.sortBy,
-                        options: Data.dropItemsPop,
-                        selectSide: model.selectSortBy,
-                        selectOption: "select category",
-                      ),
-                      SizedBox(
-                        width: 30,
-                      ),
-                      PlatformSpec.optionDropOrPick(
-                        Icons.language,
-                        context: context,
-                        modelString: model.selectedLanguage,
-                        options: Data.dropItemsLang,
-                        selectSide: model.selectLanguage,
-                        selectOption: "select Language",
-                      )
-                    ],
-                  ),
-                  PlatformSpec.platFormButton(
-                    text: "Search",
-                    onPressed: () {
-                      model.navigate(
-                        query: controller.text,
-                        snack: () {
-                          _scaffoldKey.currentState.showSnackBar(
-                              SnackBar(content: Text("No Results")));
-                          model.setIsSearching = false;
-                        },
-                      );
+    final controller = useTextEditingController();
+    final model = useProvider(advancedSearchViewModel);
+    return Scaffold(
+      key: _scaffoldKey,
+      appBar: AppBar(elevation: 0, title: Text("Advanced Search")),
+      body: Container(
+        child: Center(
+            child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 12.0, vertical: 20.0),
+              child: PlatformSpec.platFormTextfield(controller: controller),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Container(
+                  child: PlatformSpec.platFormButton(
+                    text: "From",
+                    onPressed: () async {
+                      await PlatformSpec.dateTime(context, model.setPicker);
                     },
                   ),
-                  SizedBox(height: 10),
-                  Center(
-                    child: model.isSearching == true
-                        ? CircularProgressIndicator(
-                            strokeWidth: 2.0,
-                          )
-                        : Container(),
-                  )
-                ],
-              )),
+                ),
+                Container(
+                  child: PlatformSpec.platFormButton(
+                    text: "To",
+                    onPressed: () async {
+                      await PlatformSpec.dateTime(context, model.setPicker2);
+                    },
+                  ),
+                ),
+              ],
             ),
-          );
-        });
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                PlatformSpec.optionDropOrPick(
+                  Icons.category,
+                  context: context,
+                  modelString: model.sortBy,
+                  options: Data.dropItemsPop,
+                  selectSide: model.selectSortBy,
+                  selectOption: "select category",
+                ),
+                SizedBox(
+                  width: 30,
+                ),
+                PlatformSpec.optionDropOrPick(
+                  Icons.language,
+                  context: context,
+                  modelString: model.selectedLanguage,
+                  options: Data.dropItemsLang,
+                  selectSide: model.selectLanguage,
+                  selectOption: "select Language",
+                )
+              ],
+            ),
+            PlatformSpec.platFormButton(
+              text: "Search",
+              onPressed: () {
+                model.navigate(
+                  query: controller.text,
+                  snack: () {
+                    _scaffoldKey.currentState
+                        .showSnackBar(SnackBar(content: Text("No Results")));
+                    model.setIsSearching = false;
+                  },
+                );
+              },
+            ),
+            SizedBox(height: 10),
+            Consumer(builder: (context, watch, child) {
+              final isSearching = watch(advancedSearchViewModel).isSearching;
+              return Center(
+                child: isSearching == true
+                    ? CircularProgressIndicator(
+                        strokeWidth: 2.0,
+                      )
+                    : Container(),
+              );
+            })
+          ],
+        )),
+      ),
+    );
   }
 }

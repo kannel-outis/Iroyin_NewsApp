@@ -1,5 +1,5 @@
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/all.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../services/utils/languages_and_sortBy.dart';
 import '../../../ui/pages/advanced_search/advanced_search_viewModel.dart';
@@ -13,6 +13,8 @@ final advancedSearchViewModel =
 
 class AdvancedSearchPage extends HookWidget {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldMessengerState> _messengerKey =
+      GlobalKey<ScaffoldMessengerState>();
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +85,7 @@ class AdvancedSearchPage extends HookWidget {
                 model.navigate(
                   query: controller.text,
                   snack: () {
-                    _scaffoldKey.currentState
+                    _messengerKey.currentState!
                         .showSnackBar(SnackBar(content: Text("No Results")));
                     model.setIsSearching = false;
                   },

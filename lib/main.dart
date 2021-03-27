@@ -1,4 +1,4 @@
-import 'package:hooks_riverpod/all.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import './services/navigation_service/navigation_services.dart';
 import './ui/model_repo.dart';
@@ -11,7 +11,7 @@ import 'app/routes/route_generator.gr.dart' as routes;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await ModelRepo().hiveInit();
-  await DotEnv().load('myApiKey.env');
+  await load(fileName: 'myApiKey.env');
   setupLocator();
   runApp(
     ProviderScope(

@@ -17,13 +17,13 @@ class FavoriteAdapter extends TypeAdapter<Favorite> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Favorite(
-      favoriteTitle: fields[0] as String,
-      favoriteDescription: fields[1] as String,
-      favoriteUrl: fields[2] as String,
-      favoriteUrlToImage: fields[3] as String,
-      favoriteAuthor: fields[4] as String,
-      favoritePublishedAT: fields[5] as String,
-      favoriteContent: fields[6] as String,
+      favoriteTitle: fields[0] as String?,
+      favoriteDescription: fields[1] as String?,
+      favoriteUrl: fields[2] as String?,
+      favoriteUrlToImage: fields[3] as String?,
+      favoriteAuthor: fields[4] as String?,
+      favoritePublishedAT: fields[5] as String?,
+      favoriteContent: fields[6] as String?,
     );
   }
 

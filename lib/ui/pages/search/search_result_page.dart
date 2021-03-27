@@ -5,9 +5,10 @@ import 'package:flutter/material.dart';
 
 class SearchResultPage extends StatelessWidget {
   final List<Search> searchedlist;
-  final String searchedquery;
+  final String? searchedquery;
 
-  const SearchResultPage({Key key, this.searchedlist, this.searchedquery})
+  const SearchResultPage(
+      {Key? key, required this.searchedlist, this.searchedquery})
       : super(key: key);
 
   @override

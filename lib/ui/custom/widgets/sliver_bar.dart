@@ -3,14 +3,14 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class SliverAppBarWidget extends StatelessWidget {
-  final String author;
-  final String imageUrl;
-  final List<Widget> children;
-  final Widget iconChild;
-  final int tag;
+  final String? author;
+  final String? imageUrl;
+  final List<Widget>? children;
+  final Widget? iconChild;
+  final int? tag;
 
   const SliverAppBarWidget(
-      {Key key,
+      {Key? key,
       this.author,
       this.imageUrl,
       this.children,
@@ -26,17 +26,17 @@ class SliverAppBarWidget extends StatelessWidget {
           floating: true,
           expandedHeight: (MediaQuery.of(context).size.width / 1.5),
           backgroundColor: constColor1,
-          actions: [iconChild],
+          actions: [iconChild ?? Container()],
           flexibleSpace: FlexibleSpaceBar(
-            title: Text(author),
+            title: Text(author!),
             background: FadeInImage(
               fit: BoxFit.cover,
               placeholder: AssetImage("assets/placeHolderImage.png"),
-              image: CachedNetworkImageProvider(imageUrl),
+              image: CachedNetworkImageProvider(imageUrl!),
             ),
           ),
         ),
-        SliverList(delegate: SliverChildListDelegate(children)),
+        SliverList(delegate: SliverChildListDelegate(children!)),
       ],
     );
   }

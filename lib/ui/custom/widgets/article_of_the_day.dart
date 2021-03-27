@@ -1,10 +1,9 @@
 import 'package:NewsApp_Chingu/ui/pages/home/home_page.dart';
-import 'package:hooks_riverpod/all.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../app/enums/enums.dart';
 import '../../../app/routes/route_generator.gr.dart';
 import '../../../ui/const/color.dart';
-import '../../../ui/const/cutter.dart';
 import '../../../ui/pages/favorites/favorite_model.dart';
 import '../../../ui/pages/home/Home_viewModel.dart';
 import '../../../ui/pages/home/news_model_structure.dart';
@@ -20,12 +19,90 @@ class ArticleOfTheDay extends ConsumerWidget {
   final Box<Favorite> favoriteBox;
   final int index;
 
-  const ArticleOfTheDay(this.favoriteBox, this.index, this.articles, {Key key})
+  const ArticleOfTheDay(this.favoriteBox, this.index, this.articles, {Key? key})
       : super(key: key);
 
-  Widget checkIfNull(List<Article> articles, BuildContext context,
-      Box<Favorite> favoriteBox, double deviceHeight, HomeViewModel model) {
-    if (articles != null) {
+  @override
+  Widget build(BuildContext context, ScopedReader watch) {
+    var model = watch(homeViewModel);
+    var deviceHeight = MediaQuery.of(context).size.height;
+    ResponsiveConditions.articleOfTheDayParams(context);
+    return Container(
+      height: ResponsiveConditions.articleOfTheDayMainCardHeight,
+      child: Container(
+        child: Stack(
+          alignment: Alignment.center,
+          children: <Widget>[
+            Positioned(
+              top: 10,
+              child: Container(
+                height: MediaQuery.of(context).size.height * .31,
+                width: MediaQuery.of(context).size.width - 70,
+                decoration: BoxDecoration(
+                  color: constColor4,
+                  borderRadius: BorderRadius.circular(5),
+                ),
+              ),
+            ),
+            Positioned(
+              top: 20,
+              child: Container(
+                height: MediaQuery.of(context).size.height * .31,
+                width: MediaQuery.of(context).size.width - 60,
+                decoration: BoxDecoration(
+                  color: constColor3,
+                  borderRadius: BorderRadius.circular(5),
+                ),
+              ),
+            ),
+            Positioned(
+              top: 30,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(5),
+                child: Container(
+                  height: MediaQuery.of(context).size.height * .32,
+                  width: MediaQuery.of(context).size.width - 50,
+                  decoration: BoxDecoration(
+                    color: constColor2,
+                  ),
+                  child: CheckIfNotNull(
+                      index: index,
+                      articles: articles,
+                      context: context,
+                      favoriteBox: favoriteBox,
+                      deviceHeight: deviceHeight,
+                      model: model),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class CheckIfNotNull extends StatelessWidget {
+  const CheckIfNotNull({
+    Key? key,
+    required this.index,
+    required this.articles,
+    required this.context,
+    required this.favoriteBox,
+    required this.deviceHeight,
+    required this.model,
+  }) : super(key: key);
+
+  final int index;
+  final List<Article> articles;
+  final BuildContext context;
+  final Box<Favorite> favoriteBox;
+  final double deviceHeight;
+  final HomeViewModel model;
+
+  @override
+  Widget build(BuildContext context) {
+    if (articles.length > 0) {
       return Column(
         children: [
           Expanded(
@@ -77,13 +154,17 @@ class ArticleOfTheDay extends ConsumerWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
-                Text(
-                  "${articleAuthor(index, articles, context)}",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: ResponsiveConditions
-                        .articleOfTheDayArticleAuthorFontSize,
-                    fontWeight: FontWeight.bold,
+                Flexible(
+                  child: Text(
+                    "${articles[index].articleTitle}",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: ResponsiveConditions
+                          .articleOfTheDayArticleAuthorFontSize,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
                 Row(
@@ -99,7 +180,7 @@ class ArticleOfTheDay extends ConsumerWidget {
                         model.addtoFav(
                             index,
                             favoriteBox,
-                            () => Scaffold.of(context).showSnackBar(
+                            () => ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text("added to favorites"))));
                       },
                     ),
@@ -126,58 +207,5 @@ class ArticleOfTheDay extends ConsumerWidget {
       "loading...",
       style: TextStyle(color: Colors.black45),
     ));
-  }
-
-  @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    var model = watch(homeViewModel);
-    var deviceHeight = MediaQuery.of(context).size.height;
-    ResponsiveConditions.articleOfTheDayParams(context);
-    return Container(
-      height: ResponsiveConditions.articleOfTheDayMainCardHeight,
-      child: Container(
-        child: Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            Positioned(
-              top: 10,
-              child: Container(
-                height: MediaQuery.of(context).size.height * .31,
-                width: MediaQuery.of(context).size.width - 70,
-                decoration: BoxDecoration(
-                  color: constColor4,
-                  borderRadius: BorderRadius.circular(5),
-                ),
-              ),
-            ),
-            Positioned(
-              top: 20,
-              child: Container(
-                height: MediaQuery.of(context).size.height * .31,
-                width: MediaQuery.of(context).size.width - 60,
-                decoration: BoxDecoration(
-                  color: constColor3,
-                  borderRadius: BorderRadius.circular(5),
-                ),
-              ),
-            ),
-            Positioned(
-              top: 30,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(5),
-                child: Container(
-                    height: MediaQuery.of(context).size.height * .32,
-                    width: MediaQuery.of(context).size.width - 50,
-                    decoration: BoxDecoration(
-                      color: constColor2,
-                    ),
-                    child: checkIfNull(
-                        articles, context, favoriteBox, deviceHeight, model)),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }

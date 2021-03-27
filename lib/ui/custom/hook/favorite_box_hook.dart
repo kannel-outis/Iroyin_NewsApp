@@ -15,7 +15,7 @@ class _BoxHook extends Hook<Box<Favorite>> {
 }
 
 class _BoxHookState extends HookState<Box<Favorite>, _BoxHook> {
-  Box<Favorite> favoriteBox;
+  late final Box<Favorite> favoriteBox;
 
   @override
   void initHook() {

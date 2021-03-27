@@ -4,19 +4,19 @@ part 'favorite_model.g.dart';
 @HiveType(typeId: 0)
 class Favorite {
   @HiveField(0)
-  final String favoriteTitle;
+  final String? favoriteTitle;
   @HiveField(1)
-  final String favoriteDescription;
+  final String? favoriteDescription;
   @HiveField(2)
-  final String favoriteUrl;
+  final String? favoriteUrl;
   @HiveField(3)
-  final String favoriteUrlToImage;
+  final String? favoriteUrlToImage;
   @HiveField(4)
-  final String favoriteAuthor;
+  final String? favoriteAuthor;
   @HiveField(5)
-  final String favoritePublishedAT;
+  final String? favoritePublishedAT;
   @HiveField(6)
-  final String favoriteContent;
+  final String? favoriteContent;
 
   Favorite({
     this.favoriteTitle,

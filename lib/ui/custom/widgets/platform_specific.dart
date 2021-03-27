@@ -35,11 +35,11 @@ class PlatformSpec {
   }
 
   static Widget optionDropOrPick(IconData icon,
-      {@required BuildContext context,
-      @required String modelString,
-      @required List<String> options,
-      @required Function selectSide,
-      @required String selectOption}) {
+      {required BuildContext context,
+      @required String? modelString,
+      required List<String> options,
+      required Function selectSide,
+      required String selectOption}) {
     if (Platform.isAndroid) {
       return DropdownButton<String>(
           icon: Icon(icon),
@@ -49,8 +49,8 @@ class PlatformSpec {
               child: Text(value),
               value: value,
             );
-          }).toList(), 
-          onChanged: (String value) {
+          }).toList(),
+          onChanged: (String? value) {
             selectSide(value);
           });
     } else if (Platform.isIOS) {
@@ -72,22 +72,23 @@ class PlatformSpec {
     return Container();
   }
 
-  static Widget platFormButton({Function onPressed, String text}) {
+  static Widget platFormButton({Function()? onPressed, String? text}) {
     if (Platform.isAndroid) {
-      return FlatButton(
-        textColor: Colors.white,
-        color: Colors.indigo,
+      return TextButton(
+        style: TextButton.styleFrom(
+          backgroundColor: Colors.indigo,
+          primary: Colors.white,
+        ),
         onPressed: onPressed,
-        child: Text(text),
+        child: Text(text!),
       );
     } else if (Platform.isIOS) {
-      return CupertinoButton(child: Text(text), onPressed: onPressed);
+      return CupertinoButton(child: Text(text!), onPressed: onPressed);
     }
     return Container();
   }
 
-  static Widget platFormTextfield(
-      {@required TextEditingController controller}) {
+  static Widget platFormTextfield({required TextEditingController controller}) {
     if (Platform.isAndroid) {
       return TextField(
         controller: controller,

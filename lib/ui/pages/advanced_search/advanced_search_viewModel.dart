@@ -11,17 +11,17 @@ class AdvancedSearchViewModel extends ChangeNotifier {
   final NavigationService _navigationService = locator<NavigationService>();
   final _handlers = locator<Handlers>();
   bool _isSearching = false;
-  String _sortBy;
-  String _selectedLanguage;
-  String _range;
-  String _range2;
+  String? _sortBy;
+  String? _selectedLanguage;
+  String? _range;
+  String? _range2;
 
   Future<List<Search>> getAdvancedSearchedList(
-      {String query,
-      String from,
-      String to,
-      String sortBy,
-      String lang}) async {
+      {String? query,
+      String? from,
+      String? to,
+      String? sortBy,
+      String? lang}) async {
     var list = await _handlers.getAdvanceSearchedList(
       query: query,
       from: from,
@@ -38,14 +38,14 @@ class AdvancedSearchViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setPicker(DateTime dateTime) {
+  void setPicker(DateTime? dateTime) {
     if (dateTime != null) {
       _range = dateTime.toString().substring(0, 10);
       notifyListeners();
     }
   }
 
-  void setPicker2(DateTime dateTime) {
+  void setPicker2(DateTime? dateTime) {
     if (dateTime != null) {
       _range2 = dateTime.toString().substring(0, 10);
       notifyListeners();
@@ -62,7 +62,7 @@ class AdvancedSearchViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  void navigate({String query, Function snack}) {
+  void navigate({String? query, Function()? snack}) {
     setIsSearching = true;
     getAdvancedSearchedList(
       from: range,
@@ -82,15 +82,15 @@ class AdvancedSearchViewModel extends ChangeNotifier {
           );
           setIsSearching = false;
         } else {
-          snack();
+          snack!();
         }
       },
     );
   }
 
-  String get sortBy => _sortBy;
-  String get selectedLanguage => _selectedLanguage;
-  bool get isSearching => _isSearching;
-  String get range => _range;
-  String get range2 => _range2;
+  String? get sortBy => _sortBy;
+  String? get selectedLanguage => _selectedLanguage;
+  bool? get isSearching => _isSearching;
+  String? get range => _range;
+  String? get range2 => _range2;
 }

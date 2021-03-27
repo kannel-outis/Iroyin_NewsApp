@@ -5,18 +5,18 @@ import 'package:NewsApp_Chingu/ui/pages/error/error_page.dart';
 import 'package:NewsApp_Chingu/ui/pages/favorites/favorites.dart';
 import 'package:NewsApp_Chingu/ui/pages/home/home_page.dart';
 import 'package:NewsApp_Chingu/ui/pages/search/search_result_page.dart';
-import 'package:auto_route/auto_route_annotations.dart';
+import 'package:auto_route/annotations.dart';
 
 @MaterialAutoRouter(
   routes: <AutoRoute>[
     // initial route is named "/"
-    MaterialRoute(page: MyHomePage, initial: true),
-    MaterialRoute(page: AdvancedSearchPage, path: "/Advance_Search"),
-    MaterialRoute(page: AllArticlesPage, path: "/All_Articles"),
-    MaterialRoute(page: DetailsPage, path: "/Details_Page"),
-    MaterialRoute(page: FavoritesPage, path: "/Favorite_Page"),
-    MaterialRoute(page: SearchResultPage, path: "/Search_Result_Page"),
-    MaterialRoute(page: ErrorPage, path: "/error_page"),
+    CupertinoRoute(page: MyHomePage, initial: true),
+    CupertinoRoute(page: AdvancedSearchPage, path: "/Advance_Search"),
+    CupertinoRoute(page: AllArticlesPage, path: "/All_Articles"),
+    CupertinoRoute(page: DetailsPage, path: "/Details_Page"),
+    CupertinoRoute(page: FavoritesPage, path: "/Favorite_Page"),
+    CupertinoRoute(page: SearchResultPage, path: "/Search_Result_Page"),
+    CupertinoRoute(page: ErrorPage, path: "/error_page"),
   ],
 )
 class $Router {}

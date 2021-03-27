@@ -14,15 +14,16 @@ import 'package:hive/hive.dart';
 class HomeViewModel extends ChangeNotifier {
   final _navigationService = locator<NavigationService>();
   final _handlers = locator<Handlers>();
-  List<Article> _articles;
+  List<Article>? _articles;
   bool _isSearching = false;
-  Box<Favorite> _favoriteBox;
+  late Box<Favorite> _favoriteBox;
 
   Future<List<Article>> articleList() async {
     var list = await _handlers.getNewsFromApi();
+    if (list == null) return _articles!;
     _articles = list;
     notifyListeners();
-    return _articles;
+    return _articles ?? [];
   }
 
   set isSearchingToFalse(bool isSearchingTofalse) {
@@ -44,22 +45,23 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   ///navigation
-  void navigate(String routeName,
-      {DetailsPageArgsFor detailsPageArgsFor,
-      int index,
-      Favorite fav,
-      bool isSearch,
-      String query,
-      Function snack,
-      List<Search> searchedlist,
-      List<Article> articles,
-      bool allArticlesPage = false}) {
+  Future<void> navigate(String routeName,
+      {DetailsPageArgsFor? detailsPageArgsFor,
+      int? index,
+      Favorite? fav,
+      bool? isSearch,
+      String? query,
+      Function? snack,
+      List<Search>? searchedlist,
+      List<Article>? articles,
+      bool allArticlesPage = false,
+      Function()? call}) async {
     dynamic arguments;
 
     if (isSearch == true) {
       _isSearching = true;
       getsearchedList(
-        query, //Controller.text
+        query ?? "", //Controller.text
       ).then(
         (value) {
           if (value.length != 0) {
@@ -71,9 +73,11 @@ class HomeViewModel extends ChangeNotifier {
               ),
             );
             _isSearching = false;
+            call ?? print("null");
           } else {
             _isSearching = false;
-            snack();
+            call ?? print("null");
+            snack!();
           }
         },
       );
@@ -82,18 +86,18 @@ class HomeViewModel extends ChangeNotifier {
         case DetailsPageArgsFor.detailsPageHomepage:
           arguments = DetailsPageArguments(
             index: index,
-            articleAuthor: _articles[index].articleAuthor,
-            articleContent: _articles[index].articleContent,
-            articleDescription: _articles[index].articleDescription,
-            articlePublishedAT: _articles[index].articlePublishedAT,
-            articleTitle: _articles[index].articleTitle,
-            articleUrl: _articles[index].articleUrl,
-            articleUrlToImage: _articles[index].articleUrlToImage,
+            articleAuthor: _articles![index!].articleAuthor,
+            articleContent: _articles![index].articleContent,
+            articleDescription: _articles![index].articleDescription,
+            articlePublishedAT: _articles![index].articlePublishedAT,
+            articleTitle: _articles![index].articleTitle,
+            articleUrl: _articles![index].articleUrl,
+            articleUrlToImage: _articles![index].articleUrlToImage,
           );
           break;
         case DetailsPageArgsFor.detailsPageFavorites:
           arguments = DetailsPageArguments(
-            articleAuthor: fav.favoriteAuthor,
+            articleAuthor: fav!.favoriteAuthor,
             articleContent: fav.favoriteContent,
             articleDescription: fav.favoriteDescription,
             articlePublishedAT: fav.favoritePublishedAT,
@@ -105,7 +109,7 @@ class HomeViewModel extends ChangeNotifier {
           break;
         case DetailsPageArgsFor.detailsPageSearchResults:
           arguments = DetailsPageArguments(
-            articleAuthor: searchedlist[index].resultAuthor,
+            articleAuthor: searchedlist![index!].resultAuthor,
             articleContent: searchedlist[index].resultContent,
             articleDescription: searchedlist[index].resultDescription,
             articlePublishedAT: searchedlist[index].resultPublishedAT,
@@ -120,7 +124,7 @@ class HomeViewModel extends ChangeNotifier {
               ? AllArticlesPageArguments(articles: _articles)
               : DetailsPageArguments(
                   index: index,
-                  articleAuthor: articles[index].articleAuthor,
+                  articleAuthor: articles![index!].articleAuthor,
                   articleContent: articles[index].articleContent,
                   articleDescription: articles[index].articleDescription,
                   articlePublishedAT: articles[index].articlePublishedAT,
@@ -139,22 +143,23 @@ class HomeViewModel extends ChangeNotifier {
   }
 
   //add to favorite
+  ///articles replaced wuth _articles
   void addtoFav(int index, Box<Favorite> favoriteBox, function()) {
     Favorite favorite = Favorite(
-        favoriteAuthor: articles[index].articleAuthor,
-        favoriteContent: articles[index].articleContent,
-        favoriteDescription: articles[index].articleDescription,
-        favoriteTitle: articles[index].articleTitle,
-        favoritePublishedAT: articles[index].articlePublishedAT,
-        favoriteUrl: articles[index].articleUrl,
-        favoriteUrlToImage: articles[index].articleUrlToImage);
+        favoriteAuthor: _articles![index].articleAuthor,
+        favoriteContent: _articles![index].articleContent,
+        favoriteDescription: _articles![index].articleDescription,
+        favoriteTitle: _articles![index].articleTitle,
+        favoritePublishedAT: _articles![index].articlePublishedAT,
+        favoriteUrl: _articles![index].articleUrl,
+        favoriteUrlToImage: _articles![index].articleUrlToImage);
     favoriteBox.add(favorite).then((value) {
       function();
     });
   }
 
-  List<Article> get articles => _articles;
-  Box<Favorite> get favoriteBox => _favoriteBox;
+  List<Article>? get articles => _articles;
+  Box<Favorite>? get favoriteBox => _favoriteBox;
   bool get isSearching => _isSearching;
 
   // @override

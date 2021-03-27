@@ -23,7 +23,7 @@ class FavoritesPage extends HookWidget {
           FlatButton(
             onPressed: () {
               favoriteBox.clear().then(
-                    (value) => _scaffoldKey.currentState.showSnackBar(
+                    (value) => _scaffoldKey.currentState!.showSnackBar(
                       SnackBar(
                         content: Text("All favorites cleared"),
                       ),
@@ -45,9 +45,9 @@ class FavoritesPage extends HookWidget {
               return ListView.builder(
                   itemCount: keys.length,
                   itemBuilder: (context, index) {
-                    final Favorite fav = box.get(keys[index]);
+                    final Favorite? fav = box.get(keys[index]);
                     return Dismissible(
-                      key: Key(fav.favoriteTitle),
+                      key: Key(fav!.favoriteTitle!),
                       background: Container(
                         color: Theme.of(context).primaryColor,
                       ),
@@ -59,7 +59,7 @@ class FavoritesPage extends HookWidget {
                             if (favoriteBox.isEmpty) {
                               favoriteBox.clear();
                             }
-                            _scaffoldKey.currentState.showSnackBar(SnackBar(
+                            _scaffoldKey.currentState!.showSnackBar(SnackBar(
                                 content: Text(
                                     "${fav.favoriteTitle} removed from favorites")));
                           });

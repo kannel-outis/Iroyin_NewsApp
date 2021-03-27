@@ -1,6 +1,5 @@
 import '../../../app/enums/enums.dart';
 import '../../../app/routes/route_generator.gr.dart';
-import '../../../ui/const/cutter.dart';
 import '../../../ui/pages/favorites/favorite_model.dart';
 import '../../../ui/pages/home/Home_viewModel.dart';
 import '../../../ui/pages/home/news_model_structure.dart';
@@ -10,19 +9,19 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class ListViewTile extends StatelessWidget {
-  final String title;
-  final String imageUrl;
-  final String timePublished;
-  final String source;
-  final int tag;
-  final List<Article> articles;
-  final List<Search> searchedList;
-  final DetailsPageArgsFor detailsPageArgsFor;
-  final Favorite fav;
+  final String? title;
+  final String? imageUrl;
+  final String? timePublished;
+  final String? source;
+  final int? tag;
+  final List<Article>? articles;
+  final List<Search>? searchedList;
+  final DetailsPageArgsFor? detailsPageArgsFor;
+  final Favorite? fav;
 
   const ListViewTile(
       {this.tag,
-      Key key,
+      Key? key,
       @required this.detailsPageArgsFor,
       @required this.title,
       @required this.imageUrl,
@@ -60,7 +59,7 @@ class ListViewTile extends StatelessWidget {
                   width: 10,
                 ),
                 Hero(
-                  tag: tag,
+                  tag: tag!,
                   child: Container(
                     height:
                         ResponsiveConditions.allArticlesListViewTileImageSize,
@@ -81,7 +80,9 @@ class ListViewTile extends StatelessWidget {
                   child: Container(
                     width: 180,
                     child: Text(
-                      allArticleTitleCutter(tag, title, context),
+                      title!,
+                      maxLines: 3,
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontSize: ResponsiveConditions
                               .allArticlesListViewTileTitleFontSize),
@@ -111,12 +112,15 @@ class ListViewTile extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              Text(
-                                allArticleSourceCutter(tag, source, context),
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: ResponsiveConditions
-                                        .allArticlesListViewTileSourceAndTimeFontSize),
+                              Flexible(
+                                child: Text(
+                                  source ?? "Unknown",
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: ResponsiveConditions
+                                          .allArticlesListViewTileSourceAndTimeFontSize),
+                                ),
                               ),
                             ],
                           ),

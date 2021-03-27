@@ -1,11 +1,11 @@
 class Article {
-  final String articleTitle;
-  final String articleDescription;
-  final String articleUrl;
-  final String articleUrlToImage;
-  final String articleAuthor;
-  final String articlePublishedAT;
-  final String articleContent;
+  final String? articleTitle;
+  final String? articleDescription;
+  final String? articleUrl;
+  final String? articleUrlToImage;
+  final String? articleAuthor;
+  final String? articlePublishedAT;
+  final String? articleContent;
 
   Article({
     this.articleTitle,

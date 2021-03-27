@@ -7,14 +7,14 @@ import 'package:hive/hive.dart';
 import 'package:share/share.dart';
 
 class DetailsPage extends StatefulWidget {
-  final String articleContent;
-  final String articleUrlToImage;
-  final String articleUrl;
-  final String articleTitle;
-  final String articleAuthor;
-  final String articleDescription;
-  final String articlePublishedAT;
-  final int index;
+  final String? articleContent;
+  final String? articleUrlToImage;
+  final String? articleUrl;
+  final String? articleTitle;
+  final String? articleAuthor;
+  final String? articleDescription;
+  final String? articlePublishedAT;
+  final int? index;
   DetailsPage(
       {this.articleAuthor,
       this.index,
@@ -30,7 +30,8 @@ class DetailsPage extends StatefulWidget {
 
 class _DetailsPageState extends State<DetailsPage> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  Box<Favorite> favoriteBox;
+  GlobalKey<ScaffoldMessengerState> _messengerKey = GlobalKey();
+  late final Box<Favorite> favoriteBox;
   @override
   void initState() {
     super.initState();
@@ -50,16 +51,19 @@ class _DetailsPageState extends State<DetailsPage> {
             ),
             onPressed: () {
               Favorite favorite = Favorite(
-                  favoriteAuthor: widget.articleAuthor,
-                  favoriteContent: widget.articleContent,
-                  favoriteDescription: widget.articleDescription,
-                  favoriteTitle: widget.articleTitle,
-                  favoritePublishedAT: widget.articlePublishedAT,
-                  favoriteUrl: widget.articleUrl,
-                  favoriteUrlToImage: widget.articleUrlToImage);
+                  favoriteAuthor: widget.articleAuthor ?? "Unknown",
+                  favoriteContent: widget.articleContent ?? "Unknown",
+                  favoriteDescription: widget.articleDescription ?? "Unknown",
+                  favoriteTitle: widget.articleTitle ?? "Unknown",
+                  favoritePublishedAT: widget.articlePublishedAT ?? "Unknown",
+                  favoriteUrl: widget.articleUrl ?? "Unknown",
+                  favoriteUrlToImage: widget.articleUrlToImage ?? "Unknown");
               favoriteBox.add(favorite).then((value) {
-                _scaffoldKey.currentState.showSnackBar(
-                    SnackBar(content: Text("added to favorites")));
+                _scaffoldKey.currentState!.showSnackBar(
+                  SnackBar(
+                    content: Text("added to favorites"),
+                  ),
+                );
               });
             }),
         tag: widget.index,
@@ -87,7 +91,7 @@ class _DetailsPageState extends State<DetailsPage> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                "${widget.articlePublishedAT.substring(0, 10)}",
+                "${widget.articlePublishedAT ?? "".substring(0, 10)}",
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: MediaQuery.of(context).size.shortestSide > 700
@@ -116,11 +120,9 @@ class _DetailsPageState extends State<DetailsPage> {
             child: Container(
               height: MediaQuery.of(context).size.width * .12,
               width: MediaQuery.of(context).size.width * .4,
-              child: OutlineButton(
+              child: TextButton(
                 onPressed: () {
-                  FlutterWebBrowser.openWebPage(
-                      url: "${widget.articleUrl}",
-                      androidToolbarColor: Colors.indigo);
+                  FlutterWebBrowser.openWebPage(url: "${widget.articleUrl}");
                 },
                 child: Center(
                   child: Row(

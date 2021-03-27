@@ -3,7 +3,7 @@ import 'dart:io';
 
 import '../../ui/pages/home/news_model_structure.dart';
 import '../../ui/pages/search/search.dart';
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 
 abstract class WebServiceApi {
   Future<List<Article>> getNewsFromApi();
@@ -12,12 +12,16 @@ abstract class WebServiceApi {
 }
 
 class Helpers extends WebServiceApi {
+  final Client client;
+
+  Helpers({required this.client});
+
   @override
-  Future<List<Article>> getNewsFromApi({String url}) async {
+  Future<List<Article>> getNewsFromApi({String? url}) async {
     List<Article> articles = [];
 
     try {
-      http.Response response = await http.get(url);
+      final response = await client.get(Uri.parse(url!));
       if (response.statusCode == 200) {
         Map<String, dynamic> responseDecode = json.decode(response.body);
         responseDecode['articles'].forEach((element) {
@@ -31,10 +35,10 @@ class Helpers extends WebServiceApi {
   }
 
   @override
-  Future<List<Search>> getSearchedList({String url}) async {
+  Future<List<Search>> getSearchedList({String? url}) async {
     List<Search> searchedList = [];
     try {
-      await http.get(url).then((response) {
+      await client.get(Uri.parse(url!)).then((response) {
         if (response.statusCode == 200) {
           var jsonDecode = json.decode(response.body);
           List jsonList = jsonDecode['articles'];
@@ -49,10 +53,10 @@ class Helpers extends WebServiceApi {
   }
 
   @override
-  Future<List<Search>> getAdvanceSearchedList({String url}) async {
+  Future<List<Search>> getAdvanceSearchedList({String? url}) async {
     List<Search> searchedList = [];
     try {
-      await http.get(url).then((response) {
+      await client.get(Uri.parse(url!)).then((response) {
         if (response.statusCode == 200) {
           var jsonDecode = json.decode(response.body);
           List jsonList = jsonDecode['articles'];

@@ -1,6 +1,6 @@
 import 'package:NewsApp_Chingu/ui/custom/hook/favorite_box_hook.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:hooks_riverpod/all.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../app/enums/enums.dart';
 import '../../../app/routes/route_generator.gr.dart';
@@ -14,7 +14,7 @@ import 'package:connectivity_wrapper/connectivity_wrapper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'dart:math' as math;
 
 // Provider
@@ -38,32 +38,51 @@ class MyHomePage extends HookWidget {
     var controller = useTextEditingController();
     var favoriteBox = useFavoriteBox(context);
     final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-    return ConnectivityWidgetWrapper(
-      child: buildScaffold(
-          context,
-          // this must Change
-          model.articles,
-          model,
-          _formKey,
-          _scaffoldKey,
-          deviceHeight,
-          deviceWidth,
-          controller,
-          favoriteBox),
+    final GlobalKey<ScaffoldMessengerState> _messengerKey =
+        GlobalKey<ScaffoldMessengerState>();
+    return BuildScaffold(
+      context: context,
+      articles: model.articles ?? [],
+      model: model,
+      formKey: _formKey,
+      scaffoldKey: _scaffoldKey,
+      deviceHeight: deviceHeight,
+      deviceWidth: deviceWidth,
+      controller: controller,
+      favoriteBox: favoriteBox,
+      messengerKey: _messengerKey,
     );
   }
+}
 
-  Scaffold buildScaffold(
-    BuildContext context,
-    List<Article> articles,
-    HomeViewModel model,
-    GlobalKey<FormState> formKey,
-    GlobalKey<ScaffoldState> scaffoldKey,
-    double deviceHeight,
-    double deviceWidth,
-    TextEditingController controller,
-    Box<Favorite> favoriteBox,
-  ) {
+class BuildScaffold extends HookWidget {
+  const BuildScaffold({
+    Key? key,
+    required this.context,
+    required this.articles,
+    required this.model,
+    required this.formKey,
+    required this.scaffoldKey,
+    required this.deviceHeight,
+    required this.deviceWidth,
+    required this.controller,
+    required this.favoriteBox,
+    required this.messengerKey,
+  }) : super(key: key);
+
+  final BuildContext context;
+  final List<Article> articles;
+  final HomeViewModel model;
+  final GlobalKey<FormState> formKey;
+  final GlobalKey<ScaffoldState> scaffoldKey;
+  final double deviceHeight;
+  final double deviceWidth;
+  final TextEditingController controller;
+  final Box<Favorite> favoriteBox;
+  final GlobalKey<ScaffoldMessengerState> messengerKey;
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
@@ -179,20 +198,24 @@ class MyHomePage extends HookWidget {
                                           style: BorderStyle.solid),
                                     ),
                                   ),
-                                  validator: (String value) {
-                                    if (value.length == 0) {
+                                  validator: (String? value) {
+                                    if (value == null) {
                                       return "Field Cant be empty";
                                     }
                                     return null;
                                   },
                                   onFieldSubmitted: (String value) {
-                                    if (formKey.currentState.validate()) {
+                                    if (formKey.currentState!.validate()) {
                                       model.navigate(
                                         Routes.searchResultPage,
                                         isSearch: true,
                                         query: controller.text,
+                                        call: () {
+                                          controller.clear();
+                                        },
                                         snack: () {
-                                          scaffoldKey.currentState.showSnackBar(
+                                          messengerKey.currentState!
+                                              .showSnackBar(
                                             SnackBar(
                                               content: Text("No results found"),
                                             ),

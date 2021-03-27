@@ -1,15 +1,15 @@
 import '../../../ui/const/color.dart';
-import '../../../ui/const/cutter.dart';
 import '../../../ui/pages/home/news_model_structure.dart';
 import '../../../ui/responsive_conditions/responsive_conditions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class CustomListItems extends StatelessWidget {
-  final List<Article> articles;
-  final int index;
+  final List<Article>? articles;
+  final int? index;
 
-  const CustomListItems({Key key, this.articles, this.index}) : super(key: key);
+  const CustomListItems({Key? key, this.articles, this.index})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class CustomListItems extends StatelessWidget {
                 fit: BoxFit.fill,
                 placeholder: AssetImage("assets/placeHolderImage.png"),
                 image: CachedNetworkImageProvider(
-                    "${articles[index].articleUrlToImage}"),
+                    "${articles![index!].articleUrlToImage}"),
               ),
             ),
           ),
@@ -46,24 +46,31 @@ class CustomListItems extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10.0, vertical: 7),
-                  child: Text("${articleTitle(index, articles, context)}",
-                      style: TextStyle(
-                          fontSize: ResponsiveConditions.customListFontSize,
-                          color: Colors.white)),
-                ),
-                Align(
-                  alignment: Alignment.bottomRight,
+                Flexible(
                   child: Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
-                    child: Text(
-                      "${articleAuthor(index, articles, context)}",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: ResponsiveConditions.customListFontSize),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 10.0, vertical: 7),
+                    child: Text("${articles![index!].articleTitle}",
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontSize: ResponsiveConditions.customListFontSize,
+                            color: Colors.white)),
+                  ),
+                ),
+                Flexible(
+                  child: Align(
+                    alignment: Alignment.bottomRight,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: Text(
+                        "${articles![index!].articleAuthor}",
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: ResponsiveConditions.customListFontSize),
+                      ),
                     ),
                   ),
                 ),

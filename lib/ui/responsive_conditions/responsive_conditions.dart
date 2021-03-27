@@ -1,28 +1,28 @@
 import 'package:flutter/material.dart';
 
 class ResponsiveConditions {
-  static double customListItemResponsiveDeviceHeight;
-  static double customListResponsiveDeviceWidth;
-  static double customListFontSize;
+  static late double customListItemResponsiveDeviceHeight;
+  static late double customListResponsiveDeviceWidth;
+  static late double customListFontSize;
 
   //////
   ///
   ///
   ///
   //Article of the day params
-  static double articleOfTheDayTitlePlateHeight;
-  static double articleOfTheDayMainCardHeight;
-  static double articleOfTheDayArticleAuthorFontSize;
-  static double articleOfTheDayArticleTitleFontSize;
+  static late double articleOfTheDayTitlePlateHeight;
+  static late double articleOfTheDayMainCardHeight;
+  static late double articleOfTheDayArticleAuthorFontSize;
+  static late double articleOfTheDayArticleTitleFontSize;
   //////
   ///
   ///
   ///
   ///
   //All articles Page Params
-  static double allArticlesListViewTileTitleFontSize;
-  static double allArticlesListViewTileSourceAndTimeFontSize;
-  static double allArticlesListViewTileImageSize;
+  static late double allArticlesListViewTileTitleFontSize;
+  static late double allArticlesListViewTileSourceAndTimeFontSize;
+  static late double allArticlesListViewTileImageSize;
 
   static customListParams(BuildContext context) {
     var deviceHeight = MediaQuery.of(context).size.height;

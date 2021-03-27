@@ -7,6 +7,7 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:auto_route/auto_route.dart';
+import 'package:auto_route/legacy.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -55,13 +56,13 @@ class Router extends RouterBase {
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
   final _pagesMap = <Type, AutoRouteFactory>{
     MyHomePage: (data) {
-      return MaterialPageRoute<dynamic>(
+      return CupertinoPageRoute<dynamic>(
         builder: (context) => MyHomePage(),
         settings: data,
       );
     },
     AdvancedSearchPage: (data) {
-      return MaterialPageRoute<dynamic>(
+      return CupertinoPageRoute<dynamic>(
         builder: (context) => AdvancedSearchPage(),
         settings: data,
       );
@@ -70,7 +71,7 @@ class Router extends RouterBase {
       final args = data.getArgs<AllArticlesPageArguments>(
         orElse: () => AllArticlesPageArguments(),
       );
-      return MaterialPageRoute<dynamic>(
+      return CupertinoPageRoute<dynamic>(
         builder: (context) => AllArticlesPage(
           key: args.key,
           articles: args.articles,
@@ -82,7 +83,7 @@ class Router extends RouterBase {
       final args = data.getArgs<DetailsPageArguments>(
         orElse: () => DetailsPageArguments(),
       );
-      return MaterialPageRoute<dynamic>(
+      return CupertinoPageRoute<dynamic>(
         builder: (context) => DetailsPage(
           articleAuthor: args.articleAuthor,
           index: args.index,
@@ -97,7 +98,7 @@ class Router extends RouterBase {
       );
     },
     FavoritesPage: (data) {
-      return MaterialPageRoute<dynamic>(
+      return CupertinoPageRoute<dynamic>(
         builder: (context) => FavoritesPage(),
         settings: data,
       );
@@ -106,17 +107,17 @@ class Router extends RouterBase {
       final args = data.getArgs<SearchResultPageArguments>(
         orElse: () => SearchResultPageArguments(),
       );
-      return MaterialPageRoute<dynamic>(
+      return CupertinoPageRoute<dynamic>(
         builder: (context) => SearchResultPage(
           key: args.key,
-          searchedlist: args.searchedlist,
+          searchedlist: args.searchedlist ?? [],
           searchedquery: args.searchedquery,
         ),
         settings: data,
       );
     },
     ErrorPage: (data) {
-      return MaterialPageRoute<dynamic>(
+      return CupertinoPageRoute<dynamic>(
         builder: (context) => ErrorPage(),
         settings: data,
       );
@@ -130,21 +131,21 @@ class Router extends RouterBase {
 
 /// AllArticlesPage arguments holder class
 class AllArticlesPageArguments {
-  final Key key;
-  final List<Article> articles;
+  final Key? key;
+  final List<Article>? articles;
   AllArticlesPageArguments({this.key, this.articles});
 }
 
 /// DetailsPage arguments holder class
 class DetailsPageArguments {
-  final String articleAuthor;
-  final int index;
-  final String articleContent;
-  final String articleDescription;
-  final String articlePublishedAT;
-  final String articleTitle;
-  final String articleUrl;
-  final String articleUrlToImage;
+  final String? articleAuthor;
+  final int? index;
+  final String? articleContent;
+  final String? articleDescription;
+  final String? articlePublishedAT;
+  final String? articleTitle;
+  final String? articleUrl;
+  final String? articleUrlToImage;
   DetailsPageArguments(
       {this.articleAuthor,
       this.index,
@@ -158,8 +159,8 @@ class DetailsPageArguments {
 
 /// SearchResultPage arguments holder class
 class SearchResultPageArguments {
-  final Key key;
-  final List<Search> searchedlist;
-  final String searchedquery;
+  final Key? key;
+  final List<Search>? searchedlist;
+  final String? searchedquery;
   SearchResultPageArguments({this.key, this.searchedlist, this.searchedquery});
 }

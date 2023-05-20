@@ -6,9 +6,9 @@ import '../../../app/locator/locator.dart';
 import '../../../app/routes/route_generator.gr.dart';
 import '../../../services/prefs/hive_prefs.dart';
 import '../../../services/navigation_service/navigation_services.dart';
-import '../../../ui/pages/favorites/favorite_model.dart';
-import '../../../ui/pages/home/news_model_structure.dart';
-import '../../../ui/pages/search/search.dart';
+import '../../../models/favorite_model.dart';
+import '../../../models/news_model_structure.dart';
+import '../../../models/search.dart';
 import 'package:hive/hive.dart';
 
 class HomeViewModel extends ChangeNotifier {

@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import '../../../app/locator/locator.dart';
 import '../../../app/routes/route_generator.gr.dart';
 import '../../../services/navigation_service/navigation_services.dart';
-import '../../../ui/pages/search/search.dart';
+import '../../../models/search.dart';
 // import 'package:stacked/stacked.dart';
 
 class AdvancedSearchViewModel extends ChangeNotifier {

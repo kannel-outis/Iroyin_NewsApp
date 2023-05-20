@@ -1,4 +1,4 @@
-import '../../ui/pages/favorites/favorite_model.dart';
+import '../../models/favorite_model.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 

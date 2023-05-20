@@ -6,20 +6,22 @@
 
 // ignore_for_file: public_member_api_docs
 
-import 'package:auto_route/auto_route.dart';
-import 'package:auto_route/legacy.dart';
+// import 'package:auto_route/auto_route.dart';
+// import 'package:auto_route/legacy.dart';
+import 'package:NewsApp_Chingu/models/news_model_structure.dart';
+import 'package:NewsApp_Chingu/models/search.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../ui/pages/advanced_search/advanced_search.dart';
-import '../../ui/pages/all_articles/all_articles_page.dart';
-import '../../ui/pages/details/details_news_page.dart';
-import '../../ui/pages/error/error_page.dart';
-import '../../ui/pages/favorites/favorites.dart';
-import '../../ui/pages/home/home_page.dart';
-import '../../ui/pages/home/news_model_structure.dart';
-import '../../ui/pages/search/search.dart';
-import '../../ui/pages/search/search_result_page.dart';
+// import '../../ui/pages/advanced_search/advanced_search.dart';
+// import '../../ui/pages/all_articles/all_articles_page.dart';
+// import '../../ui/pages/details/details_news_page.dart';
+// import '../../ui/pages/error/error_page.dart';
+// import '../../ui/pages/favorites/favorites.dart';
+// import '../../ui/pages/home/home_page.dart';
+// import '../../ui/pages/home/news_model_structure.dart';
+// import '../../ui/pages/search/search.dart';
+// import '../../ui/pages/search/search_result_page.dart';
 
 class Routes {
   static const String myHomePage = '/';
@@ -40,94 +42,94 @@ class Routes {
   };
 }
 
-class Router extends RouterBase {
-  @override
-  List<RouteDef> get routes => _routes;
-  final _routes = <RouteDef>[
-    RouteDef(Routes.myHomePage, page: MyHomePage),
-    RouteDef(Routes.advancedSearchPage, page: AdvancedSearchPage),
-    RouteDef(Routes.allArticlesPage, page: AllArticlesPage),
-    RouteDef(Routes.detailsPage, page: DetailsPage),
-    RouteDef(Routes.favoritesPage, page: FavoritesPage),
-    RouteDef(Routes.searchResultPage, page: SearchResultPage),
-    RouteDef(Routes.errorPage, page: ErrorPage),
-  ];
-  @override
-  Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
-  final _pagesMap = <Type, AutoRouteFactory>{
-    MyHomePage: (data) {
-      return CupertinoPageRoute<dynamic>(
-        builder: (context) => MyHomePage(),
-        settings: data,
-      );
-    },
-    AdvancedSearchPage: (data) {
-      return CupertinoPageRoute<dynamic>(
-        builder: (context) => AdvancedSearchPage(),
-        settings: data,
-      );
-    },
-    AllArticlesPage: (data) {
-      final args = data.getArgs<AllArticlesPageArguments>(
-        orElse: () => AllArticlesPageArguments(),
-      );
-      return CupertinoPageRoute<dynamic>(
-        builder: (context) => AllArticlesPage(
-          key: args.key,
-          articles: args.articles,
-        ),
-        settings: data,
-      );
-    },
-    DetailsPage: (data) {
-      final args = data.getArgs<DetailsPageArguments>(
-        orElse: () => DetailsPageArguments(),
-      );
-      return CupertinoPageRoute<dynamic>(
-        builder: (context) => DetailsPage(
-          articleAuthor: args.articleAuthor,
-          index: args.index,
-          articleContent: args.articleContent,
-          articleDescription: args.articleDescription,
-          articlePublishedAT: args.articlePublishedAT,
-          articleTitle: args.articleTitle,
-          articleUrl: args.articleUrl,
-          articleUrlToImage: args.articleUrlToImage,
-        ),
-        settings: data,
-      );
-    },
-    FavoritesPage: (data) {
-      return CupertinoPageRoute<dynamic>(
-        builder: (context) => FavoritesPage(),
-        settings: data,
-      );
-    },
-    SearchResultPage: (data) {
-      final args = data.getArgs<SearchResultPageArguments>(
-        orElse: () => SearchResultPageArguments(),
-      );
-      return CupertinoPageRoute<dynamic>(
-        builder: (context) => SearchResultPage(
-          key: args.key,
-          searchedlist: args.searchedlist ?? [],
-          searchedquery: args.searchedquery,
-        ),
-        settings: data,
-      );
-    },
-    ErrorPage: (data) {
-      return CupertinoPageRoute<dynamic>(
-        builder: (context) => ErrorPage(),
-        settings: data,
-      );
-    },
-  };
-}
+// class Router extends RouterBase {
+//   @override
+//   List<RouteDef> get routes => _routes;
+//   final _routes = <RouteDef>[
+//     // RouteDef(Routes.myHomePage, page: MyHomePage),
+//     // RouteDef(Routes.advancedSearchPage, page: AdvancedSearchPage),
+//     // RouteDef(Routes.allArticlesPage, page: AllArticlesPage),
+//     // RouteDef(Routes.detailsPage, page: DetailsPage),
+//     // RouteDef(Routes.favoritesPage, page: FavoritesPage),
+//     // RouteDef(Routes.searchResultPage, page: SearchResultPage),
+//     RouteDef(Routes.errorPage, page: ErrorPage),
+//   ];
+//   @override
+//   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
+//   final _pagesMap = <Type, AutoRouteFactory>{
+//     MyHomePage: (data) {
+//       return CupertinoPageRoute<dynamic>(
+//         builder: (context) => MyHomePage(),
+//         settings: data,
+//       );
+//     },
+//     AdvancedSearchPage: (data) {
+//       return CupertinoPageRoute<dynamic>(
+//         builder: (context) => AdvancedSearchPage(),
+//         settings: data,
+//       );
+//     },
+//     AllArticlesPage: (data) {
+//       final args = data.getArgs<AllArticlesPageArguments>(
+//         orElse: () => AllArticlesPageArguments(),
+//       );
+//       return CupertinoPageRoute<dynamic>(
+//         builder: (context) => AllArticlesPage(
+//           key: args.key,
+//           articles: args.articles,
+//         ),
+//         settings: data,
+//       );
+//     },
+//     DetailsPage: (data) {
+//       final args = data.getArgs<DetailsPageArguments>(
+//         orElse: () => DetailsPageArguments(),
+//       );
+//       return CupertinoPageRoute<dynamic>(
+//         builder: (context) => DetailsPage(
+//           articleAuthor: args.articleAuthor,
+//           index: args.index,
+//           articleContent: args.articleContent,
+//           articleDescription: args.articleDescription,
+//           articlePublishedAT: args.articlePublishedAT,
+//           articleTitle: args.articleTitle,
+//           articleUrl: args.articleUrl,
+//           articleUrlToImage: args.articleUrlToImage,
+//         ),
+//         settings: data,
+//       );
+//     },
+//     FavoritesPage: (data) {
+//       return CupertinoPageRoute<dynamic>(
+//         builder: (context) => FavoritesPage(),
+//         settings: data,
+//       );
+//     },
+//     SearchResultPage: (data) {
+//       final args = data.getArgs<SearchResultPageArguments>(
+//         orElse: () => SearchResultPageArguments(),
+//       );
+//       return CupertinoPageRoute<dynamic>(
+//         builder: (context) => SearchResultPage(
+//           key: args.key,
+//           searchedlist: args.searchedlist ?? [],
+//           searchedquery: args.searchedquery,
+//         ),
+//         settings: data,
+//       );
+//     },
+//     ErrorPage: (data) {
+//       return CupertinoPageRoute<dynamic>(
+//         builder: (context) => ErrorPage(),
+//         settings: data,
+//       );
+//     },
+//   };
+// }
 
-/// ************************************************************************
-/// Arguments holder classes
-/// *************************************************************************
+// /// ************************************************************************
+// /// Arguments holder classes
+// /// *************************************************************************
 
 /// AllArticlesPage arguments holder class
 class AllArticlesPageArguments {
@@ -160,7 +162,8 @@ class DetailsPageArguments {
 /// SearchResultPage arguments holder class
 class SearchResultPageArguments {
   final Key? key;
-  final List<Search>? searchedlist;
+  final List<Search> searchedlist;
   final String? searchedquery;
-  SearchResultPageArguments({this.key, this.searchedlist, this.searchedquery});
+  SearchResultPageArguments(
+      {this.key, required this.searchedlist, this.searchedquery});
 }

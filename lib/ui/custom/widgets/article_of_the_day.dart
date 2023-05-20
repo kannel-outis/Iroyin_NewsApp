@@ -1,12 +1,13 @@
+import 'package:NewsApp_Chingu/app/style/style.dart';
 import 'package:NewsApp_Chingu/ui/pages/home/home_page.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import '../../../app/enums/enums.dart';
 import '../../../app/routes/route_generator.gr.dart';
 import '../../../ui/const/color.dart';
-import '../../../ui/pages/favorites/favorite_model.dart';
+import '../../../models/favorite_model.dart';
 import '../../../ui/pages/home/Home_viewModel.dart';
-import '../../../ui/pages/home/news_model_structure.dart';
+import '../../../models/news_model_structure.dart';
 import '../../../ui/responsive_conditions/responsive_conditions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -23,8 +24,8 @@ class ArticleOfTheDay extends ConsumerWidget {
       : super(key: key);
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    var model = watch(homeViewModel);
+  Widget build(BuildContext context, WidgetRef ref) {
+    var model = ref.watch(homeViewModel);
     var deviceHeight = MediaQuery.of(context).size.height;
     ResponsiveConditions.articleOfTheDayParams(context);
     return Container(
@@ -65,13 +66,18 @@ class ArticleOfTheDay extends ConsumerWidget {
                   decoration: BoxDecoration(
                     color: constColor2,
                   ),
-                  child: CheckIfNotNull(
-                      index: index,
-                      articles: articles,
-                      context: context,
-                      favoriteBox: favoriteBox,
-                      deviceHeight: deviceHeight,
-                      model: model),
+                  child: (articles.length > 0)
+                      ? AODBox(
+                          index: index,
+                          article: articles[index],
+                          context: context,
+                          favoriteBox: favoriteBox,
+                          deviceHeight: deviceHeight,
+                          model: model,
+                        )
+                      : Center(
+                          child: Text("Loading..."),
+                        ),
                 ),
               ),
             ),
@@ -82,11 +88,11 @@ class ArticleOfTheDay extends ConsumerWidget {
   }
 }
 
-class CheckIfNotNull extends StatelessWidget {
-  const CheckIfNotNull({
+class AODBox extends StatelessWidget {
+  const AODBox({
     Key? key,
     required this.index,
-    required this.articles,
+    required this.article,
     required this.context,
     required this.favoriteBox,
     required this.deviceHeight,
@@ -94,7 +100,7 @@ class CheckIfNotNull extends StatelessWidget {
   }) : super(key: key);
 
   final int index;
-  final List<Article> articles;
+  final Article article;
   final BuildContext context;
   final Box<Favorite> favoriteBox;
   final double deviceHeight;
@@ -102,110 +108,104 @@ class CheckIfNotNull extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (articles.length > 0) {
-      return Column(
-        children: [
-          Expanded(
-            child: GestureDetector(
-              onTap: () {
-                model.navigate(Routes.detailsPage,
-                    isSearch: false,
-                    index: index,
-                    detailsPageArgsFor: DetailsPageArgsFor.detailsPageHomepage);
-              },
-              child: Stack(
-                children: [
-                  Container(
-                    width: deviceHeight / 2,
-                    child: FadeInImage(
-                      fit: BoxFit.cover,
-                      placeholder: AssetImage("assets/placeHolderImage.png"),
-                      image: CachedNetworkImageProvider(
-                          "${articles[index].articleUrlToImage}"),
+    return Column(
+      children: [
+        Expanded(
+          child: GestureDetector(
+            onTap: () {
+              model.navigate(Routes.detailsPage,
+                  isSearch: false,
+                  index: index,
+                  detailsPageArgsFor: DetailsPageArgsFor.detailsPageHomepage);
+            },
+            child: Stack(
+              children: [
+                Container(
+                  width: deviceHeight / 2,
+                  child: FadeInImage(
+                    fit: BoxFit.cover,
+                    imageErrorBuilder: (context, stack, obj) {
+                      return Image.asset("assets/placeHolderImage.png");
+                    },
+                    placeholder: AssetImage("assets/placeHolderImage.png"),
+                    image: CachedNetworkImageProvider(
+                      "${article.articleUrlToImage}",
                     ),
                   ),
-                  Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Container(
-                      height: ResponsiveConditions
-                          .articleOfTheDayTitlePlateHeight, //plate height
-                      width: double.infinity,
-                      color: Colors.black.withOpacity(0.5),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "${articles[index].articleTitle}",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: ResponsiveConditions
-                                .articleOfTheDayArticleTitleFontSize,
-                          ),
+                ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Container(
+                    height: ResponsiveConditions
+                        .articleOfTheDayTitlePlateHeight, //plate height
+                    width: double.infinity,
+                    color: Colors.black.withOpacity(0.5),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        "${article.articleTitle}",
+                        style: AppStyle.appStyle?.text.body.copyWith(
+                          color: Colors.white,
+                          height: 1.5,
                         ),
                       ),
                     ),
-                  )
-                ],
-              ),
-            ),
-          ),
-          Container(
-            height: 70,
-            color: constColor2,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Flexible(
-                  child: Text(
-                    "${articles[index].articleTitle}",
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: ResponsiveConditions
-                          .articleOfTheDayArticleAuthorFontSize,
-                      fontWeight: FontWeight.bold,
-                    ),
                   ),
-                ),
-                Row(
-                  children: <Widget>[
-                    IconButton(
-                      icon: Icon(
-                        Icons.favorite,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                      disabledColor: Colors.grey,
-                      onPressed: () {
-                        model.addtoFav(
-                            index,
-                            favoriteBox,
-                            () => ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text("added to favorites"))));
-                      },
-                    ),
-                    IconButton(
-                      icon: Icon(
-                        FontAwesome5.share,
-                        color: Colors.white,
-                        size: 20,
-                      ),
-                      onPressed: () {
-                        Share.share("${articles[index].articleUrl}");
-                      },
-                    ),
-                  ],
-                ),
+                )
               ],
             ),
           ),
-        ],
-      );
-    }
-    return Center(
-        child: Text(
-      "loading...",
-      style: TextStyle(color: Colors.black45),
-    ));
+        ),
+        Container(
+          height: 70,
+          color: constColor2,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              SizedBox(width: 10),
+              Flexible(
+                child: Text(
+                  "${article.articleTitle}",
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppStyle.appStyle?.text.h3.copyWith(
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              Row(
+                children: <Widget>[
+                  IconButton(
+                    icon: Icon(
+                      Icons.favorite,
+                      color: Colors.white,
+                      size: 20,
+                    ),
+                    disabledColor: Colors.grey,
+                    onPressed: () {
+                      model.addtoFav(
+                          index,
+                          favoriteBox,
+                          () => ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text("added to favorites"))));
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      FontAwesome5.share,
+                      color: Colors.white,
+                      size: 20,
+                    ),
+                    onPressed: () {
+                      Share.share("${article.articleUrl}");
+                    },
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }

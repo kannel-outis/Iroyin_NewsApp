@@ -1,6 +1,6 @@
 import '../../../app/routes/route_generator.gr.dart';
 import '../../../ui/const/color.dart';
-import 'package:connectivity_wrapper/connectivity_wrapper.dart';
+// import 'package:connectivity_wrapper/connectivity_wrapper.dart';
 import 'package:flutter/material.dart';
 
 class ErrorPage extends StatefulWidget {
@@ -16,21 +16,21 @@ class _ErrorPageState extends State<ErrorPage> {
         title: Text("Connection Error"),
         automaticallyImplyLeading: false,
       ),
-      body: ConnectivityWidgetWrapper(
-        decoration: BoxDecoration(
-          color: constColor2,
-        ),
-        disableInteraction: true,
-        message: "Connect to an active internet Connection to Continue",
-        child: Center(
-          child: FlatButton(
-            onPressed: () {
-              Navigator.pushReplacementNamed(context, Routes.myHomePage);
-            },
-            child: Text("Continue"),
-          ),
+      // body: ConnectivityWidgetWrapper(
+      //   decoration: BoxDecoration(
+      //     color: constColor2,
+      //   ),
+      //   disableInteraction: true,
+      //   message: "Connect to an active internet Connection to Continue",
+      body: Center(
+        child: TextButton(
+          onPressed: () {
+            Navigator.pushReplacementNamed(context, "/home_page");
+          },
+          child: Text("Continue"),
         ),
       ),
+      // ),
     );
   }
 }

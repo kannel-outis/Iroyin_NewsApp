@@ -1,4 +1,7 @@
-import '../../../ui/pages/favorites/favorite_model.dart';
+import 'package:NewsApp_Chingu/app/routes/route_generator.gr.dart';
+import 'package:NewsApp_Chingu/app/style/wrapper_refresher.dart';
+
+import '../../../models/favorite_model.dart';
 import '../../../ui/pages/home/Home_viewModel.dart';
 import '../../../ui/custom/widgets/sliver_bar.dart';
 import 'package:flutter/material.dart';
@@ -7,30 +10,16 @@ import 'package:hive/hive.dart';
 import 'package:share/share.dart';
 
 class DetailsPage extends StatefulWidget {
-  final String? articleContent;
-  final String? articleUrlToImage;
-  final String? articleUrl;
-  final String? articleTitle;
-  final String? articleAuthor;
-  final String? articleDescription;
-  final String? articlePublishedAT;
-  final int? index;
-  DetailsPage(
-      {this.articleAuthor,
-      this.index,
-      this.articleContent,
-      this.articleDescription,
-      this.articlePublishedAT,
-      this.articleTitle,
-      this.articleUrl,
-      this.articleUrlToImage});
+  final DetailsPageArguments detailsPageArguments;
+  DetailsPage({required this.detailsPageArguments});
   @override
   _DetailsPageState createState() => _DetailsPageState();
 }
 
 class _DetailsPageState extends State<DetailsPage> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  GlobalKey<ScaffoldMessengerState> _messengerKey = GlobalKey();
+  GlobalKey<ScaffoldMessengerState> _messengerKey =
+      GlobalKey<ScaffoldMessengerState>();
   late final Box<Favorite> favoriteBox;
   @override
   void initState() {
@@ -40,118 +29,132 @@ class _DetailsPageState extends State<DetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      key: _scaffoldKey,
-      body: SliverAppBarWidget(
-        author: "${widget.articleAuthor ?? "Unknown"}",
-        iconChild: IconButton(
-            icon: Icon(
-              Icons.favorite,
-              size: 20,
+    return WrapperRefresher(
+      child: Scaffold(
+        key: _messengerKey,
+        body: SliverAppBarWidget(
+          author: "${widget.detailsPageArguments.articleAuthor ?? "Unknown"}",
+          iconChild: IconButton(
+              icon: Icon(
+                Icons.favorite,
+                size: 20,
+              ),
+              onPressed: () {
+                Favorite favorite = Favorite(
+                    favoriteAuthor:
+                        widget.detailsPageArguments.articleAuthor ?? "Unknown",
+                    favoriteContent:
+                        widget.detailsPageArguments.articleContent ?? "Unknown",
+                    favoriteDescription:
+                        widget.detailsPageArguments.articleDescription ??
+                            "Unknown",
+                    favoriteTitle:
+                        widget.detailsPageArguments.articleTitle ?? "Unknown",
+                    favoritePublishedAT:
+                        widget.detailsPageArguments.articlePublishedAT ??
+                            "Unknown",
+                    favoriteUrl:
+                        widget.detailsPageArguments.articleUrl ?? "Unknown",
+                    favoriteUrlToImage:
+                        widget.detailsPageArguments.articleUrlToImage ??
+                            "Unknown");
+                favoriteBox.add(favorite).then((value) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text("added to favorites"),
+                    ),
+                  );
+                });
+              }),
+          tag: widget.detailsPageArguments.index,
+          imageUrl: "${widget.detailsPageArguments.articleUrlToImage}",
+          children: [
+            SizedBox(
+              height: 20,
             ),
-            onPressed: () {
-              Favorite favorite = Favorite(
-                  favoriteAuthor: widget.articleAuthor ?? "Unknown",
-                  favoriteContent: widget.articleContent ?? "Unknown",
-                  favoriteDescription: widget.articleDescription ?? "Unknown",
-                  favoriteTitle: widget.articleTitle ?? "Unknown",
-                  favoritePublishedAT: widget.articlePublishedAT ?? "Unknown",
-                  favoriteUrl: widget.articleUrl ?? "Unknown",
-                  favoriteUrlToImage: widget.articleUrlToImage ?? "Unknown");
-              favoriteBox.add(favorite).then((value) {
-                _scaffoldKey.currentState!.showSnackBar(
-                  SnackBar(
-                    content: Text("added to favorites"),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    "${widget.detailsPageArguments.articleTitle ?? "Unknown"}"
+                        .toUpperCase(),
+                    style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: MediaQuery.of(context).size.shortestSide > 700
+                            ? 35
+                            : 25),
                   ),
-                );
-              });
-            }),
-        tag: widget.index,
-        imageUrl: "${widget.articleUrlToImage}",
-        children: [
-          SizedBox(
-            height: 20,
-          ),
-          Row(
-            children: [
-              Expanded(
+                ),
+              ],
+            ),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
                 child: Text(
-                  "${widget.articleTitle ?? "Unknown"}".toUpperCase(),
+                  "${widget.detailsPageArguments.articlePublishedAT ?? ""}",
                   style: TextStyle(
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.bold,
                       fontSize: MediaQuery.of(context).size.shortestSide > 700
-                          ? 35
-                          : 25),
+                          ? 20
+                          : 15),
                 ),
               ),
-            ],
-          ),
-          Align(
-            alignment: Alignment.centerRight,
-            child: Padding(
+            ),
+            SizedBox(height: 20),
+            Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                "${widget.articlePublishedAT ?? "".substring(0, 10)}",
+                widget.detailsPageArguments.articleContent ??
+                    "A content Could not be recieved at the Moment. please click on the Open browser button to view the content.",
                 style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: MediaQuery.of(context).size.shortestSide > 700
-                        ? 20
-                        : 15),
+                    color: (widget.detailsPageArguments.articleContent == null)
+                        ? Colors.red
+                        : Colors.black,
+                    fontSize:
+                        MediaQuery.of(context).size.shortestSide > 700 ? 25 : 15),
               ),
             ),
-          ),
-          SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              widget.articleContent ??
-                  "A content Could not be recieved at the Moment. please click on the Open browser button to view the content.",
-              style: TextStyle(
-                  color: (widget.articleContent == null)
-                      ? Colors.red
-                      : Colors.black,
-                  fontSize:
-                      MediaQuery.of(context).size.shortestSide > 700 ? 25 : 15),
-            ),
-          ),
-          SizedBox(height: MediaQuery.of(context).size.width * .5),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              height: MediaQuery.of(context).size.width * .12,
-              width: MediaQuery.of(context).size.width * .4,
-              child: TextButton(
-                onPressed: () {
-                  FlutterWebBrowser.openWebPage(url: "${widget.articleUrl}");
-                },
-                child: Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("Open page"),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      Icon(
-                        Icons.launch,
-                        color: Colors.grey,
-                        size: 20,
-                      ),
-                    ],
+            SizedBox(height: MediaQuery.of(context).size.width * .5),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                height: MediaQuery.of(context).size.width * .12,
+                width: MediaQuery.of(context).size.width * .4,
+                child: TextButton(
+                  onPressed: () {
+                    FlutterWebBrowser.openWebPage(
+                        url: "${widget.detailsPageArguments.articleUrl}");
+                  },
+                  child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Open page"),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Icon(
+                          Icons.launch,
+                          color: Colors.grey,
+                          size: 20,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Share.share("${widget.detailsPageArguments.articleUrl}");
+          },
+          child: Icon(
+            Icons.share,
+            size: 15,
           ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Share.share("${widget.articleUrl}");
-        },
-        child: Icon(
-          Icons.share,
-          size: 15,
         ),
       ),
     );

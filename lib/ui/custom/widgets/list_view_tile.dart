@@ -1,9 +1,11 @@
+import 'package:NewsApp_Chingu/app/style/style.dart';
+
 import '../../../app/enums/enums.dart';
 import '../../../app/routes/route_generator.gr.dart';
-import '../../../ui/pages/favorites/favorite_model.dart';
+import '../../../models/favorite_model.dart';
 import '../../../ui/pages/home/Home_viewModel.dart';
-import '../../../ui/pages/home/news_model_structure.dart';
-import '../../../ui/pages/search/search.dart';
+import '../../../models/news_model_structure.dart';
+import '../../../models/search.dart';
 import '../../../ui/responsive_conditions/responsive_conditions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -80,12 +82,10 @@ class ListViewTile extends StatelessWidget {
                   child: Container(
                     width: 180,
                     child: Text(
-                      title!,
+                      title ?? "Unknown",
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                          fontSize: ResponsiveConditions
-                              .allArticlesListViewTileTitleFontSize),
+                      style: AppStyle.appStyle?.text.body,
                     ),
                   ),
                 ),
@@ -97,14 +97,11 @@ class ListViewTile extends StatelessWidget {
                         height: 5,
                       ),
                       Center(
-                          child: Text(
-                        "$timePublished",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: ResponsiveConditions
-                              .allArticlesListViewTileSourceAndTimeFontSize,
+                        child: Text(
+                          "$timePublished",
+                          style: AppStyle.appStyle?.text.bodyBold,
                         ),
-                      )),
+                      ),
                       Container(
                         margin: EdgeInsets.only(right: 10),
                         child: Container(
@@ -116,10 +113,7 @@ class ListViewTile extends StatelessWidget {
                                 child: Text(
                                   source ?? "Unknown",
                                   overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: ResponsiveConditions
-                                          .allArticlesListViewTileSourceAndTimeFontSize),
+                                  style: AppStyle.appStyle?.text.bodyBold,
                                 ),
                               ),
                             ],

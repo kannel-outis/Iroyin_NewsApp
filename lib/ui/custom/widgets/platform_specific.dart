@@ -36,7 +36,7 @@ class PlatformSpec {
 
   static Widget optionDropOrPick(IconData icon,
       {required BuildContext context,
-      @required String? modelString,
+      required String? modelString,
       required List<String> options,
       required Function selectSide,
       required String selectOption}) {

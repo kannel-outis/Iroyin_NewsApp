@@ -1,5 +1,7 @@
+import 'package:NewsApp_Chingu/app/style/style.dart';
+
 import '../../../ui/const/color.dart';
-import '../../../ui/pages/home/news_model_structure.dart';
+import '../../../models/news_model_structure.dart';
 import '../../../ui/responsive_conditions/responsive_conditions.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +20,9 @@ class CustomListItems extends StatelessWidget {
       margin: EdgeInsets.only(right: 20),
       width: ResponsiveConditions.customListResponsiveDeviceWidth,
       height: MediaQuery.of(context).size.height * .26,
+      constraints: BoxConstraints(
+        minWidth: 200,
+      ),
       child: Column(
         children: [
           Container(
@@ -50,26 +55,25 @@ class CustomListItems extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 10.0, vertical: 7),
-                    child: Text("${articles![index!].articleTitle}",
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            fontSize: ResponsiveConditions.customListFontSize,
-                            color: Colors.white)),
+                    child: Text(
+                      "${articles![index!].articleTitle}",
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppStyle.appStyle?.text.bodySmall.copyWith(
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
                 ),
-                Flexible(
-                  child: Align(
-                    alignment: Alignment.bottomRight,
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 8.0),
-                      child: Text(
-                        "${articles![index!].articleAuthor}",
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: ResponsiveConditions.customListFontSize),
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 8.0),
+                    child: Text(
+                      "${articles![index!].articleAuthor}",
+                      overflow: TextOverflow.ellipsis,
+                      style: AppStyle.appStyle?.text.bodySmallBold.copyWith(
+                        color: Colors.white,
                       ),
                     ),
                   ),

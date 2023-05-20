@@ -1,8 +1,9 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
-import '../../ui/pages/home/news_model_structure.dart';
-import '../../ui/pages/search/search.dart';
+import '../../models/news_model_structure.dart';
+import '../../models/search.dart';
 import 'package:http/http.dart';
 
 abstract class WebServiceApi {
@@ -19,17 +20,23 @@ class Helpers extends WebServiceApi {
   @override
   Future<List<Article>> getNewsFromApi({String? url}) async {
     List<Article> articles = [];
-
     try {
       final response = await client.get(Uri.parse(url!));
+      log(response.statusCode.toString());
       if (response.statusCode == 200) {
+        log("called");
+
         Map<String, dynamic> responseDecode = json.decode(response.body);
         responseDecode['articles'].forEach((element) {
           Article article = Article.fromJson(element);
           articles.add(article);
         });
-      } else {}
-    } on SocketException {}
+      } else {
+        print("called");
+      }
+    } on SocketException catch (e) {
+      print(e.toString());
+    }
 
     return articles;
   }

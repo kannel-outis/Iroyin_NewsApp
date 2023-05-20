@@ -1,4 +1,4 @@
-import 'package:NewsApp_Chingu/ui/pages/favorites/favorite_model.dart';
+import 'package:NewsApp_Chingu/models/favorite_model.dart';
 import 'package:NewsApp_Chingu/ui/pages/home/Home_viewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
